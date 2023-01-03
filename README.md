@@ -42,11 +42,13 @@ POME
 ```
 
 ## 📋 Model Diagram
-<img src="![image](https://user-images.githubusercontent.com/78431728/210316711-deda390d-862c-44a8-b0db-0cf4df783ad8.png)
-">
-https://d2sqqdb3t4xrq5.cloudfront.net/upload/fmPodjpAthQguu4Hi/YW1kdG5UTVlTb3FOZVJ6dnFfWEdDM2dZUUI4TUZlNjJiUG8ucG5n
+
+<img src="![image](https://user-images.githubusercontent.com/78431728/210316711-deda390d-862c-44a8-b0db-0cf4df783ad8.png)">
 
 ## 📧API 명세서
+
+https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654ebfce44823b2209beac83518fd
+
 
 ## ✉️ Commit Messge Rules
 
