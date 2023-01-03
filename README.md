@@ -18,15 +18,37 @@
 
 ## 🛠 개발 환경
 
-# ✉️ 프로젝트 폴더 구조
+## ⚙️ Dependencies
 
-# ⚙️ Dependencies
+## ✉️ HARA Directory Tree
 
-# 📧API 명세서
+```bash
+POME
+├── dist
+├── logs
+├── prisma
+├── scripts
+├── src
+│   ├── common
+│   │   ├── constants
+│   │   ├── middlewares
+│   │   └── validations
+│   ├── config
+│   │   └── services
+│   └── modules
+│       ├── prisma
+│       └── users
+└── test
+```
 
-# 📋 Model Diagram
+## 📋 Model Diagram
+<img src="![image](https://user-images.githubusercontent.com/78431728/210316711-deda390d-862c-44a8-b0db-0cf4df783ad8.png)
+">
+https://d2sqqdb3t4xrq5.cloudfront.net/upload/fmPodjpAthQguu4Hi/YW1kdG5UTVlTb3FOZVJ6dnFfWEdDM2dZUUI4TUZlNjJiUG8ucG5n
 
-# ✉️ Commit Messge Rules
+## 📧API 명세서
+
+## ✉️ Commit Messge Rules
 
 **서버** 들의 **Git Commit Message Rules**
 
@@ -112,30 +134,32 @@
 
 “Working Day 기준으로 N일 이내에 리뷰해 주세요”
 
-### 🙋🏻‍♀️ 담당
-
-<details>
-<summary>DB 설계</summary>
-![image](https://user-images.githubusercontent.com/78431728/210315451-c55153a0-df39-45ef-8e84-868f9f738121.png)
-<div markdown="1">  
+### 🙋🏻‍♀️ <strong>HARA APIs</strong>
  
-| 기능명 | 담당자 | 완료 여부 |
-| :-----: | :---: | :---: |
-
-</div>
-</details>
-
-<details>
-<summary>api 구현</summary>
-<div markdown="1">
-
-|               기능명               | Method | 담당자 | 완료 여부 |
-| :--------------------------------: | :----: | :----: | :-------: |
-
-</div>
-</details>
-
-# Developers
-
-
-|김예린|윤가영|최승빈|한유진|
+|   EndPoint   |               detail               | Method | developer | done |
+| :------: | :--------------------------------: | :----: | :-------: | :--: |
+|   Worry  |             고민글 투표하기             |   `POST`    |   승빈    |    |
+|          |             고민글 전체조회             |   `GET`    |   유진    |    |
+|          |             개인 고민글 생성             |   `POST`    |   예린    |    |
+|          |             함께 고민글 생성             |   `POST`    |   예린    |    |
+|          |             함께 고민 목록 조회             |   `GET`    |   승빈    |    |
+|          |             혼자 고민 목록 조회             |   `GET`    |   승빈    |    |
+|          |             혼자 고민 삭제             |   `PUT`    |   유진    |    |
+|          |             함께 고민 삭제             |   `PUT`    |   유진    |    |
+|          |             혼자 고민 최종결정             |   `PATCH`    |   가영    |    |
+|          |             함께 고민 최종결정             |   `PATCH`    |   가영    |    |
+|          |             고민 목록 검색             |   `GET`    |   예린    |    |
+|          |             혼자 고민 상세 조회             |   `GET`    |   예린    |    |
+|          |             함께 고민 상세 조회 - 다른 유저             |   `GET`    |   예린    |    |
+|          |             함께 고민 상세 조회 - 게시자 본인             |   `GET`    |   예린    |    |
+|          |             고민글에 대한 댓글 조회              |   `GET`    |   예린    |    |
+|          |             고민글에 대한 댓글 생성              |   `POST`    |   승빈    |    |
+|  Random  |             랜덤답변             |   `GET`    |   승빈    |    |
+|          |             간단 질문 입력하기             |   `POST`    |   승빈    |    |
+|          |             과거 고민 목록 조회             |   `GET`    |   유진    |    |
+|          |             과거 고민 상세 조회             |   `GET`    |   승빈    |    |
+|   User   |             유저 정보 가져오기             |   `GET`    |   가영    |    |
+|          |             유저 정보 수정하기             |   `POST`    |   승빈    |    |
+|          |             유저 탈퇴하기             |   `PATCH`    |   유진    |    |
+| Settings |             이용약관 조회              |   `GET`    |   승빈    |    |
+|          |             만든사람들 조회              |   `GET`    |   승빈    |    |
