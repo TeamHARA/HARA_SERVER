@@ -24,6 +24,7 @@
 
 ```bash
 HARA
+├── husky
 ├── prisma
 ├── src
 │   ├── constants
@@ -39,7 +40,7 @@ HARA
 │       └── index.ts
 │   └── services
 │       └── index.ts
-└── 
+└── test
 ```
 
 ### 📋 Model Diagram
