@@ -1,6 +1,21 @@
-# 서비스 소개
+# HARA SERVER 
 
-# 🛠 개발 환경
+## HARA MARA
+
+> <strong>고민 해결 완료~</strong>
+
+> <strong>31th SOPT APPJAM</strong><br>
+> 프로젝트 기간: 2022.12.11 ~ 2023.01.14
+
+## Developer
+| <img src="https://avatars.githubusercontent.com/u/61582017?v=4" width="100px;" alt=""/> | <img src="https://avatars.githubusercontent.com/u/80771842?v=4" width="100px;" alt=""/> | <img src="https://avatars.githubusercontent.com/u/99312658?v=4" width="100px;" alt=""/> | <img src="https://avatars.githubusercontent.com/u/78431728?v=4" width="100px;" alt=""/> |
+
+
+| :-----------------------------------: | :-----------------------------------: | :-----------------------------------: |
+|                윤가영                 |                   최승빈                  |                   김예린                  |                   한유진                  |
+| [kyY00n](https://github.com/kyY00n) | [csb9427](https://github.com/csb9427) |[leGit-y](https://github.com/leGit-y) |[yujindonut](https://github.com/yujindonut) |
+
+## 🛠 개발 환경
 
 # ✉️ 프로젝트 폴더 구조
 
@@ -23,25 +38,25 @@
 
 | 태그 이름 |                       설명                        |
 | :-------: | :-----------------------------------------------: |
-|   feat    |             새로운 기능을 추가할 경우             |
-|    fix    |                 버그를 고친 경우                  |
-|   chore   |                    짜잘한 수정                    |
-|   docs    |                     문서 수정                     |
-|   init    |                     초기 설정                     |
-|   test    |      테스트 코드, 리펙토링 테스트 코드 추가       |
-|  rename   | 파일 혹은 폴더명을 수정하거나 옮기는 작업인 경우  |
-|   style   | 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우 |
-| refactor  |                   코드 리팩토링                   |
+|   FEAT    |             새로운 기능을 추가할 경우             |
+|    FIX    |                 버그를 고친 경우                  |
+|   CHORE   |                    짜잘한 수정                    |
+|   DOCS    |                     문서 수정                     |
+|   INIT    |                     초기 설정                     |
+|   TEST    |      테스트 코드, 리펙토링 테스트 코드 추가       |
+|  RENAME   | 파일 혹은 폴더명을 수정하거나 옮기는 작업인 경우  |
+|   STYLE   | 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우 |
+| REFACTOR  |                   코드 리팩토링                   |
 
 ### **커밋 타입**
 
-- `태그: 설명` 형식으로 커밋 메시지를 작성합니다.
-- 태그는 영어를 쓰고 소문자로 작성합니다.
+- `[태그] 설명` 형식으로 커밋 메시지를 작성합니다.
+- 태그는 영어를 쓰고 대문자로 작성합니다.
 
 예시 >
 
 ```
-  feat: 검색 api 추가
+  [FEAT] 검색 api 추가
 ```
 
 ## **💻 Github mangement**
@@ -76,9 +91,9 @@
 ## ❗️ branch naming convention
 
 - develop
-- feature/issue_number or Short Description
+- feature/issue_number - Short Description
 - release/version_number
-- hotfix/issue_number or Short Description
+- hotfix/issue_number - Short Description
 
 ## 📋 Code Review Convention
 
@@ -100,6 +115,7 @@
 
 <details>
 <summary>DB 설계</summary>
+![image](https://user-images.githubusercontent.com/78431728/210315451-c55153a0-df39-45ef-8e84-868f9f738121.png)
 <div markdown="1">  
  
 | 기능명 | 담당자 | 완료 여부 |
