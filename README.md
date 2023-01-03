@@ -43,7 +43,7 @@ POME
 
 ## 📋 Model Diagram
 
-![image](https://user-images.githubusercontent.com/78431728/210322144-10acdc3c-e173-421e-8001-781ef2de8845.png)
+![image](https://user-images.githubusercontent.com/78431728/210322575-bf1e385c-1d83-47f2-acdd-6f86d071b97e.png)
 
 ## 📧API 명세서
 
