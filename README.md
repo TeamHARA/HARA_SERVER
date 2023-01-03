@@ -7,7 +7,7 @@
 > <strong>31th SOPT APPJAM</strong><br>
 > 프로젝트 기간: 2022.12.11 ~ 2023.01.14
 
-## Developer
+### Developer
 
 <br>
 
@@ -16,11 +16,11 @@
 |                윤가영                 |                   최승빈                  |                   김예린                  |                   한유진                  |
 | [kyY00n](https://github.com/kyY00n) | [csb9427](https://github.com/csb9427) | [leGit-y](https://github.com/leGit-y) | [yujindonut](https://github.com/yujindonut) |
 
-## 🛠 개발 환경
+### 🛠 개발 환경
 
-## ⚙️ Dependencies
+### ⚙️ Dependencies
 
-## ✉️ HARA Directory Tree
+### ✉️ HARA Directory Tree
 
 ```bash
 HARA
@@ -42,16 +42,45 @@ HARA
 └── 
 ```
 
-## 📋 Model Diagram
+### 📋 Model Diagram
 
 ![image](https://user-images.githubusercontent.com/78431728/210322575-bf1e385c-1d83-47f2-acdd-6f86d071b97e.png)
 
-## 📧API 명세서
+### 📧API 명세서
 
 https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654ebfce44823b2209beac83518fd
 
+### 🙋🏻‍♀️ <strong>HARA APIs</strong>
+ 
+|   EndPoint   |               detail               | Method | developer | done |
+| :------: | :--------------------------------: | :----: | :-------: | :--: |
+|   Worry  |             고민글 투표하기             |   `POST`    |   승빈    |  - 진행중  |
+|          |             고민글 전체조회             |   `GET`    |   유진    |  - 진행중  |
+|          |             개인 고민글 생성             |   `POST`    |   예린    |  - 진행중  |
+|          |             함께 고민글 생성             |   `POST`    |   예린    |    |
+|          |             함께 고민 목록 조회             |   `GET`    |   승빈    |    |
+|          |             혼자 고민 목록 조회             |   `GET`    |   승빈    |    |
+|          |             혼자 고민 삭제             |   `PUT`    |   유진    |    |
+|          |             함께 고민 삭제             |   `PUT`    |   유진    |    |
+|          |             혼자 고민 최종결정             |   `PATCH`    |   가영    |    |
+|          |             함께 고민 최종결정             |   `PATCH`    |   가영    |    |
+|          |             고민 목록 검색             |   `GET`    |   예린    |    |
+|          |             혼자 고민 상세 조회             |   `GET`    |   예린    |    |
+|          |             함께 고민 상세 조회 - 다른 유저             |   `GET`    |   예린    |    |
+|          |             함께 고민 상세 조회 - 게시자 본인             |   `GET`    |   예린    |    |
+|          |             고민글에 대한 댓글 조회              |   `GET`    |   예린    |    |
+|          |             고민글에 대한 댓글 생성              |   `POST`    |   승빈    |    |
+|  Random  |             랜덤답변             |   `GET`    |   승빈    |    |
+|          |             간단 질문 입력하기             |   `POST`    |   승빈    |    |
+|          |             과거 고민 목록 조회             |   `GET`    |   유진    |    |
+|          |             과거 고민 상세 조회             |   `GET`    |   승빈    |    |
+|   User   |             유저 정보 가져오기             |   `GET`    |   가영    |    |
+|          |             유저 정보 수정하기             |   `POST`    |   승빈    |    |
+|          |             유저 탈퇴하기             |   `PATCH`    |   유진    |    |
+| Settings |             이용약관 조회              |   `GET`    |   승빈    |    |
+|          |             만든사람들 조회              |   `GET`    |   승빈    |    |
 
-## ✉️ Commit Messge Rules
+### ✉️ Commit Messge Rules
 
 **서버** 들의 **Git Commit Message Rules**
 
@@ -85,7 +114,7 @@ https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654eb
   [FEAT] 검색 api 추가
 ```
 
-## **💻 Github mangement**
+### **💻 Github mangement**
 
 **해라** 들의 WorkFlow : **Gitflow Workflow**
 
@@ -99,11 +128,11 @@ https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654eb
 
 - 개발 브랜치 아래 기능별 브랜치를 만들어 작성합니다.
 
-## ✍🏻 Code Convention
+### ✍🏻 Code Convention
 
 [에어비앤비 코드 컨벤션](https://github.com/airbnb/javascript)
 
-## 📍 Gitflow 규칙
+### 📍 Gitflow 규칙
 
 - Develop에 직접적인 commit, push는 금지합니다.
 - 커밋 메세지는 다른 사람들이 봐도 이해할 수 있게 써주세요.
@@ -114,14 +143,14 @@ https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654eb
 - 각자가 기간 동안 맡은 역할을 전부 수행하면, 각자 브랜치에서 develop브랜치로 Pull Request를 보냅니다.  
   **develop 브랜치로의 Pull Request는 상대방의 코드리뷰 후에 merge할 수 있습니다.**
 
-## ❗️ branch naming convention
+### ❗️ branch naming convention
 
 - develop
 - feature/issue_number - Short Description
 - release/version_number
 - hotfix/issue_number - Short Description
 
-## 📋 Code Review Convention
+### 📋 Code Review Convention
 
 - P1: 꼭 반영해주세요 (Request changes)
 - P2: 적극적으로 고려해주세요 (Request changes)
@@ -136,33 +165,3 @@ https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654eb
 - D-N (Within N days)
 
 “Working Day 기준으로 N일 이내에 리뷰해 주세요”
-
-### 🙋🏻‍♀️ <strong>HARA APIs</strong>
- 
-|   EndPoint   |               detail               | Method | developer | done |
-| :------: | :--------------------------------: | :----: | :-------: | :--: |
-|   Worry  |             고민글 투표하기             |   `POST`    |   승빈    |  - 진행중  |
-|          |             고민글 전체조회             |   `GET`    |   유진    |  - 진행중  |
-|          |             개인 고민글 생성             |   `POST`    |   예린    |  - 진행중  |
-|          |             함께 고민글 생성             |   `POST`    |   예린    |    |
-|          |             함께 고민 목록 조회             |   `GET`    |   승빈    |    |
-|          |             혼자 고민 목록 조회             |   `GET`    |   승빈    |    |
-|          |             혼자 고민 삭제             |   `PUT`    |   유진    |    |
-|          |             함께 고민 삭제             |   `PUT`    |   유진    |    |
-|          |             혼자 고민 최종결정             |   `PATCH`    |   가영    |    |
-|          |             함께 고민 최종결정             |   `PATCH`    |   가영    |    |
-|          |             고민 목록 검색             |   `GET`    |   예린    |    |
-|          |             혼자 고민 상세 조회             |   `GET`    |   예린    |    |
-|          |             함께 고민 상세 조회 - 다른 유저             |   `GET`    |   예린    |    |
-|          |             함께 고민 상세 조회 - 게시자 본인             |   `GET`    |   예린    |    |
-|          |             고민글에 대한 댓글 조회              |   `GET`    |   예린    |    |
-|          |             고민글에 대한 댓글 생성              |   `POST`    |   승빈    |    |
-|  Random  |             랜덤답변             |   `GET`    |   승빈    |    |
-|          |             간단 질문 입력하기             |   `POST`    |   승빈    |    |
-|          |             과거 고민 목록 조회             |   `GET`    |   유진    |    |
-|          |             과거 고민 상세 조회             |   `GET`    |   승빈    |    |
-|   User   |             유저 정보 가져오기             |   `GET`    |   가영    |    |
-|          |             유저 정보 수정하기             |   `POST`    |   승빈    |    |
-|          |             유저 탈퇴하기             |   `PATCH`    |   유진    |    |
-| Settings |             이용약관 조회              |   `GET`    |   승빈    |    |
-|          |             만든사람들 조회              |   `GET`    |   승빈    |    |
