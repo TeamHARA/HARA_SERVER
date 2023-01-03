@@ -45,7 +45,7 @@ HARA
 
 ### 📋 Model Diagram
 
-![image](https://user-images.githubusercontent.com/78431728/210322575-bf1e385c-1d83-47f2-acdd-6f86d071b97e.png)
+![image](https://user-images.githubusercontent.com/78431728/210379739-e59b8a70-0b19-4a23-878a-fdc58071fa9c.png)
 
 ### 📧API 명세서
 
