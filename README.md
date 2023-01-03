@@ -9,9 +9,9 @@
 
 ## Developer
 
-|                <img src="https://avatars.githubusercontent.com/u/61582017?v=4" width="100px;" alt=""/>                |                <img src="https://avatars.githubusercontent.com/u/80771842?v=4" width="100px;" alt=""/>                |                <img src="https://avatars.githubusercontent.com/u/99312658?v=4" width="100px;" alt=""/>                |                <img src="https://avatars.githubusercontent.com/u/78431728?v=4" width="100px;" alt=""/>                |
+<br>
 
-
+|                      <img src="https://avatars.githubusercontent.com/u/61582017?v=4" width="100px;" alt=""/>                      |                      <img src="https://avatars.githubusercontent.com/u/80771842?v=4" width="100px;" alt=""/>                      |                      <img src="https://avatars.githubusercontent.com/u/99312658?v=4" width="100px;" alt=""/>                      |                      <img src="https://avatars.githubusercontent.com/u/78431728?v=4" width="100px;" alt=""/>                      |
 | :-----------------------------------: | :-----------------------------------: | :-----------------------------------: | :-----------------------------------: |
 |                윤가영                 |                   최승빈                  |                   김예린                  |                   한유진                  |
 | [kyY00n](https://github.com/kyY00n) | [csb9427](https://github.com/csb9427) | [leGit-y](https://github.com/leGit-y) | [yujindonut](https://github.com/yujindonut) |
