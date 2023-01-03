@@ -6,3 +6,114 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model aloneOption {
+  id           Int        @id(map: "AloneOption_pkey") @default(autoincrement())
+  worryAloneId Int
+  title        String     @db.VarChar(200)
+  advantage    String?    @db.VarChar(50)
+  disadvantage String?    @db.VarChar(200)
+  image        String?    @db.VarChar(100)
+  isSelected   Boolean?
+  worryAlone   worryAlone @relation(fields: [worryAloneId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryAloneId")
+}
+
+model category {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(50)
+  worryAlone worryAlone[]
+  worryWith  worryWith[]
+}
+
+model comment {
+  id          Int       @id(map: "Comment_pkey") @default(autoincrement())
+  nickName    String    @db.VarChar(200)
+  content     String    @db.VarChar(200)
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  updateAt    DateTime  @default(now()) @db.Timestamp(6)
+  worryWithId Int
+  worryWith   worryWith @relation(fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
+}
+
+model quickWorry {
+  id           Int            @id @default(autoincrement())
+  title        String         @db.VarChar(60)
+  createdAt    DateTime       @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime       @default(now()) @db.Timestamp(6)
+  userId       Int
+  user         user           @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
+  randomAnswer randomAnswer[]
+}
+
+model randomAnswer {
+  id           Int        @id @unique @default(autoincrement())
+  content      String     @db.VarChar(500)
+  quickWorryId Int
+  createdAt    DateTime   @default(now()) @db.Timestamp(6)
+  quickWorry   quickWorry @relation(fields: [quickWorryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "quickWorryId")
+}
+
+model user {
+  id           Int          @id @default(autoincrement())
+  votes        Int[]
+  votedWorries Int[]
+  profileImage String       @db.VarChar(200)
+  createdAt    DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime     @default(now()) @db.Timestamp(6)
+  isAlarm      Boolean
+  email        String       @db.VarChar(50)
+  quickWorry   quickWorry[]
+  vote         vote[]
+  worryAlone   worryAlone[]
+  worryWith    worryWith[]
+}
+
+model vote {
+  id         Int        @unique @default(autoincrement())
+  userId     Int
+  optionId   Int        @id
+  withOption withOption @relation(fields: [optionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "optionId")
+  user       user       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
+}
+
+model withOption {
+  id           Int       @id @default(autoincrement())
+  worryWithId  Int
+  title        String    @db.VarChar(200)
+  advantage    String?   @db.VarChar(50)
+  disadvantage String?   @db.VarChar(200)
+  image        String?   @db.VarChar(300)
+  vote         vote?
+  worryWith    worryWith @relation(fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
+}
+
+model worryAlone {
+  id          Int           @id @default(autoincrement())
+  title       String        @db.VarChar(60)
+  content     String        @db.VarChar(4000)
+  finalOption Int
+  isVoted     Boolean
+  createdAt   DateTime      @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime      @default(now()) @db.Timestamp(6)
+  categoryId  Int
+  userId      Int?
+  aloneOption aloneOption[]
+  category    category      @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
+  user        user?         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
+}
+
+model worryWith {
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(60)
+  content     String       @db.VarChar(4000)
+  finalOption Int
+  isVoted     Boolean
+  createdAt   DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime?    @default(now()) @db.Timestamp(6)
+  categoryId  Int
+  userId      Int
+  comment     comment[]
+  withOption  withOption[]
+  category    category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
+  user        user         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
+}
