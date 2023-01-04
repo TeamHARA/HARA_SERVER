@@ -14,11 +14,11 @@ const sendOk = (res: Response, message: string, data?: any) => {
 
 const updateFinalOption = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { worryWithId, chosenOptionId } = req.body;
-    if (!worryWithId || !chosenOptionId) {
+    const { userId, worryWithId, chosenOptionId } = req.body;
+    if (!userId || !worryWithId || !chosenOptionId) {
       throw new ClientException("필요한 값이 없습니다.");
     }
-    await worryWithService.chooseFinalOption(worryWithId, chosenOptionId);
+    await worryWithService.chooseFinalOption(userId, worryWithId, chosenOptionId);
     sendOk(res, "나의고민 최종결정 성공");
   } catch (error) {
     next(error);
