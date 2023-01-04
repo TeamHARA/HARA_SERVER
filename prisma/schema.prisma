@@ -77,14 +77,16 @@ model vote {
 }
 
 model withOption {
-  id           Int       @id @default(autoincrement())
-  worryWithId  Int
-  title        String    @db.VarChar(200)
-  advantage    String?   @db.VarChar(50)
-  disadvantage String?   @db.VarChar(200)
-  image        String?   @db.VarChar(300)
-  vote         vote?
-  worryWith    worryWith @relation(fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
+  id                                          Int         @id @default(autoincrement())
+  worryWithId                                 Int
+  title                                       String      @db.VarChar(200)
+  advantage                                   String?     @db.VarChar(50)
+  disadvantage                                String?     @db.VarChar(200)
+  image                                       String?     @db.VarChar(300)
+  hasImage                                    Boolean     @default(false)
+  vote                                        vote?
+  worryWith                                   worryWith   @relation(fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
+  worryWith_worryWith_finalOptionTowithOption worryWith[] @relation("worryWith_finalOptionTowithOption")
 }
 
 model worryAlone {
@@ -103,17 +105,20 @@ model worryAlone {
 }
 
 model worryWith {
-  id          Int          @id @default(autoincrement())
-  title       String       @db.VarChar(60)
-  content     String       @db.VarChar(4000)
-  finalOption Int
-  isVoted     Boolean      @default(false)
-  createdAt   DateTime     @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime?    @default(now()) @db.Timestamp(6)
-  categoryId  Int
-  userId      Int
-  comment     comment[]
-  withOption  withOption[]
-  category    category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
-  user        user         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
+  id                                           Int          @id @default(autoincrement())
+  title                                        String       @db.VarChar(60)
+  content                                      String       @db.VarChar(4000)
+  finalOption                                  Int?
+  isVoted                                      Boolean      @default(false)
+  createdAt                                    DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt                                    DateTime?    @default(now()) @db.Timestamp(6)
+  categoryId                                   Int
+  userId                                       Int
+  commentOn                                    Boolean      @default(false)
+  commentCount                                 Int          @default(0)
+  comment                                      comment[]
+  withOption                                   withOption[]
+  category                                     category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
+  withOption_worryWith_finalOptionTowithOption withOption?  @relation("worryWith_finalOptionTowithOption", fields: [finalOption], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "finalOption")
+  user                                         user         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
 }
