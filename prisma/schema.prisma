@@ -14,7 +14,7 @@ model aloneOption {
   advantage    String?    @db.VarChar(50)
   disadvantage String?    @db.VarChar(200)
   image        String?    @db.VarChar(100)
-  isSelected   Boolean?
+  isSelected   Boolean?   @default(false)
   worryAlone   worryAlone @relation(fields: [worryAloneId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryAloneId")
 }
 
@@ -55,12 +55,12 @@ model randomAnswer {
 
 model user {
   id           Int          @id @default(autoincrement())
-  votes        Int[]
-  votedWorries Int[]
+  votes        Int[]        @default([])
+  votedWorries Int[]        @default([])
   profileImage String       @db.VarChar(200)
   createdAt    DateTime     @default(now()) @db.Timestamp(6)
   updatedAt    DateTime     @default(now()) @db.Timestamp(6)
-  isAlarm      Boolean
+  isAlarm      Boolean      @default(false)
   email        String       @db.VarChar(50)
   quickWorry   quickWorry[]
   vote         vote[]
@@ -91,8 +91,8 @@ model worryAlone {
   id          Int           @id @default(autoincrement())
   title       String        @db.VarChar(60)
   content     String        @db.VarChar(4000)
-  finalOption Int
-  isVoted     Boolean
+  finalOption Int?
+  isVoted     Boolean       @default(false)
   createdAt   DateTime      @default(now()) @db.Timestamp(6)
   updatedAt   DateTime      @default(now()) @db.Timestamp(6)
   categoryId  Int
@@ -107,7 +107,7 @@ model worryWith {
   title       String       @db.VarChar(60)
   content     String       @db.VarChar(4000)
   finalOption Int
-  isVoted     Boolean
+  isVoted     Boolean      @default(false)
   createdAt   DateTime     @default(now()) @db.Timestamp(6)
   updatedAt   DateTime?    @default(now()) @db.Timestamp(6)
   categoryId  Int
