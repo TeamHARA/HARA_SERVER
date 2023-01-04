@@ -3,6 +3,6 @@ import worryWithRouter from './worryWithRouter';
 
 const router: Router = Router();
 
-router.use('/worryWith', worryWithRouter);
+router.use('/worry/with', worryWithRouter);
 
 export default router;
