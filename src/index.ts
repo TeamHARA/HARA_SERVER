@@ -1,5 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
 import router from "./router";
+import globalExceptionHandler from "./common/error/handler";
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express(); // express 객체 받아옴
 const PORT = 3000; // 사용할 port를 3000번으로 설정
