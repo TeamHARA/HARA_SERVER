@@ -1,35 +1,21 @@
-import express, { NextFunction, Request, Response } from "express";
-import router from "./router";
-import globalExceptionHandler from "./common/error/handler";
+import { NextFunction, Request, Response } from "express";
 import * as dotenv from 'dotenv';
+import App from './app';
 
 dotenv.config();
 
-const app = express(); // express 객체 받아옴
-const PORT = 3000; // 사용할 port를 3000번으로 설정
-
-app.use(express.json()); // express 에서 request body를 json 으로 받아오겠다.
-
-app.use("/api", router); // use -> 모든 요청
-// localhost:8000/api -> api 폴더
-// localhost:8000/api/user -> user.ts
-
-//* HTTP method - GET
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.send("마! 이게 서버다!!!!!!!!!!!!!!!!!!!!");
-});
-
-app.use(globalExceptionHandler);
+const app = new App().setup();
 
 // dev
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
 })
 
-app.listen(PORT, () => {
+const port = process.env.PORT
+app.listen(port || 3000, () => {
   console.log(`
         #############################################
-            🛡️ Server listening on port: ${PORT} 🛡️
+            🛡️ Server listening on port: ${port} 🛡️
         #############################################
     `);
-}); // 8000 번 포트에서 서버를 실행하겠다!
+});
