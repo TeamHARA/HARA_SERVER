@@ -19,6 +19,13 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.send("마! 이게 서버다!!!!!!!!!!!!!!!!!!!!");
 });
 
+app.use(globalExceptionHandler);
+
+// dev
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
+})
+
 app.listen(PORT, () => {
   console.log(`
         #############################################
