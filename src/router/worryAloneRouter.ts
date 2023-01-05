@@ -6,6 +6,6 @@ const router: Router = Router();
 
 
 //[POST] worry/alone
-router.post("/alone",worryAloneController.uploadWorryAlone);
+router.post("/",worryAloneController.uploadWorryAlone);
 
 export default router;

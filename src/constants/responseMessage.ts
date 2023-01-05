@@ -33,4 +33,8 @@ export default {
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: "서버 내 오류",
+
+  // 혼자고민
+  UPLOAD_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
+  UPLOAD_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공"
 };
