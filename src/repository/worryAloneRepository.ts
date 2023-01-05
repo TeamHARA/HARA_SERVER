@@ -1,23 +1,23 @@
-import { UploadWorryAloneDTO } from './../interfaces/worryAlone/UploadWorryAloneDTO';
+import { CreateAloneWorryDTO } from '../interfaces/worryAlone/CreateAloneWorryDTO';
 import { worryAlone } from "@prisma/client";
 
 import prisma from "./prismaClient";
 
 
 /* 혼자고민생성 */
-const uploadWorryAlone = async (uploadWorryAloneDTO: UploadWorryAloneDTO) => {
+const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
 
   const worryData = await prisma.worryAlone.create({
       data: {
-        title: uploadWorryAloneDTO.title,
-        content: uploadWorryAloneDTO.content,
+        title: createAloneWorryDTO.title,
+        content: createAloneWorryDTO.content,
         finalOption: null,
-        categoryId: uploadWorryAloneDTO.categoryId,
-        userId: uploadWorryAloneDTO.userId,
+        categoryId: createAloneWorryDTO.categoryId,
+        userId: createAloneWorryDTO.userId,
       }
   });
 
-  const options = uploadWorryAloneDTO.options;
+  const options = createAloneWorryDTO.options;
 
   for(var i=0;i<options.length;i++){
     const optionData= await prisma.aloneOption.create({
@@ -42,4 +42,4 @@ const uploadWorryAlone = async (uploadWorryAloneDTO: UploadWorryAloneDTO) => {
 
 
 
-export default { uploadWorryAlone, };
+export default { createAloneWorry, };
