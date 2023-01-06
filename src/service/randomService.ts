@@ -7,10 +7,10 @@ import { randomAnswerDTO } from "../interfaces/random/randomAnswerDTO";
 const randomAnswerChoice = async () => {
   const randomList = await randomRepository.findAllRandomAnswer();
 
-  const shuffleCards = (arr: randomAnswerDTO[]) => {
+  const shuffleAnswer = (arr: randomAnswerDTO[]) => {
     arr.sort(() => Math.random() - 0.5);
   };
-  shuffleCards(randomList);
+  shuffleAnswer(randomList);
   const random = randomList[0];
   return random;
 };
