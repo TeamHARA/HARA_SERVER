@@ -6,8 +6,7 @@ import statusCode from '../constants/statusCode';
 const createAloneWorry = async (createAloneWorryDTO:CreateAloneWorryDTO) => {
   const aloneWorry = await worryAloneRepository.createAloneWorry(createAloneWorryDTO);
   if(!aloneWorry){
-    throw new ClientException();
-
+    throw new ClientException("혼자고민글 생성 실패");
   }
   return aloneWorry;
 }
