@@ -9,7 +9,7 @@ import { validationResult } from 'express-validator';
 const createAloneWorry = async (req:Request, res:Response) => {
 
     const createAloneWorryDTO : CreateAloneWorryDTO = req.body;
-    //console.log(uploadWorryAloneDTO);
+    //console.log(createAloneWorryDTO);
 
     //? validation의 결과를 바탕으로 분기 처리
     const error = validationResult(req);

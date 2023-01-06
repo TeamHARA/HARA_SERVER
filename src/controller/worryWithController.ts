@@ -22,16 +22,24 @@ const updateFinalOption = async (req: Request, res: Response, next: NextFunction
 const createWithWorry = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const createWithWorryDTO: CreateWithWorryDTO  = req.body;
+    //console.log(createWithWorryDTO);
+    
     if (!createWithWorryDTO.userId ) {
       throw new ClientException("필요한 값이 없습니다.");
     }
-    await worryWithService.createWorryWith(createWithWorryDTO);
+    await worryWithService.createWithWorry(createWithWorryDTO);
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "나의고민 최종결정 성공"));
+    res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 생성 성공"));
   } catch (error) {
     next(error);
   }
 
 };
 
-export default { updateFinalOption,createWithWorry };
+const findWithWorry =async (req:Request, res: Response, next: NextFunction) => {
+
+
+  
+}
+
+export default { updateFinalOption,createWithWorry,findWithWorry };

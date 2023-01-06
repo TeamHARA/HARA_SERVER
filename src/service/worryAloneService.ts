@@ -3,15 +3,15 @@ import { worryAloneRepository} from "../repository"
 import { ClientException } from "../common/error/exceptions/customExceptions";
 
 const createAloneWorry = async (createAloneWorryDTO:CreateAloneWorryDTO) => {
-  const worryAlone = await worryAloneRepository.createAloneWorry(createAloneWorryDTO);
-  if(!worryAlone){
+  const aloneWorry = await worryAloneRepository.createAloneWorry(createAloneWorryDTO);
+  if(!aloneWorry){
     throw new ClientException();
 
   }
-  console.log("worryAloneService");
-  console.log(worryAlone);
+ // console.log("worryAloneService");
+ // console.log(worryAlone);
 
-  return worryAlone;
+  return aloneWorry;
 }
 
 

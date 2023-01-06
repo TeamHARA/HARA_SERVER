@@ -1,4 +1,4 @@
-import { CreateWithWorryDTO as CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
+import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository } from "../repository"
@@ -24,8 +24,14 @@ const chooseFinalOption = async (userId: number, worryWithId: number, optionId: 
 };
 
 const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
+  const withWorry = await worryWithRepository.createWithWorry(createWithWorryDTO);
+  if(!withWorry){
+    throw new ClientException();
 
+  }
+
+  return withWorry;
 
 }
 
-export default { chooseFinalOption,createWorryWith: createWithWorry };
+export default { chooseFinalOption,createWithWorry };

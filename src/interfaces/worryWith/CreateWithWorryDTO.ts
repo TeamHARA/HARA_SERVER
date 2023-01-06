@@ -6,10 +6,11 @@ interface withOption{
     hasImage: boolean;
 }
 
-export interface CreateWorryWithDTO {
+export interface CreateWithWorryDTO {
     userId: number;
     title: string;
     content: string;
+    commentOn: boolean;
     categoryId: number;
     options: Array<withOption>;
 }
