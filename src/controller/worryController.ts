@@ -3,7 +3,7 @@ import { fail, success } from "../constants/response";
 import { rm, sc } from "../constants";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
-import { worryService, worryWithService } from "../service";
+import { voteService, worryWithService } from "../service";
 import { CreateVoteDTO } from "../createWorryVoteDTO";
 
 const findWorryListByCategory = async (req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +31,7 @@ const createWorryVote = async (req: Request, res: Response, next: NextFunction) 
             throw new ClientException("필요한 값이 없습니다.");
         }
 
-        await worryService.createWorryVote(createVoteDTO);
+        await voteService.createWorryVote(createVoteDTO);
 
         return res.status(sc.OK).send(success(statusCode.OK, rm.CREATE_VOTE_SUCCESS));
     } catch (error) {
