@@ -22,13 +22,13 @@ const createAloneWorry = async (req:Request, res:Response) => {
 
     }
 
-    const data = await worryAloneService.createAloneWorry(createAloneWorryDTO);
+    const createdAloneWorry = await worryAloneService.createAloneWorry(createAloneWorryDTO);
 
-    if(!data){
-        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.UPLOAD_WORRY_ALONE_ERROR))
+    if(!createdAloneWorry){
+        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR))
     }
 
-    res.status(sc.OK).send(success(sc.OK, rm.UPLOAD_WORRY_ALONE_SUCCESS));
+    res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
 
 
     
