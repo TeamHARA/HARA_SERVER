@@ -8,12 +8,13 @@ const router: Router = Router();
 
 //[POST] worry/alone
 router.post("/",
-[body("title").notEmpty(),
-body("content").notEmpty(), 
-body("categoryId").notEmpty(),
-body("options").notEmpty()]
-, auth
-, validation
-, worryAloneController.postAloneWorry);
+    auth,
+    [body("title").notEmpty(),
+    body("content").notEmpty(), 
+    body("categoryId").notEmpty(),
+    body("options").notEmpty()],
+    validation,
+    worryAloneController.postAloneWorry
+);
 
 export default router;

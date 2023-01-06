@@ -8,14 +8,15 @@ const router = Router();
 
 router.patch('/', auth, worryWithController.updateFinalOption);
 router.post("/",
-[body("title").notEmpty(),
-body("content").notEmpty(), 
-body("commentOn").notEmpty(), 
-body("categoryId").notEmpty(),
-body("options").notEmpty()]
-,auth
-,validation
-,worryWithController.postWithWorry);
+    auth,
+    [body("title").notEmpty(),
+    body("content").notEmpty(), 
+    body("commentOn").notEmpty(), 
+    body("categoryId").notEmpty(),
+    body("options").notEmpty()],
+    validation,
+    worryWithController.postWithWorry
+);
 router.get(":/worryId",auth, worryWithController.getWithWorry);
 
 export default router;
