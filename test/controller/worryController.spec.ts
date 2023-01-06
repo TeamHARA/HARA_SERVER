@@ -259,3 +259,24 @@ describe("GET /worry/:categoryId", () => {
         expect(response.body.message).toEqual("없는 카테고리입니다");
     })
 })
+
+describe("POST /worry", () => {
+    // it("투표 하기 완료", async () => {
+    //     const response = await request(app)
+    //         .post("/api/worry")
+    //         .send({ "worryWithId": 3, "userId": 4, "optionId": 5 });
+    //     expect(response.statusCode).toBe(200);
+    //     expect(response.body).toMatchObject({ status: 200, success: true, message: "투표 생성 성공" });
+    // })
+    it("고민글 유저와 로그인 유저가 같을때 투표할 경우", async () => {
+        const response = await request(app)
+            .post("/api/worry")
+            .send({ "worryWithId": 3, "userId": 3, "optionId": 5 });
+        expect(response.statusCode).toBe(403);
+        expect(response.body).toMatchObject({
+            status: 403,
+            success: false,
+            message: "자신의 고민글에는 투표할 수 없습니다"
+        });
+    });
+})
