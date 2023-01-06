@@ -1,3 +1,4 @@
+import { contextsKey } from 'express-validator/src/base';
 import request from 'supertest';
 import app from '../testApp';
 
@@ -268,7 +269,8 @@ describe("POST /worry", () => {
     //     expect(response.statusCode).toBe(200);
     //     expect(response.body).toMatchObject({ status: 200, success: true, message: "투표 생성 성공" });
     // })
-    it("고민글 유저와 로그인 유저가 같을때 투표할 경우", async () => {
+
+    test("고민글 유저와 로그인 유저가 같을때 투표할 경우 403을 반환한다", async () => {
         const response = await request(app)
             .post("/api/worry")
             .send({ "worryWithId": 3, "userId": 3, "optionId": 5 });
