@@ -4,27 +4,13 @@ import { rm, sc } from "../constants";
 import { fail, success } from "../constants/response";
 import worryAloneService from '../service/worryAloneService';
 import { Result, validationResult } from 'express-validator';
+import validation from '../middlwares/validation';
 
 
-const createAloneWorry = async (req: Request, res: Response, next: NextFunction) => {
+const postAloneWorry = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const error = validationResult(req);
-        if (!error.isEmpty()) {
-            const errors = error.mapped()
-            let notFoundValues = []
-            for(const key in errors) {
-                notFoundValues.push(errors[key].param);
-            }
-            return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, `${notFoundValues.join(', ')} 값이 비었습니다.`))
-        }
 
         const createAloneWorryDTO: CreateAloneWorryDTO = req.body;
-
-        const data = await worryAloneService.createAloneWorry(createAloneWorryDTO);
-
-        if (!data) {
-            return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR))
-        }
 
         const createdAloneWorry = await worryAloneService.createAloneWorry(createAloneWorryDTO);
 
@@ -40,7 +26,7 @@ const createAloneWorry = async (req: Request, res: Response, next: NextFunction)
 }
 
 const worryAloneController = {
-    createAloneWorry,
+    postAloneWorry,
 
 }
 

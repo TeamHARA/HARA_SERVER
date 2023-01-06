@@ -19,7 +19,7 @@ const updateFinalOption = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-const createWithWorry = async (req: Request, res: Response, next: NextFunction) => {
+const postWithWorry = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const createWithWorryDTO: CreateWithWorryDTO  = req.body;
     //console.log(createWithWorryDTO);
@@ -36,7 +36,7 @@ const createWithWorry = async (req: Request, res: Response, next: NextFunction) 
 
 };
 
-const findWithWorry =async (req:Request, res: Response, next: NextFunction) => {
+const getWithWorry =async (req:Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.body;
     if (!userId) {
@@ -53,4 +53,4 @@ const findWithWorry =async (req:Request, res: Response, next: NextFunction) => {
   
 }
 
-export default { updateFinalOption,createWithWorry,findWithWorry };
+export default { updateFinalOption,postWithWorry,getWithWorry };
