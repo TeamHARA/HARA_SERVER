@@ -34,4 +34,8 @@ const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
 
 }
 
-export default { chooseFinalOption,createWithWorry };
+const findWithWorry =async (userId:number) => {
+  
+}
+
+export default { chooseFinalOption,createWithWorry ,findWithWorry};

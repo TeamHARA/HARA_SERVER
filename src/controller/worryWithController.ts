@@ -39,14 +39,11 @@ const createWithWorry = async (req: Request, res: Response, next: NextFunction) 
 const findWithWorry =async (req:Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.body;
-    if (!userId || !worryWithId || !chosenOptionId) {
+    if (!userId) {
       throw new ClientException("필요한 값이 없습니다.");
     }
     
-    if (!createWithWorryDTO.userId ) {
-      throw new ClientException("필요한 값이 없습니다.");
-    }
-    await worryWithService.createWithWorry(createWithWorryDTO);
+    await worryWithService.findWithWorry(userId);
 
     res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 생성 성공"));
   } catch (error) {
