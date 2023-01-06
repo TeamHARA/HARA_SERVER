@@ -5,24 +5,23 @@ import prisma from "./prismaClient";
 const findById = async (id: number): Promise<worryWith | null> => {
   return prisma.worryWith.findUnique({
     where: {
-      id
-    }
+      id,
+    },
   });
 };
 
 const updateFinalOptionById = async (id: number, optionId: number) => {
   await prisma.worryWith.update({
     where: {
-      id
+      id,
     },
     data: {
-      finalOption: optionId
-    }
+      finalOption: optionId,
+    },
   });
 };
 
-const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO)=>{
-
+const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
   const worryData = await prisma.worryWith.create({
     data: {
       title: createWithWorryDTO.title,
@@ -31,32 +30,53 @@ const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO)=>{
       categoryId: createWithWorryDTO.categoryId,
       userId: createWithWorryDTO.userId,
       commentOn: createWithWorryDTO.commentOn,
-      isAuthor: true, //일단은 true 로 해놨음..      
-    }
-});
+      isAuthor: true, //일단은 true 로 해놨음..
+    },
+  });
 
-const options = createWithWorryDTO.options;
+  const options = createWithWorryDTO.options;
 
-
-for(var i=0;i<options.length;i++){
-  const optionData= await prisma.withOption.create({
-    
-    data:{
+  for (var i = 0; i < options.length; i++) {
+    const optionData = await prisma.withOption.create({
+      data: {
         worryWithId: worryData.id,
         title: options[i].title,
         advantage: options[i].advantage,
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-        
+      },
+    });
+  } //for
 
-      }
+  return worryData;
+};
+const findWithWorries = async () => {
+  const worries = await prisma.worryWith.findMany({
+    select: {
+      id: true,
+      categoryId: true,
+      content: true,
+      createdAt: true,
+      finalOption: true,
+    },
   });
 
-}//for 
+  return worries;
+};
+const findFinalOption = async () => {
+  const optionNumber = await prisma.worryWith.findMany({
+    select: {
+      finalOption: true,
+      createdAt: true,
+    },
+  });
+};
 
-
-return worryData;
-}
-
-export default { findById, updateFinalOptionById,createWithWorry };
+export default {
+  findById,
+  updateFinalOptionById,
+  createWithWorry,
+  findWithWorries,
+  findFinalOption,
+};
