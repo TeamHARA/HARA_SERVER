@@ -1,4 +1,4 @@
 import worryWithService from "./worryWithService";
 
 export { worryWithService };
-export { default as worryService } from "./worryService";
+export { default as worryService } from "./voteService";

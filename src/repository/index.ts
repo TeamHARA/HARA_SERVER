@@ -1,6 +1,6 @@
 import worryWithRepository from './worryWithRepository';
 import withOptionRepository from './withOptionRepository';
 import categoryRepository from './categoryRepository';
-import worryRepository from './worryRepository';
+import voteRepository from './voteRepository';
 
-export { worryWithRepository, withOptionRepository, categoryRepository, worryRepository };
+export { worryWithRepository, withOptionRepository, categoryRepository, voteRepository };
