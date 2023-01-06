@@ -1,4 +1,4 @@
-interface aloneOption{
+interface withOption{
     title: string;
     advantage: string;
     disadvantage: string;
@@ -6,11 +6,11 @@ interface aloneOption{
     hasImage: boolean;
 }
 
-export interface CreateAloneWorryDTO {
+export interface CreateWithWorryDTO {
     userId: number;
     title: string;
     content: string;
+    commentOn: boolean;
     categoryId: number;
-    options: Array<aloneOption>;
-    
+    options: Array<withOption>;
 }

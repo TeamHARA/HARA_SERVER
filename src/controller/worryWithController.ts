@@ -1,3 +1,4 @@
+import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { NextFunction, Request, Response } from "express";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import { success } from "../constants/response";
@@ -18,4 +19,38 @@ const updateFinalOption = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export default { updateFinalOption };
+const createWithWorry = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const createWithWorryDTO: CreateWithWorryDTO  = req.body;
+    //console.log(createWithWorryDTO);
+    
+    if (!createWithWorryDTO.userId ) {
+      throw new ClientException("필요한 값이 없습니다.");
+    }
+    await worryWithService.createWithWorry(createWithWorryDTO);
+
+    res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 생성 성공"));
+  } catch (error) {
+    next(error);
+  }
+
+};
+
+const findWithWorry =async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      throw new ClientException("필요한 값이 없습니다.");
+    }
+    
+    await worryWithService.findWithWorry(userId);
+
+    res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 생성 성공"));
+  } catch (error) {
+    next(error);
+  }
+
+  
+}
+
+export default { updateFinalOption,createWithWorry,findWithWorry };
