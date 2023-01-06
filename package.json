@@ -9,6 +9,7 @@
     "db:pull": "npx prisma db pull",
     "db:push": "npx prisma db push",
     "generate": "npx prisma generate",
+    "pretest": "yarn generate",
     "test": "jest",
     "prepare": "husky install"
   },

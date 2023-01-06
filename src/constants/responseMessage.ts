@@ -44,6 +44,10 @@ export default {
   VALID_TOKEN: "유효한 토큰입니다.",
   EMPTY_TOKEN: "토큰 값이 없습니다.",
 
+  // 유저
+  READ_RANDOM_SUCCESS: "랜덤 답변 조회 성공",
+  READ_RANDOM_FAIL: "랜덤 답변 조회 실패",
+
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: "서버 내 오류",
 
