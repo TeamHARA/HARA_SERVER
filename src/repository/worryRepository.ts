@@ -2,7 +2,7 @@ import { PrismaClient, worryWith } from "@prisma/client";
 import prisma from "./prismaClient";
 
 // 카테고리 해당 id 값에 대해서
-const getWorryListByCategoryId = async (categoryId?: number) => {
+const findWorryListByCategoryId = async (categoryId?: number) => {
     const worries = await prisma.worryWith.findMany({
         where: {
             categoryId: categoryId
@@ -44,7 +44,7 @@ const getWorryListByCategoryId = async (categoryId?: number) => {
 }
 
 // 카테고리 : 전체 
-const getWorries = async () => {
+const findWorries = async () => {
 
     const worries = await prisma.worryWith.findMany({
         include: {
@@ -83,4 +83,4 @@ const getWorries = async () => {
     return worryResponse;
 }
 
-export default { getWorryListByCategoryId, getWorries };
+export default { findWorryListByCategoryId, findWorries };

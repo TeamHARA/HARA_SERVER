@@ -4,6 +4,7 @@ import { worryRepository, categoryRepository } from "../repository"
 
 const isTotal = (categoryId: number): boolean => categoryId === 0;
 
+const findWorryListByCategoryId = async (categoryId: number) => {
     const worryWithList = isTotal(categoryId) ? await worryRepository.findWorries() : await worryRepository.findWorryListByCategoryId(categoryId);
 
     const categoryList = await categoryRepository.getCategoryId();
@@ -19,4 +20,4 @@ const isTotal = (categoryId: number): boolean => categoryId === 0;
     return worryWithList;
 };
 
-export default { getWorryListByCategoryId };
+export default { findWorryListByCategoryId };
