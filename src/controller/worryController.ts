@@ -25,14 +25,13 @@ const findWorryListByCategory = async (req: Request, res: Response, next: NextFu
 
 const createWorryVote = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
         const createVoteDTO: CreateVoteDTO = req.body;
 
-        if (!createVoteDTO) {
+        if (!createVoteDTO || !createVoteDTO.userId || !createVoteDTO.optionId || !createVoteDTO.optionId) {
             throw new ClientException("필요한 값이 없습니다.");
         }
 
-        const data = await worryService.createWorryVote(createVoteDTO);
+        await worryService.createWorryVote(createVoteDTO);
 
         return res.status(sc.OK).send(success(statusCode.OK, rm.CREATE_VOTE_SUCCESS));
     } catch (error) {

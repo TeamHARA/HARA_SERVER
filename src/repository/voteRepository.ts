@@ -5,7 +5,7 @@ import prisma from "./prismaClient";
 
 const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
 
-    const createWorryVote = await prisma.vote.create({
+    await prisma.vote.create({
         data: {
             userId: createVoteDTO.userId,
             optionId: createVoteDTO.optionId

@@ -6,13 +6,12 @@ import { CreateVoteDTO } from "../createWorryVoteDTO";
 const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
 
     const worryWith = await worryWithRepository.findById(createVoteDTO.worryWithId);
-    console.log(worryWith);
-
-    const worryOption = await withOptionRepository.findById(createVoteDTO.optionId);
 
     if (!worryWith) {
         throw new ClientException("해당하는 아이디의 걱정글이 존재하지 않습니다");
     }
+
+    const worryOption = await withOptionRepository.findById(createVoteDTO.optionId);
 
     if (!worryOption) {
         throw new ClientException("해당하는 아이디의 선택지가 존재하지 않습니다");
