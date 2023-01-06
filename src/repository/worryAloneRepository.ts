@@ -11,7 +11,6 @@ const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
       data: {
         title: createAloneWorryDTO.title,
         content: createAloneWorryDTO.content,
-        finalOption: null,
         categoryId: createAloneWorryDTO.categoryId,
         userId: createAloneWorryDTO.userId,
       }

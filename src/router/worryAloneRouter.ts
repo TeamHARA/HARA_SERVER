@@ -7,9 +7,12 @@ const router: Router = Router();
 
 
 //[POST] worry/alone
-router.post("/",auth,[body("userId").notEmpty(), body("title").notEmpty(),
-body("content").notEmpty(), body("categoryId").notEmpty(),
-body("options").notEmpty()]
+router.post("/",
+[body("title").notEmpty().withMessage("제목이 비었습니다."),
+body("content").notEmpty().withMessage("내용이 비었습니다."), 
+body("categoryId").notEmpty().withMessage("카테고리 아이디가 비었습니다."),
+body("options").notEmpty().withMessage("선택지가 비었습니다.")]
+, auth
 ,worryAloneController.createAloneWorry);
 
 export default router;

@@ -51,6 +51,7 @@ model randomAnswer {
   content      String     @db.VarChar(500)
   quickWorryId Int
   createdAt    DateTime   @default(now()) @db.Timestamp(6)
+  lastSelected Boolean    @default(false)
   quickWorry   quickWorry @relation(fields: [quickWorryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "quickWorryId")
 }
 
