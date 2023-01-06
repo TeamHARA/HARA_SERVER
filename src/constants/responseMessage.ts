@@ -14,7 +14,7 @@ export default {
 
   // 유저
   READ_USER_SUCCESS: "유저 조회 성공",
-  READ_USER_FAIL: "유저 조회 성공",
+  READ_USER_FAIL: "유저 조회 실패",
   READ_ALL_USERS_SUCCESS: "모든 유저 조회 성공",
   READ_ALL_USERS_FAIL: "모든 유저 조회 실패",
   UPDATE_USER_SUCCESS: "유저 수정 성공",
@@ -22,6 +22,15 @@ export default {
   DELETE_USER_SUCCESS: "유저 탈퇴 성공",
   DELETE_USER_FAIL: "유저 탈퇴 실패",
   NO_USER: "탈퇴했거나 가입하지 않은 유저입니다.",
+
+  // 고민글 
+  READ_WORRYLIST_SUCCESS: "고민글 조회 성공",
+  READ_WORRYLIST_FAIL: "고민글 조회 실패",
+  READ_WORRY_SUCCESS: "고민글 조회 성공",
+  READ_WORRY_FAIL: "고민글 조회 실패",
+
+  //카테고리
+  READ_CATEGORY_FAIL: "카테고리 조회 실패",
 
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
