@@ -32,6 +32,10 @@ export default {
   //카테고리
   READ_CATEGORY_FAIL: "카테고리 조회 실패",
 
+  //투표
+  CREATE_VOTE_SUCCESS: "투표 생성 성공",
+  CREATE_VOTE_FAIL: "투표 생성 실패",
+
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
   EXPIRED_TOKEN: "토큰이 만료되었습니다.",
@@ -44,6 +48,6 @@ export default {
   INTERNAL_SERVER_ERROR: "서버 내 오류",
 
   // 혼자고민
-  UPLOAD_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
-  UPLOAD_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공"
+  CREATE_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
+  CREATE_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공"
 };

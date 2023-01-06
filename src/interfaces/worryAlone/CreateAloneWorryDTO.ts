@@ -5,7 +5,7 @@ interface aloneOption{
     image: string;
 }
 
-export interface UploadWorryAloneDTO {
+export interface CreateAloneWorryDTO {
     userId: number;
     title: string;
     content: string;
