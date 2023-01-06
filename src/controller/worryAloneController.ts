@@ -3,41 +3,30 @@ import { NextFunction, Request, Response } from "express";
 import { rm, sc } from "../constants";
 import { fail, success } from "../constants/response";
 import worryAloneService from '../service/worryAloneService';
-import { validationResult } from 'express-validator';
+import { Result, validationResult } from 'express-validator';
+import validation from '../middlwares/validation';
 
 
-const createAloneWorry = async (req:Request, res:Response, next: NextFunction) => {
+const postAloneWorry = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const createAloneWorryDTO : CreateAloneWorryDTO = req.body;
-        const error = validationResult(req);
-        if(!error.isEmpty()) {
-            return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST))
-        }
 
-        const data = await worryAloneService.createAloneWorry(createAloneWorryDTO);
+        const createAloneWorryDTO: CreateAloneWorryDTO = req.body;
 
-        if(!data){
+        const createdAloneWorry = await worryAloneService.createAloneWorry(createAloneWorryDTO);
+
+        if (!createdAloneWorry) {
             return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR))
         }
 
-    const createdAloneWorry = await worryAloneService.createAloneWorry(createAloneWorryDTO);
-
-    if(!createdAloneWorry){
-        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR))
-    }    
         res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
+
     } catch (error) {
         next(error);
     }
-
-    res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
-
-
-    
 }
 
 const worryAloneController = {
-    createAloneWorry,
+    postAloneWorry,
 
 }
 
