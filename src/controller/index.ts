@@ -1,5 +1,7 @@
+import worryWithController from './worryWithController';
+import worryAloneController from './worryAloneController';
 import worryWithController from "./worryWithController";
-import randomController from "./randomController";
+import worryController from "./worryController";
 
-export { worryWithController, randomController };
-export { default as worryController } from './worryController';
+export { worryWithController, worryAloneController, randomController, worryController };
+
