@@ -30,7 +30,7 @@ export default {
   READ_WORRY_FAIL: "고민글 조회 실패",
 
   //카테고리
-  READ_CATEGORY_FAIL: "없는 카테고리번호 입니다.",
+  READ_CATEGORY_FAIL: "카테고리 조회 실패",
 
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",

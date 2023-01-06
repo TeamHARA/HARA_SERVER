@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { fail, success } from "../constants/response";
 import { rm, sc } from "../constants";
 import { ClientException } from "../common/error/exceptions/customExceptions";
@@ -18,7 +18,7 @@ const getWorryListByCategory = async (req: Request, res: Response) => {
         return res.status(sc.OK).send(success(statusCode.OK, rm.READ_WORRYLIST_SUCCESS, data));
 
     } catch (error) {
-        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.READ_WORRYLIST_FAIL));
+        next(error);
     }
 };
 
