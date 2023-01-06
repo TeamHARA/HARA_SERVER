@@ -1,10 +1,11 @@
-
+import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository } from "../repository"
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
+
   if (!worryWith) {
     throw new ClientException("해당하는 아이디의 걱정글이 존재하지 않습니다");
   }
@@ -14,13 +15,13 @@ const chooseFinalOption = async (userId: number, worryWithId: number, optionId: 
   }
 
   const chosenOption = await withOptionRepository.findById(optionId);
+
   if (!chosenOption) {
     throw new ClientException("해당하는 아이디의 옵션이 존재하지 않습니다");
   }
 
   await worryWithRepository.updateFinalOptionById(worryWithId, optionId);
 };
-
 
 //~ 카테고리 별 목록조회
 const isTotal = (categoryId: number): boolean => categoryId === 0;
@@ -41,4 +42,19 @@ const findWorryListByCategoryId = async (categoryId: number) => {
   return worryWithList;
 };
 
-export default { chooseFinalOption, findWorryListByCategoryId };
+const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
+  const withWorry = await worryWithRepository.createWithWorry(createWithWorryDTO);
+  if(!withWorry){
+    throw new ClientException();
+
+  }
+
+  return withWorry;
+
+}
+
+const findWithWorry =async (userId:number) => {
+  
+}
+
+export default { chooseFinalOption, createWithWorry, findWithWorry, findWorryListByCategoryId };
