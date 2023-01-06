@@ -8,15 +8,15 @@ datasource db {
 }
 
 model aloneOption {
-  id                                             Int          @id(map: "AloneOption_pkey") @unique @default(autoincrement())
-  worryAloneId                                   Int
-  title                                          String       @db.VarChar(200)
-  advantage                                      String?      @db.VarChar(50)
-  disadvantage                                   String?      @db.VarChar(200)
-  image                                          String?      @db.VarChar(100)
-  isSelected                                     Boolean?     @default(false)
-  worryAlone                                     worryAlone   @relation(fields: [worryAloneId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryAloneId")
-  worryAlone_worryAlone_finalOptionToaloneOption worryAlone[] @relation("worryAlone_finalOptionToaloneOption")
+  id                                              Int          @id(map: "AloneOption_pkey") @unique @default(autoincrement())
+  worryAloneId                                    Int
+  title                                           String       @db.VarChar(200)
+  advantage                                       String?      @db.VarChar(50)
+  disadvantage                                    String?      @db.VarChar(200)
+  image                                           String?      @db.VarChar(100)
+  isSelected                                      Boolean?     @default(false)
+  worryAlone_aloneOption_worryAloneIdToworryAlone worryAlone   @relation("aloneOption_worryAloneIdToworryAlone", fields: [worryAloneId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryAloneId")
+  worryAlone_worryAlone_finalOptionToaloneOption  worryAlone[] @relation("worryAlone_finalOptionToaloneOption")
 }
 
 model category {
@@ -86,23 +86,23 @@ model withOption {
   image                                       String?     @db.VarChar(300)
   hasImage                                    Boolean     @default(false)
   vote                                        vote[]
-  worryWith                                   worryWith   @relation(fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
+  worryWith_withOption_worryWithIdToworryWith worryWith   @relation("withOption_worryWithIdToworryWith", fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
   worryWith_worryWith_finalOptionTowithOption worryWith[] @relation("worryWith_finalOptionTowithOption")
 }
 
 model worryAlone {
-  id                                              Int           @id @unique @default(autoincrement())
-  title                                           String        @db.VarChar(60)
-  content                                         String        @db.VarChar(4000)
-  finalOption                                     Int?
-  createdAt                                       DateTime      @default(now()) @db.Timestamp(6)
-  updatedAt                                       DateTime      @default(now()) @db.Timestamp(6)
-  categoryId                                      Int
-  userId                                          Int
-  aloneOption                                     aloneOption[]
-  category                                        category      @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
-  aloneOption_worryAlone_finalOptionToaloneOption aloneOption?  @relation("worryAlone_finalOptionToaloneOption", fields: [finalOption], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "finalOption")
-  user                                            user          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
+  id                                               Int           @id @unique @default(autoincrement())
+  title                                            String        @db.VarChar(60)
+  content                                          String        @db.VarChar(4000)
+  finalOption                                      Int?
+  createdAt                                        DateTime      @default(now()) @db.Timestamp(6)
+  updatedAt                                        DateTime      @default(now()) @db.Timestamp(6)
+  categoryId                                       Int
+  userId                                           Int
+  aloneOption_aloneOption_worryAloneIdToworryAlone aloneOption[] @relation("aloneOption_worryAloneIdToworryAlone")
+  category                                         category      @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
+  aloneOption_worryAlone_finalOptionToaloneOption  aloneOption?  @relation("worryAlone_finalOptionToaloneOption", fields: [finalOption], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "finalOption")
+  user                                             user          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
 }
 
 model worryWith {
@@ -119,7 +119,7 @@ model worryWith {
   isAuthor                                     Boolean      @default(false)
   isVoted                                      Boolean      @default(false)
   comment                                      comment[]
-  withOption                                   withOption[]
+  withOption                                   withOption[] @relation("withOption_worryWithIdToworryWith")
   category                                     category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")
   withOption_worryWith_finalOptionTowithOption withOption?  @relation("worryWith_finalOptionTowithOption", fields: [finalOption], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "finalOption")
   user                                         user         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
