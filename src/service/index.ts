@@ -1,7 +1,6 @@
 import worryWithService from "./worryWithService";
 import worryAloneService from "./worryAloneService";
-import worryService from "./worryService";
 import randomService from "./randomService";
+import voteService from "./voteService";
 
-export { worryWithService, worryAloneService, randomService, worryService };
-
+export { worryWithService, worryAloneService, randomService, voteService };
