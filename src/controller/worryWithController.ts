@@ -23,7 +23,6 @@ const updateFinalOption = async (req: Request, res: Response, next: NextFunction
 const postWithWorry = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const createWithWorryDTO: CreateWithWorryDTO  = req.body;
-    //console.log(createWithWorryDTO);
     
     if (!createWithWorryDTO.userId ) {
       throw new ClientException("필요한 값이 없습니다.");
@@ -42,7 +41,7 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
     const { withWorryId } = req.params;
     
     if (!withWorryId) {
-      throw new ClientException("필요한 값이 없습니다.");
+      throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
     const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);

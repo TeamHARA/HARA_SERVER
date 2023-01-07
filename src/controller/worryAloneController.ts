@@ -15,7 +15,7 @@ const postAloneWorry = async (req: Request, res: Response, next: NextFunction) =
         const createdAloneWorry = await worryAloneService.createAloneWorry(createAloneWorryDTO);
 
         if (!createdAloneWorry) {
-            return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR))
+            return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.CREATE_WORRY_ALONE_ERROR))
         }
 
         res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
