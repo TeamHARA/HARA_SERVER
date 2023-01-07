@@ -65,9 +65,14 @@ const patchWorryAlone = async (req: Request, res: Response, next: NextFunction) 
             return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
         }
 
-        const { worryAloneId, chosenOptionId } = req.body;
+        const { userId, worryAloneId, chosenOptionId } = req.body;
 
-        // service - 결정하기
+        await worryAloneService.chooseFinalOption({
+            userId,
+            aloneWorryId: worryAloneId,
+            chosenOptionId,
+        })
+
         res.status(sc.OK).send(success(sc.OK, rm.CHOOSE_ALONE_OPTION_SUCCESS));
     } catch (error) {
         next(error);

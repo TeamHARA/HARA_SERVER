@@ -43,9 +43,9 @@ const chooseFinalOption = async (chooseAloneWorryDTO: ChooseAloneWorryDTO) => {
   if (aloneWorry.userId != userId) {
     throw new ClientException("작성자가 아닙니다", statusCode.FORBIDDEN);
   }
-  const chosenOption = await aloneOptionRepository.findById(chosenOptionId);
+  const chosenOption = await aloneOptionRepository.findByIdAndWorryId(chosenOptionId, aloneWorryId);
   if (!chosenOption) {
-    throw new ClientException("해당하는 아이디의 선택지가 존재하지 않습니다");
+    throw new ClientException("해당 고민글의 선택지 아이디가 아닙니다.");
   }
   await worryAloneRepository.updateFinalOption(aloneWorryId, chosenOptionId);
 }
