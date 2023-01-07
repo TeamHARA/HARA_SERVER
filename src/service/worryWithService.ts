@@ -26,6 +26,10 @@ const chooseFinalOption = async (
     );
   }
 
+  if (worryWith.finalOption) {
+    throw new ClientException("이미 최종 결정된 고민글입니다.");
+  }
+
   const chosenOption = await withOptionRepository.findById(optionId);
 
   if (!chosenOption) {
