@@ -48,9 +48,8 @@ const getAloneWorry = async (
   next: NextFunction
 ) => {
   try {
-    const { ifsolved } = req.body;
-    const aloneWorries = await worryAloneService.readAloneWorry(ifsolved);
-    res;
+    const { ifSolved } = req.body;
+    const aloneWorries = await worryAloneService.readAloneWorry(ifSolved);
     res
       .status(sc.OK)
       .send(success(sc.OK, rm.READ_ALONEWORRY_SUCCESS, aloneWorries));
