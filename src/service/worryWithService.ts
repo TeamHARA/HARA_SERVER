@@ -43,18 +43,39 @@ const findWorryListByCategoryId = async (categoryId: number) => {
 };
 
 const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
-  const withWorry = await worryWithRepository.createWithWorry(createWithWorryDTO);
-  if(!withWorry){
-    throw new ClientException();
+  const createWithWorryData = await worryWithRepository.createWithWorry(createWithWorryDTO);
+  if(!createWithWorryData){
+    throw new ClientException("함께고민글 생성 실패");
 
   }
 
-  return withWorry;
+  return createWithWorryData;
 
 }
 
-const findWithWorry =async (userId:number) => {
+const findWithWorryDetail =async (withWorryId:number) => {
+  const findWithWorryData = await worryWithRepository.findWithWorryDetail(withWorryId);
+  if(!findWithWorryData){
+    throw new ClientException("함께고민글 상세조회 고민데이터 불러오기 실패");
+
+  }
+  console.log(findWithWorryData);
+
+  return findWithWorryData;
+
+}
+
+const findOptionsWithWorryId =async (withWorryId:number) => {
+  const findWithOptionData = await worryWithRepository.findOptionsWithWorryId(withWorryId);
+  if(!findWithOptionData){
+    throw new ClientException("함께고민글 상세조회 선택지데이터 불러오기 실패");
+
+  }
+  console.log(findWithOptionData);
+
+  return findWithOptionData;
+
   
 }
 
-export default { chooseFinalOption, createWithWorry, findWithWorry, findWorryListByCategoryId };
+export default { chooseFinalOption, createWithWorry, findWithWorryDetail, findWorryListByCategoryId, findOptionsWithWorryId };

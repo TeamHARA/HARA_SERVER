@@ -17,6 +17,6 @@ router.post("/",
     validation,
     worryWithController.postWithWorry
 );
-router.get(":/worryId",auth, worryWithController.getWithWorry);
+router.get("/:withWorryId",auth, worryWithController.getWithWorryDetail);
 
 export default router;

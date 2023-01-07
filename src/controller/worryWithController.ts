@@ -1,3 +1,4 @@
+import { category } from '@prisma/client';
 import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { NextFunction, Request, Response } from "express";
 import { ClientException } from "../common/error/exceptions/customExceptions";
@@ -36,16 +37,29 @@ const postWithWorry = async (req: Request, res: Response, next: NextFunction) =>
 
 };
 
-const getWithWorry =async (req:Request, res: Response, next: NextFunction) => {
+const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
   try {
-    const { userId } = req.body;
-    if (!userId) {
+    const { withWorryId } = req.params;
+    
+    if (!withWorryId) {
       throw new ClientException("필요한 값이 없습니다.");
     }
-    
-    await worryWithService.findWithWorry(userId);
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 생성 성공"));
+    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
+    const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
+    
+    
+    const result = {
+      isAuthor: gotWithWorryDetail.isAuthor,
+      isVoted: gotWithWorryDetail.isVoted,
+      createdAt: gotWithWorryDetail.createdAt,
+      worryTitle: gotWithWorryDetail.title,
+      worryContent: gotWithWorryDetail.content,
+      category: gotWithWorryDetail.content,
+      options: options,
+    }
+
+    res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", result));
   } catch (error) {
     next(error);
   }
@@ -53,4 +67,4 @@ const getWithWorry =async (req:Request, res: Response, next: NextFunction) => {
   
 }
 
-export default { updateFinalOption,postWithWorry,getWithWorry };
+export default { updateFinalOption,postWithWorry,getWithWorryDetail };
