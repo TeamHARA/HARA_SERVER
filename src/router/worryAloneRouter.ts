@@ -5,6 +5,7 @@ import { body } from "express-validator";
 
 const router: Router = Router();
 
+router.get("/", auth, worryAloneController.getAloneWorry);
 //[POST] worry/alone
 router.post(
   "/",
