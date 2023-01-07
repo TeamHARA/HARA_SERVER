@@ -15,8 +15,20 @@ const findByIdAndWorryId = async (id: number, worryId: number) => {
   });
 }
 
+const updateIsSelectedById = async (id: number, isSelected: boolean) => {
+  await prisma.aloneOption.update({
+    where: {
+      id
+    },
+    data: {
+      isSelected
+    }
+  })
+}
+
 
 export default {
   findById,
-  findByIdAndWorryId
+  findByIdAndWorryId,
+  updateIsSelectedById
 };

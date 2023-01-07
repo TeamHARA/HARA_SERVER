@@ -34,6 +34,11 @@ const compareNotFinishedWorryFirst = (
   return -1;
 };
 
+const updateFinalOption = async (aloneWorryId: number, chosenOptionId: number) => {
+  await worryAloneRepository.updateFinalOption(aloneWorryId, chosenOptionId);
+  await aloneOptionRepository.updateIsSelectedById(chosenOptionId, true);
+}
+
 const chooseFinalOption = async (chooseAloneWorryDTO: ChooseAloneWorryDTO) => {
   const { aloneWorryId, userId, chosenOptionId } = chooseAloneWorryDTO;
   const aloneWorry = await worryAloneRepository.findById(aloneWorryId);
@@ -43,11 +48,14 @@ const chooseFinalOption = async (chooseAloneWorryDTO: ChooseAloneWorryDTO) => {
   if (aloneWorry.userId != userId) {
     throw new ClientException("작성자가 아닙니다", statusCode.FORBIDDEN);
   }
+  if (aloneWorry.finalOption) {
+    throw new ClientException("이미 최종 결정된 고민글입니다.");
+  }
   const chosenOption = await aloneOptionRepository.findByIdAndWorryId(chosenOptionId, aloneWorryId);
   if (!chosenOption) {
     throw new ClientException("해당 고민글의 선택지 아이디가 아닙니다.");
   }
-  await worryAloneRepository.updateFinalOption(aloneWorryId, chosenOptionId);
+  await updateFinalOption(aloneWorryId, chosenOptionId);
 }
 
 const compareFinishedWorryFirst = (
