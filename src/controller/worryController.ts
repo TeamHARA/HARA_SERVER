@@ -4,7 +4,7 @@ import { rm, sc } from "../constants";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { voteService, worryWithService } from "../service";
-import { CreateVoteDTO } from "../createWorryVoteDTO";
+import { CreateVoteDTO } from "../worryVoteDTO";
 
 const findWorryListByCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -14,7 +14,7 @@ const findWorryListByCategory = async (req: Request, res: Response, next: NextFu
             throw new ClientException("필요한 Param 값이 없습니다.");
         }
 
-        const data = await worryWithService.findWorryListByCategoryId(+categoryId);
+        const data = await worryWithService.findWorryListByCategoryId(+categoryId, +req.body.userId);
 
         return res.status(sc.OK).send(success(statusCode.OK, rm.READ_WORRYLIST_SUCCESS, data));
 

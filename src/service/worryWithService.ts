@@ -1,7 +1,7 @@
 import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
-import { withOptionRepository, worryWithRepository, categoryRepository } from "../repository"
+import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
@@ -26,7 +26,9 @@ const chooseFinalOption = async (userId: number, worryWithId: number, optionId: 
 //~ 카테고리 별 목록조회
 const isTotal = (categoryId: number): boolean => categoryId === 0;
 
-const findWorryListByCategoryId = async (categoryId: number) => {
+
+const findWorryListByCategoryId = async (categoryId: number, userId: number) => {
+
   const worryWithList = isTotal(categoryId) ? await worryWithRepository.findWorries() : await worryWithRepository.findWorryListByCategoryId(categoryId);
 
   const categoryList = await categoryRepository.getCategoryId();
@@ -39,22 +41,19 @@ const findWorryListByCategoryId = async (categoryId: number) => {
     throw new ClientException("없는 카테고리입니다");
   }
 
-  return worryWithList;
+  return worryWithResponse;
 };
 
-const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
+const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
   const withWorry = await worryWithRepository.createWithWorry(createWithWorryDTO);
-  if(!withWorry){
+  if (!withWorry) {
     throw new ClientException();
-
   }
-
   return withWorry;
-
 }
 
-const findWithWorry =async (userId:number) => {
-  
+const findWithWorry = async (userId: number) => {
+
 }
 
 export default { chooseFinalOption, createWithWorry, findWithWorry, findWorryListByCategoryId };
