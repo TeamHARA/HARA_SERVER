@@ -1,4 +1,4 @@
-import { PrismaClient, worryWith } from "@prisma/client";
+import { worryWith } from "@prisma/client";
 import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import prisma from "./prismaClient";
 
@@ -6,7 +6,7 @@ import prisma from "./prismaClient";
 const findWorryListByCategoryId = async (categoryId?: number) => {
   const worries = await prisma.worryWith.findMany({
     where: {
-      categoryId: categoryId
+      categoryId: categoryId,
     },
     include: {
       category: true,
@@ -16,8 +16,8 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
           worryWithId: true,
           title: true,
           image: true,
-          hasImage: true
-        }
+          hasImage: true,
+        },
       },
     },
   });
@@ -36,17 +36,16 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
         isVoted: worryWith.isVoted,
         commentOn: worryWith.commentOn,
         commentCount: worryWith.commentCount,
-        option: worryWith.withOption
+        option: worryWith.withOption,
       };
       return data;
-    }),
+    })
   );
   return worryResponse;
-}
+};
 
-// 카테고리 : 전체 
+// 카테고리 : 전체
 const findWorries = async () => {
-
   const worries = await prisma.worryWith.findMany({
     include: {
       category: true,
@@ -56,8 +55,8 @@ const findWorries = async () => {
           worryWithId: true,
           title: true,
           image: true,
-          hasImage: true
-        }
+          hasImage: true,
+        },
       },
     },
   });
@@ -76,35 +75,34 @@ const findWorries = async () => {
         isVoted: worryWith.isVoted,
         commentOn: worryWith.commentOn,
         commentCount: worryWith.commentCount,
-        option: worryWith.withOption
+        option: worryWith.withOption,
       };
       return data;
-    }),
+    })
   );
   return worryResponse;
-}
+};
 
 const findById = async (id: number): Promise<worryWith | null> => {
   return prisma.worryWith.findUnique({
     where: {
-      id
-    }
+      id,
+    },
   });
 };
 
 const updateFinalOptionById = async (id: number, optionId: number) => {
   await prisma.worryWith.update({
     where: {
-      id
+      id,
     },
     data: {
-      finalOption: optionId
-    }
+      finalOption: optionId,
+    },
   });
 };
 
-const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO)=>{
-
+const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
   const worryData = await prisma.worryWith.create({
     data: {
       title: createWithWorryDTO.title,
@@ -113,30 +111,56 @@ const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO)=>{
       categoryId: createWithWorryDTO.categoryId,
       userId: createWithWorryDTO.userId,
       commentOn: createWithWorryDTO.commentOn,
-      isAuthor: true, //일단은 true 로 해놨음..      
-    }
-});
+      isAuthor: true, //일단은 true 로 해놨음..
+    },
+  });
 
-const options = createWithWorryDTO.options;
+  const options = createWithWorryDTO.options;
 
-for(var i=0;i<options.length;i++){
-  const optionData= await prisma.withOption.create({
-    
-    data:{
+  for (var i = 0; i < options.length; i++) {
+    const optionData = await prisma.withOption.create({
+      data: {
         worryWithId: worryData.id,
         title: options[i].title,
         advantage: options[i].advantage,
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-        
+      },
+    });
+  } //for
 
-      }
+  return worryData;
+};
+const findWithWorries = async () => {
+  const worries = await prisma.worryWith.findMany({
+    select: {
+      id: true,
+      categoryId: true,
+      content: true,
+      createdAt: true,
+      finalOption: true,
+    },
   });
 
-}//for 
+  return worries;
+};
 
-return worryData;
-}
+const findFinalOption = async () => {
+  const optionNumber = await prisma.worryWith.findMany({
+    select: {
+      finalOption: true,
+      createdAt: true,
+    },
+  });
+};
 
-export default { findById, updateFinalOptionById, findWorryListByCategoryId, findWorries, createWithWorry };
+export default {
+  findWorryListByCategoryId,
+  findWorries,
+  findById,
+  updateFinalOptionById,
+  createWithWorry,
+  findWithWorries,
+  findFinalOption,
+};
