@@ -40,8 +40,6 @@ const createAloneWorry = async (
   } catch (error) {
     next(error);
   }
-
-  res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
 };
 
 const worryAloneController = {
