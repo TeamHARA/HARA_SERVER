@@ -21,32 +21,11 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
       },
     },
   });
-
-  // response객체를 flattening을 해주는 작업
-  const worryResponse = await Promise.all(
-    worries.map(async (worryWith: any) => {
-      const data = {
-        worryId: worryWith.id,
-        title: worryWith.title,
-        content: worryWith.content,
-        createdAt: worryWith.createdAt,
-        category: worryWith.category.name,
-        selectedOptionId: worryWith.finalOption,
-        isAuthor: worryWith.isAuthor,
-        isVoted: worryWith.isVoted,
-        commentOn: worryWith.commentOn,
-        commentCount: worryWith.commentCount,
-        option: worryWith.withOption
-      };
-      return data;
-    }),
-  );
-  return worryResponse;
+  return worries;
 }
 
 // 카테고리 : 전체 
 const findWorries = async () => {
-
   const worries = await prisma.worryWith.findMany({
     include: {
       category: true,
@@ -61,27 +40,7 @@ const findWorries = async () => {
       },
     },
   });
-
-  // response객체를 flattening을 해주는 작업
-  const worryResponse = await Promise.all(
-    worries.map(async (worryWith: any) => {
-      const data = {
-        worryId: worryWith.id,
-        title: worryWith.title,
-        content: worryWith.content,
-        createdAt: worryWith.createdAt,
-        category: worryWith.category.name,
-        selectedOptionId: worryWith.finalOption,
-        isAuthor: worryWith.isAuthor,
-        isVoted: worryWith.isVoted,
-        commentOn: worryWith.commentOn,
-        commentCount: worryWith.commentCount,
-        option: worryWith.withOption
-      };
-      return data;
-    }),
-  );
-  return worryResponse;
+  return worries;
 }
 
 const findById = async (id: number): Promise<worryWith | null> => {
@@ -103,7 +62,7 @@ const updateFinalOptionById = async (id: number, optionId: number) => {
   });
 };
 
-const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO)=>{
+const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
 
   const worryData = await prisma.worryWith.create({
     data: {
@@ -115,28 +74,24 @@ const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO)=>{
       commentOn: createWithWorryDTO.commentOn,
       isAuthor: true, //일단은 true 로 해놨음..      
     }
-});
+  });
 
-const options = createWithWorryDTO.options;
+  const options = createWithWorryDTO.options;
 
-for(var i=0;i<options.length;i++){
-  const optionData= await prisma.withOption.create({
-    
-    data:{
+  for (var i = 0; i < options.length; i++) {
+    const optionData = await prisma.withOption.create({
+      data: {
         worryWithId: worryData.id,
         title: options[i].title,
         advantage: options[i].advantage,
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-        
-
       }
-  });
+    });
+  }//for 
 
-}//for 
-
-return worryData;
+  return worryData;
 }
 
 export default { findById, updateFinalOptionById, findWorryListByCategoryId, findWorries, createWithWorry };

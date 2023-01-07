@@ -31,6 +31,38 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
 
   const worryWithList = isTotal(categoryId) ? await worryWithRepository.findWorries() : await worryWithRepository.findWorryListByCategoryId(categoryId);
 
+  const worryWithResponse = await Promise.all(
+    worryWithList.map(async (worryWith: any) => {
+
+      //! isVoted 로직
+      var isVoted: boolean = false;
+      //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
+      const findWithOptionByWorryWithId = await withOptionRepository.findByWorryWithId(worryWith.id);
+
+      //~ vote한 선택지 id(optionId)를 가져와, 현재 userId가 투표한 리스트가 있는지 반환한다. 
+      //!TODO : 유저가 선택지 하나만 투표할 수 있도록
+      for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
+        const countVoteListByUserId = await (await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id)).filter(v => v.userId == userId).length;
+        isVoted = (countVoteListByUserId > 0) ? true : false;
+      }
+
+      const data = {
+        worryId: worryWith.id,
+        title: worryWith.title,
+        content: worryWith.content,
+        createdAt: worryWith.createdAt,
+        category: worryWith.category.name,
+        selectedOptionId: worryWith.finalOption,
+        isAuthor: (worryWith.userId == userId) ? true : false,
+        isVoted: isVoted,
+        commentOn: worryWith.commentOn,
+        commentCount: worryWith.commentCount,
+        option: worryWith.withOption
+      };
+      return data;
+    }),
+  );
+
   const categoryList = await categoryRepository.getCategoryId();
 
   if (!categoryList) {
