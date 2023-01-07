@@ -8,6 +8,9 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
     where: {
       categoryId: categoryId
     },
+    orderBy: {
+      id: "asc"
+    },
     include: {
       category: true,
       withOption: {
@@ -38,6 +41,9 @@ const findWorries = async () => {
           hasImage: true
         }
       },
+    },
+    orderBy: {
+      id: "asc"
     },
   });
   return worries;
