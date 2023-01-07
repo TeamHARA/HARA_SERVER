@@ -57,4 +57,5 @@ export default {
   // 혼자고민
   CREATE_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
   CREATE_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공",
+  CHOOSE_ALONE_OPTION_SUCCESS: "혼자고민 결정하기 성공"
 };

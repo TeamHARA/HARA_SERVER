@@ -26,4 +26,13 @@ router.post(
   worryAloneController.createAloneWorry
 );
 
+router.patch("/",
+  auth,
+  [
+    body("userId").notEmpty(),
+    body("worryAloneId").notEmpty(),
+    body("chosenOptionId").notEmpty()
+  ],
+  worryAloneController.patchWorryAlone);
+
 export default router;
