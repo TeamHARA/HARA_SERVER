@@ -82,7 +82,7 @@ const getWithWorry = async (
     const withWorries = await worryWithService.readWithWorry(ifsolved);
     res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, "함꼐고민 조회 성공", withWorries));
+      .send(success(statusCode.OK, "함께고민 조회 성공", withWorries));
   } catch (error) {
     next(error);
   }
