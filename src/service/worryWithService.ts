@@ -1,3 +1,4 @@
+import { withOption } from '@prisma/client';
 import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
@@ -36,14 +37,34 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
 
       //! isVoted 로직
       var isVoted: boolean = false;
+      var percentage: number = 0;
+      var countAllVote: number = 0;
       //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
       const findWithOptionByWorryWithId = await withOptionRepository.findByWorryWithId(worryWith.id);
 
-      //~ vote한 선택지 id(optionId)를 가져와, 현재 userId가 투표한 리스트가 있는지 반환한다. 
       //!TODO : 유저가 선택지 하나만 투표할 수 있도록
-      for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
-        const countVoteListByUserId = await (await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id)).filter(v => v.userId == userId).length;
-        isVoted = (countVoteListByUserId > 0) ? true : false;
+      for (var i = 0; i < worryWith.withOption.length; i++) {
+        const findVoteListByOptionId = await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
+        //! isVoted - 현재 로그인한 유저의 vote 결과를 가져와서 하나 이상이면 true
+        isVoted = (findVoteListByOptionId.filter(v => v.userId == userId).length > 0) ? true : false;
+        //! 해당 게시글의 전체 투표 개수
+        countAllVote += findVoteListByOptionId.length;
+      }
+
+      //! percentage 계산 & option 작업
+      const option: Array<object> = [];
+      for (var i = 0; i < worryWith.withOption.length; i++) {
+        //~ 해당 게시글의 optionId당 vote 결과
+        const findVoteListByOptionId = await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
+        percentage = findVoteListByOptionId.length / countAllVote;
+        option.push({
+          id: worryWith.withOption[i].id,
+          worryWithId: worryWith.withOption[i].worryWithId,
+          title: worryWith.withOption[i].title,
+          image: worryWith.withOption[i].image,
+          hasImage: worryWith.withOption[i].hasImage,
+          percentage: Math.round(percentage * 100)
+        });
       }
 
       const data = {
@@ -57,7 +78,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
         isVoted: isVoted,
         commentOn: worryWith.commentOn,
         commentCount: worryWith.commentCount,
-        option: worryWith.withOption
+        option: option
       };
       return data;
     }),
