@@ -42,8 +42,26 @@ const createAloneWorry = async (
   }
 };
 
+const getAloneWorry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { ifsolved } = req.body;
+    const aloneWorries = await worryAloneService.readAloneWorry(ifsolved);
+    res;
+    res
+      .status(sc.OK)
+      .send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS, aloneWorries));
+  } catch (error) {
+    next(error);
+  }
+};
+
 const worryAloneController = {
   createAloneWorry,
+  getAloneWorry,
 };
 
 export default worryAloneController;
