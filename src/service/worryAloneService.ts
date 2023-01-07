@@ -1,8 +1,10 @@
 import { CreateAloneWorryDTO } from "../interfaces/worryAlone/CreateAloneWorryDTO";
 import { worryAloneRepository } from "../repository";
+import aloneOptionRepository from '../repository/aloneOptionRepository';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { WorryAlonePreview } from "../interfaces/worryAlone/WorryAlonePreview";
+import ChooseAloneWorryDTO from '../interfaces/worryAlone/ChooseAloneWorryDTO';
 
 const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
   const aloneWorry = await worryAloneRepository.createAloneWorry(
@@ -32,6 +34,22 @@ const compareNotFinishedWorryFirst = (
   return -1;
 };
 
+const chooseFinalOption = async (chooseAloneWorryDTO: ChooseAloneWorryDTO) => {
+  const { aloneWorryId, userId, chosenOptionId } = chooseAloneWorryDTO;
+  const aloneWorry = await worryAloneRepository.findById(aloneWorryId);
+  if (!aloneWorry) {
+    throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다");
+  }
+  if (aloneWorry.userId != userId) {
+    throw new ClientException("작성자가 아닙니다", statusCode.FORBIDDEN);
+  }
+  const chosenOption = await aloneOptionRepository.findById(chosenOptionId);
+  if (!chosenOption) {
+    throw new ClientException("해당하는 아이디의 선택지가 존재하지 않습니다");
+  }
+  await worryAloneRepository.updateFinalOption(aloneWorryId, chosenOptionId);
+}
+
 const compareFinishedWorryFirst = (
   a: WorryAlonePreview,
   b: WorryAlonePreview
@@ -60,9 +78,8 @@ const readAloneWorry = async (choiceEndedFirst: boolean) => {
   return sortedWorries;
 };
 
-const worryAloneService = {
+export default {
   createAloneWorry,
+  chooseFinalOption,
   readAloneWorry,
 };
-
-export default worryAloneService;
