@@ -23,4 +23,8 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     await voteRepository.createWorryVote(createVoteDTO);
 };
 
-export default { createWorryVote };
+const findWorryVoteByUserId = async (findVoteDTO: findVoteDTO) => {
+    return await voteRepository.findVoteListByOptionId(findVoteDTO.userId);
+};
+
+export default { createWorryVote, findWorryVoteByUserId };

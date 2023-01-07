@@ -4,7 +4,7 @@ import { auth } from '../middlwares';
 
 const worryRouter: Router = Router();
 
-worryRouter.get("/:categoryId", worryController.findWorryListByCategory);
+worryRouter.get("/:categoryId", auth, worryController.findWorryListByCategory);
 worryRouter.post("/", auth, worryController.createWorryVote);
 
 export default worryRouter;
