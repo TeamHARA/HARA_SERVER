@@ -56,7 +56,7 @@ const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
 const findWithWorryDetail =async (withWorryId:number) => {
   const findWithWorryData = await worryWithRepository.findWithWorryDetail(withWorryId);
   if(!findWithWorryData){
-    throw new ClientException("함께고민글 상세조회 고민데이터 불러오기 실패");
+    throw new ClientException("해당 고민아이디의 고민글이 존재하지 않습니다.");
 
   }
   console.log(findWithWorryData);
@@ -68,7 +68,7 @@ const findWithWorryDetail =async (withWorryId:number) => {
 const findOptionsWithWorryId =async (withWorryId:number) => {
   const findWithOptionData = await worryWithRepository.findOptionsWithWorryId(withWorryId);
   if(!findWithOptionData){
-    throw new ClientException("함께고민글 상세조회 선택지데이터 불러오기 실패");
+    throw new ClientException("해당 고민아이디의 선택지가 존재하지 않습니다.");
 
   }
   console.log(findWithOptionData);

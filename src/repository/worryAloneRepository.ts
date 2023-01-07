@@ -8,27 +8,27 @@ import prisma from "./prismaClient";
 const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
 
   const worryData = await prisma.worryAlone.create({
-      data: {
-        title: createAloneWorryDTO.title,
-        content: createAloneWorryDTO.content,
-        categoryId: createAloneWorryDTO.categoryId,
-        userId: createAloneWorryDTO.userId,
-      }
+    data: {
+      title: createAloneWorryDTO.title,
+      content: createAloneWorryDTO.content,
+      categoryId: createAloneWorryDTO.categoryId,
+      userId: createAloneWorryDTO.userId,
+    }
   });
 
   const options = createAloneWorryDTO.options;
 
-  for(var i=0;i<options.length;i++){
-    const optionData= await prisma.aloneOption.create({
-      
-      data:{
-          worryAloneId: worryData.id,
-          title: options[i].title,
-          advantage: options[i].advantage,
-          disadvantage: options[i].disadvantage,
-          image: options[i].image,
-  
-        }
+  for (var i = 0; i < options.length; i++) {
+    const optionData = await prisma.aloneOption.create({
+
+      data: {
+        worryAloneId: worryData.id,
+        title: options[i].title,
+        advantage: options[i].advantage,
+        disadvantage: options[i].disadvantage,
+        image: options[i].image,
+
+      }
     });
 
   }//for 
