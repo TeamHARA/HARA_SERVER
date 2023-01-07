@@ -69,7 +69,7 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
 
 const findWithWorry = async (userId: number) => {};
 
-const compareChoiceNotEndedFirst = (
+const compareNotFinishedWorryFirst = (
   a: WorryWithPreview,
   b: WorryWithPreview
 ) => {
@@ -87,7 +87,10 @@ const compareChoiceNotEndedFirst = (
   return -1;
 };
 
-const compareChoiceEndedFirst = (a: WorryWithPreview, b: WorryWithPreview) => {
+const compareFinishedWorryFirst = (
+  a: WorryWithPreview,
+  b: WorryWithPreview
+) => {
   const aOption = a.finalOption || 0;
   const bOption = b.finalOption || 0;
   if (aOption < bOption) {
@@ -106,8 +109,8 @@ const readWithWorry = async (choiceEndedFirst: boolean) => {
   const readWorry = await worryWithRepository.findWithWorries();
 
   const compare = choiceEndedFirst
-    ? compareChoiceEndedFirst
-    : compareChoiceNotEndedFirst;
+    ? compareFinishedWorryFirst
+    : compareNotFinishedWorryFirst;
   const sortedWorries = readWorry.sort(compare);
   return sortedWorries;
 };
