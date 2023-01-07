@@ -59,7 +59,6 @@ const findWithWorryDetail =async (withWorryId:number) => {
     throw new ClientException("해당 고민아이디의 고민글이 존재하지 않습니다.");
 
   }
-  console.log(findWithWorryData);
 
   return findWithWorryData;
 
@@ -71,10 +70,8 @@ const findOptionsWithWorryId =async (withWorryId:number) => {
     throw new ClientException("해당 고민아이디의 선택지가 존재하지 않습니다.");
 
   }
-  console.log(findWithOptionData);
 
   return findWithOptionData;
-
   
 }
 
