@@ -4,6 +4,7 @@ import { ClientException } from "../common/error/exceptions/customExceptions";
 import { success } from "../constants/response";
 import statusCode from "../constants/statusCode";
 import { worryWithService } from "../service";
+import { rm, sc } from "../constants";
 
 const updateFinalOption = async (
   req: Request,
@@ -82,7 +83,7 @@ const getWithWorry = async (
     const withWorries = await worryWithService.readWithWorry(ifsolved);
     res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, "함께고민 조회 성공", withWorries));
+      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
   } catch (error) {
     next(error);
   }

@@ -53,7 +53,7 @@ const getAloneWorry = async (
     res;
     res
       .status(sc.OK)
-      .send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS, aloneWorries));
+      .send(success(sc.OK, rm.READ_ALONEWORRY_SUCCESS, aloneWorries));
   } catch (error) {
     next(error);
   }
