@@ -19,28 +19,19 @@ const createAloneWorry = async (
         .send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST));
     }
 
-    const data = await worryAloneService.createAloneWorry(createAloneWorryDTO);
 
-    if (!data) {
-      return res
-        .status(sc.BAD_REQUEST)
-        .send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR));
-    }
-
-    const createdAloneWorry = await worryAloneService.createAloneWorry(
-      createAloneWorryDTO
-    );
+    const createdAloneWorry = await worryAloneService.createAloneWorry(createAloneWorryDTO);
 
     if (!createdAloneWorry) {
-      return res
-        .status(sc.BAD_REQUEST)
-        .send(fail(sc.BAD_REQUEST, rm.CREATE_WORRY_ALONE_ERROR));
+        return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.CREATE_WORRY_ALONE_ERROR))
     }
+
     res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
-  } catch (error) {
-    next(error);
-  }
-};
+
+    } catch (error) {
+        next(error);
+    }
+}
 
 const getAloneWorry = async (
   req: Request,

@@ -105,17 +105,37 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
   return worryWithResponse;
 };
 
-const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
+const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
+  const createWithWorryData = await worryWithRepository.createWithWorry(createWithWorryDTO);
+  if(!createWithWorryData){
+    throw new ClientException("함께고민글 생성 실패");
 
-  const withWorry = await worryWithRepository.createWithWorry(createWithWorryDTO);
-
-  if (!withWorry) {
-    throw new ClientException();
   }
-  return withWorry;
-};
 
-const findWithWorry = async (userId: number) => {};
+  return createWithWorryData;
+}
+
+const findWithWorryDetail =async (withWorryId:number) => {
+  const findWithWorryData = await worryWithRepository.findWithWorryDetail(withWorryId);
+  if(!findWithWorryData){
+    throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다.");
+
+  }
+
+  return findWithWorryData;
+
+}
+
+const findOptionsWithWorryId =async (withWorryId:number) => {
+  const findWithOptionData = await withOptionRepository.findOptionsWithWorryId(withWorryId);
+  if(!findWithOptionData){
+    throw new ClientException("해당하는 아이디의 선택지가 존재하지 않습니다.");
+
+  }
+  
+  return findWithOptionData;
+  
+}
 
 const compareNotFinishedWorryFirst = (
   a: WorryWithPreview,
@@ -167,6 +187,7 @@ export default {
   findWorryListByCategoryId,
   chooseFinalOption,
   createWithWorry,
-  findWithWorry,
+  findWithWorryDetail,
   readWithWorry,
+  findOptionsWithWorryId,
 };

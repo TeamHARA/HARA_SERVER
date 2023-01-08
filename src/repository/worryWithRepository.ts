@@ -93,12 +93,24 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-      },
+
+
+      }
     });
-  } //for
+  }
   
   return worryData;
+  
+}
+
+const findWithWorryDetail = async (withWorryId:number) => {
+  return await prisma.worryWith.findUnique({
+    where:{
+      id: withWorryId
+    },
+  });
 };
+
 const findWithWorries = async () => {
   const worries = await prisma.worryWith.findMany({
     select: {
@@ -130,4 +142,5 @@ export default {
   createWithWorry,
   findWithWorries,
   findFinalOption,
+  findWithWorryDetail,
 };

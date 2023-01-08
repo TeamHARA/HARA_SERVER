@@ -30,18 +30,14 @@ const updateFinalOption = async (
   }
 };
 
-const createWithWorry = async (
+const postWithWorry = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const createWithWorryDTO: CreateWithWorryDTO = req.body;
-    //console.log(createWithWorryDTO);
-
-    if (!createWithWorryDTO.userId) {
-      throw new ClientException("필요한 값이 없습니다.");
-    }
+    const createWithWorryDTO: CreateWithWorryDTO  = req.body;
+    
     await worryWithService.createWithWorry(createWithWorryDTO);
 
     res
@@ -52,22 +48,28 @@ const createWithWorry = async (
   }
 };
 
-const findWithWorry = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
   try {
-    const { userId } = req.body;
-    if (!userId) {
-      throw new ClientException("필요한 값이 없습니다.");
+    const { withWorryId } = req.params;
+    
+    if (!withWorryId) {
+      throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
-    await worryWithService.findWithWorry(userId);
+    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
+    const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
+    
+    
+    const result = {
+      isAuthor: gotWithWorryDetail.isAuthor,
+      createdAt: gotWithWorryDetail.createdAt,
+      worryTitle: gotWithWorryDetail.title,
+      worryContent: gotWithWorryDetail.content,
+      category: gotWithWorryDetail.content,
+      options: options,
+    }
 
-    res
-      .status(statusCode.OK)
-      .send(success(statusCode.OK, "혼자고민 생성 성공"));
+    res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", result));
   } catch (error) {
     next(error);
   }
@@ -89,9 +91,10 @@ const getWithWorry = async (
   }
 };
 
+
 export default {
   updateFinalOption,
-  createWithWorry,
-  findWithWorry,
+  postWithWorry,
   getWithWorry,
+  getWithWorryDetail,
 };
