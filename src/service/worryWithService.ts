@@ -3,6 +3,7 @@ import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
+import { getFormattedDate } from '../constants/dateFormat';
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
@@ -71,7 +72,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
         worryId: worryWith.id,
         title: worryWith.title,
         content: worryWith.content,
-        createdAt: worryWith.createdAt,
+        createdAt: getFormattedDate(worryWith.createdAt),
         category: worryWith.category.name,
         selectedOptionId: worryWith.finalOption,
         isAuthor: (worryWith.userId == userId) ? true : false,
