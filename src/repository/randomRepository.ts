@@ -11,4 +11,17 @@ const findAllRandomAnswer = async () => {
   return randomAnswer;
 };
 
-export default { findAllRandomAnswer };
+const findQuickWorryList = async (userId: number) => {
+  return await prisma.quickWorry.findMany({
+    select: {
+      id: true,
+      title: true,
+      createdAt: true
+    },
+    where: {
+      userId
+    }
+  });
+}
+
+export default { findAllRandomAnswer, findQuickWorryList };
