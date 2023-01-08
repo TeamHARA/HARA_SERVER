@@ -58,9 +58,30 @@ const getAloneWorry = async (
   }
 };
 
-const worryAloneController = {
-  createAloneWorry,
-  getAloneWorry,
-};
+const patchWorryAlone = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const reqValidationResult = validationResult(req);
+        if (!reqValidationResult.isEmpty()) {
+            return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+        }
 
-export default worryAloneController;
+        const { userId, worryAloneId, chosenOptionId } = req.body;
+
+        await worryAloneService.chooseFinalOption({
+            userId,
+            aloneWorryId: worryAloneId,
+            chosenOptionId,
+        })
+
+        res.status(sc.OK).send(success(sc.OK, rm.CHOOSE_ALONE_OPTION_SUCCESS));
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export default {
+    createAloneWorry,
+    getAloneWorry,
+    patchWorryAlone
+}

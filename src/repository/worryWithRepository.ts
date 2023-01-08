@@ -50,7 +50,7 @@ const findWorries = async () => {
 };
 
 const findById = async (id: number): Promise<worryWith | null> => {
-  return prisma.worryWith.findUnique({
+  return await prisma.worryWith.findUnique({
     where: {
       id,
     },
