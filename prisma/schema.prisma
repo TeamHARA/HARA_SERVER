@@ -118,7 +118,6 @@ model worryWith {
   commentOn                                    Boolean      @default(false)
   commentCount                                 Int          @default(0)
   isAuthor                                     Boolean      @default(false)
-  isVoted                                      Boolean      @default(false)
   comment                                      comment[]
   withOption                                   withOption[] @relation("withOption_worryWithIdToworryWith")
   category                                     category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoryId")

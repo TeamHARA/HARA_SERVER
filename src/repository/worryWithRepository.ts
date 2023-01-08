@@ -147,12 +147,5 @@ const findWithWorryDetail = async (withWorryId:number) => {
   });
 };
 
-const findOptionsWithWorryId =async (withWorryId:number) => {
-  return await prisma.withOption.findMany({
-    where:{
-      worryWithId: withWorryId
-    },
-  });
-}
 
-export default { findById, updateFinalOptionById, findWorryListByCategoryId, findWorries, createWithWorry, findWithWorryDetail, findOptionsWithWorryId };
+export default { findById, updateFinalOptionById, findWorryListByCategoryId, findWorries, createWithWorry, findWithWorryDetail };

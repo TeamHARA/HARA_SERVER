@@ -9,4 +9,15 @@ const findById = async (id: number): Promise<withOption | null> => {
   });
 };
 
-export default { findById };
+const findOptionsWithWorryId =async (withWorryId:number) => {
+  return await prisma.withOption.findMany({
+    where:{
+      worryWithId: withWorryId
+    },
+  });
+}
+
+export default { 
+  findById,
+  findOptionsWithWorryId,
+ };
