@@ -27,8 +27,18 @@ const updateIsSelectedById = async (id: number, isSelected: boolean) => {
 }
 
 
+const findOptionsAloneWorryId =async (aloneWorryId:number) => {
+  return await prisma.aloneOption.findMany({
+    where:{
+      worryAloneId: aloneWorryId
+    },
+  });
+}
+
+
 export default {
   findById,
   findByIdAndWorryId,
-  updateIsSelectedById
+  updateIsSelectedById,
+  findOptionsAloneWorryId
 };

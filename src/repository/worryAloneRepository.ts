@@ -72,5 +72,21 @@ const updateFinalOption = async (aloneWorryId: number, chosenOptionId: number) =
   })
 }
 
+const findAloneWorryDetail =async (aloneWorryId:number) => {
+  return await prisma.worryAlone.findUnique({
+    where:{
+      id: aloneWorryId
+    },
+  });
 
-export default { createAloneWorry, updateFinalOption, findById, findFinalOption, findAloneWorries };
+}
+
+
+export default { 
+  createAloneWorry,
+  updateFinalOption,
+  findById,
+  findFinalOption,
+  findAloneWorries,
+  findAloneWorryDetail,
+};

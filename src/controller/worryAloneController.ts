@@ -2,8 +2,12 @@ import { CreateAloneWorryDTO } from "../interfaces/worryAlone/CreateAloneWorryDT
 import { NextFunction, Request, Response } from "express";
 import { rm, sc } from "../constants";
 import { fail, success } from "../constants/response";
-import worryAloneService from "../service/worryAloneService";
 import { validationResult } from "express-validator";
+import { ClientException } from "../common/error/exceptions/customExceptions";
+import { worryAloneService } from "../service";
+import statusCode from "../constants/statusCode";
+import { getFormattedDate } from '../constants/dateFormat';
+import { voteRepository } from "../repository";
 
 const postAloneWorry = async (
   req: Request,
@@ -70,9 +74,37 @@ const patchAloneWorry = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
+const getAloneWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { aloneWorryId } = req.params;
+    const { userId } = req.body;
+    
+    if (!aloneWorryId) {
+      throw new ClientException("필요한 파라미터 값이 없습니다.");
+    }
+
+    const gotWithWorryDetail = await worryAloneService.findAloneWorryDetail(+aloneWorryId,userId);
+    const options = await worryAloneService.findOptionsAloneWorryId(+aloneWorryId);
+   
+    const result = {
+      createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
+      worryTitle: gotWithWorryDetail.title,
+      worryContent: gotWithWorryDetail.content,
+      category: gotWithWorryDetail.content,
+      options: options,
+    }
+
+    res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 상세조회 성공", result));
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 
 export default {
     postAloneWorry,
     getAloneWorry,
-    patchAloneWorry
+    patchAloneWorry,
+    getAloneWorryDetail,
 }

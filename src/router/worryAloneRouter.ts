@@ -33,6 +33,11 @@ router.patch("/",
     body("worryAloneId").notEmpty(),
     body("chosenOptionId").notEmpty()
   ],
+  validation,
   worryAloneController.patchAloneWorry);
+
+  router.get("/:aloneWorryId",
+  auth,
+  worryAloneController.getAloneWorryDetail);
 
 export default router;

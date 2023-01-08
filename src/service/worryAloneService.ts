@@ -86,8 +86,35 @@ const readAloneWorry = async (choiceEndedFirst: boolean) => {
   return sortedWorries;
 };
 
+const findAloneWorryDetail =async (aloneWorryId:number,userId:number) => {
+  const findAloneWorryData = await worryAloneRepository.findAloneWorryDetail(aloneWorryId);
+  
+  if(!findAloneWorryData){
+    throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다.");
+  }
+  if(userId != findAloneWorryData.userId){
+    throw new ClientException("작성자가 아닙니다", statusCode.FORBIDDEN);
+  }
+
+  return findAloneWorryData;
+
+}
+
+const findOptionsAloneWorryId =async (aloneWorryId:number) => {
+  const findAloneOptionData = await aloneOptionRepository.findOptionsAloneWorryId(aloneWorryId);
+  if(!findAloneOptionData){
+    throw new ClientException("해당하는 아이디의 선택지가 존재하지 않습니다.");
+
+  }
+  
+  return findAloneOptionData;
+  
+}
+
 export default {
   createAloneWorry,
   chooseFinalOption,
   readAloneWorry,
+  findAloneWorryDetail,
+  findOptionsAloneWorryId,
 };
