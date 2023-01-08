@@ -1,36 +1,51 @@
-import { category } from '@prisma/client';
-import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
+import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import { NextFunction, Request, Response } from "express";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import { success } from "../constants/response";
 import statusCode from "../constants/statusCode";
-import { worryWithService } from '../service';
+import { worryWithService } from "../service";
+import { rm, sc } from "../constants";
 
-const updateFinalOption = async (req: Request, res: Response, next: NextFunction) => {
+const updateFinalOption = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { userId, worryWithId, chosenOptionId } = req.body;
     if (!userId || !worryWithId || !chosenOptionId) {
       throw new ClientException("필요한 값이 없습니다.");
     }
-    await worryWithService.chooseFinalOption(userId, worryWithId, chosenOptionId);
+    await worryWithService.chooseFinalOption(
+      userId,
+      worryWithId,
+      chosenOptionId
+    );
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "나의고민 최종결정 성공"));
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, "나의고민 최종결정 성공"));
   } catch (error) {
     next(error);
   }
 };
 
-const postWithWorry = async (req: Request, res: Response, next: NextFunction) => {
+const postWithWorry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const createWithWorryDTO: CreateWithWorryDTO  = req.body;
     
     await worryWithService.createWithWorry(createWithWorryDTO);
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "혼자고민 생성 성공"));
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, "혼자고민 생성 성공"));
   } catch (error) {
     next(error);
   }
-
 };
 
 const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
@@ -58,8 +73,28 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
   } catch (error) {
     next(error);
   }
+};
 
-  
-}
+const getWithWorry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { ifsolved } = req.body;
+    const withWorries = await worryWithService.readWithWorry(ifsolved);
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
+  } catch (error) {
+    next(error);
+  }
+};
 
-export default { updateFinalOption,postWithWorry,getWithWorryDetail };
+
+export default {
+  updateFinalOption,
+  postWithWorry,
+  getWithWorry,
+  getWithWorryDetail,
+};
