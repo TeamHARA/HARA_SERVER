@@ -23,7 +23,7 @@ router.post(
     body("options").notEmpty(),
   ],
   validation,
-  worryAloneController.createAloneWorry
+  worryAloneController.postAloneWorry
 );
 
 router.patch("/",
@@ -33,6 +33,6 @@ router.patch("/",
     body("worryAloneId").notEmpty(),
     body("chosenOptionId").notEmpty()
   ],
-  worryAloneController.patchWorryAlone);
+  worryAloneController.patchAloneWorry);
 
 export default router;

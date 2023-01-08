@@ -5,7 +5,7 @@ import { fail, success } from "../constants/response";
 import worryAloneService from "../service/worryAloneService";
 import { validationResult } from "express-validator";
 
-const createAloneWorry = async (
+const postAloneWorry = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -49,7 +49,7 @@ const getAloneWorry = async (
   }
 };
 
-const patchWorryAlone = async (req: Request, res: Response, next: NextFunction) => {
+const patchAloneWorry = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const reqValidationResult = validationResult(req);
         if (!reqValidationResult.isEmpty()) {
@@ -72,7 +72,7 @@ const patchWorryAlone = async (req: Request, res: Response, next: NextFunction) 
 
 
 export default {
-    createAloneWorry,
+    postAloneWorry,
     getAloneWorry,
-    patchWorryAlone
+    patchAloneWorry
 }
