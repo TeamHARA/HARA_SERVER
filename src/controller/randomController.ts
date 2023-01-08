@@ -20,4 +20,19 @@ const getRandomAnswer = async (
   }
 };
 
-export default { getRandomAnswer };
+const findQuickWorryList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data = await randomService.findQuickWorryList(req.body.userId);
+    return res
+      .status(sc.OK)
+      .send(success(statusCode.OK, rm.READ_QUICKWORRY_SUCCESS, data));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { getRandomAnswer, findQuickWorryList };
