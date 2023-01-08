@@ -32,8 +32,12 @@ export default {
   // 고민 조회
   READ_WITHWORRY_SUCCESS: "함께고민 조회 성공",
   READ_ALONEWORRY_SUCCESS: "혼자고민 조회 성공",
+
   //카테고리
   READ_CATEGORY_FAIL: "카테고리 조회 실패",
+
+  // 1초고민해결
+  READ_QUICKWORRY_SUCCESS: "과거고민 목록 조회 성공",
 
   //투표
   CREATE_VOTE_SUCCESS: "투표 생성 성공",
