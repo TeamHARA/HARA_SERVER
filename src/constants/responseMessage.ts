@@ -23,12 +23,15 @@ export default {
   DELETE_USER_FAIL: "유저 탈퇴 실패",
   NO_USER: "탈퇴했거나 가입하지 않은 유저입니다.",
 
-  // 고민글 
+  // 고민글
   READ_WORRYLIST_SUCCESS: "고민글 조회 성공",
   READ_WORRYLIST_FAIL: "고민글 조회 실패",
   READ_WORRY_SUCCESS: "고민글 조회 성공",
   READ_WORRY_FAIL: "고민글 조회 실패",
 
+  // 고민 조회
+  READ_WITHWORRY_SUCCESS: "함께고민 조회 성공",
+  READ_ALONEWORRY_SUCCESS: "혼자고민 조회 성공",
   //카테고리
   READ_CATEGORY_FAIL: "카테고리 조회 실패",
 
@@ -53,5 +56,5 @@ export default {
 
   // 혼자고민
   CREATE_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
-  CREATE_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공"
+  CREATE_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공",
 };

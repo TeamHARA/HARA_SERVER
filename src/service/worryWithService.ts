@@ -4,6 +4,7 @@ import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
 import { getFormattedDate } from '../constants/dateFormat';
+import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
@@ -13,7 +14,10 @@ const chooseFinalOption = async (userId: number, worryWithId: number, optionId: 
   }
 
   if (worryWith.userId != userId) {
-    throw new ClientException("고민글 작성자가 아닙니다.", statusCode.UNAUTHORIZED);
+    throw new ClientException(
+      "고민글 작성자가 아닙니다.",
+      statusCode.UNAUTHORIZED
+    );
   }
 
   const chosenOption = await withOptionRepository.findById(optionId);
@@ -27,7 +31,6 @@ const chooseFinalOption = async (userId: number, worryWithId: number, optionId: 
 
 //~ 카테고리 별 목록조회
 const isTotal = (categoryId: number): boolean => categoryId === 0;
-
 
 const findWorryListByCategoryId = async (categoryId: number, userId: number) => {
 
@@ -99,15 +102,67 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
 };
 
 const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
+
   const withWorry = await worryWithRepository.createWithWorry(createWithWorryDTO);
+
   if (!withWorry) {
     throw new ClientException();
   }
   return withWorry;
-}
+};
 
-const findWithWorry = async (userId: number) => {
+const findWithWorry = async (userId: number) => {};
 
-}
+const compareNotFinishedWorryFirst = (
+  a: WorryWithPreview,
+  b: WorryWithPreview
+) => {
+  const aOption = a.finalOption || 0;
+  const bOption = b.finalOption || 0;
+  if (aOption > bOption) {
+    return 1;
+  }
+  if (aOption < bOption) {
+    return -1;
+  }
+  if (a.createdAt < b.createdAt) {
+    return 1;
+  }
+  return -1;
+};
 
-export default { chooseFinalOption, createWithWorry, findWithWorry, findWorryListByCategoryId };
+const compareFinishedWorryFirst = (
+  a: WorryWithPreview,
+  b: WorryWithPreview
+) => {
+  const aOption = a.finalOption || 0;
+  const bOption = b.finalOption || 0;
+  if (aOption < bOption) {
+    return 1;
+  }
+  if (aOption > bOption) {
+    return -1;
+  }
+  if (a.createdAt < b.createdAt) {
+    return 1;
+  }
+  return -1;
+};
+
+const readWithWorry = async (choiceEndedFirst: boolean) => {
+  const readWorry = await worryWithRepository.findWithWorries();
+
+  const compare = choiceEndedFirst
+    ? compareFinishedWorryFirst
+    : compareNotFinishedWorryFirst;
+  const sortedWorries = readWorry.sort(compare);
+  return sortedWorries;
+};
+
+export default {
+  findWorryListByCategoryId,
+  chooseFinalOption,
+  createWithWorry,
+  findWithWorry,
+  readWithWorry,
+};

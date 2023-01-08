@@ -1,4 +1,4 @@
-import { PrismaClient, worryWith } from "@prisma/client";
+import { worryWith } from "@prisma/client";
 import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import prisma from "./prismaClient";
 
@@ -6,7 +6,7 @@ import prisma from "./prismaClient";
 const findWorryListByCategoryId = async (categoryId?: number) => {
   const worries = await prisma.worryWith.findMany({
     where: {
-      categoryId: categoryId
+      categoryId: categoryId,
     },
     orderBy: {
       id: "asc"
@@ -19,15 +19,15 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
           worryWithId: true,
           title: true,
           image: true,
-          hasImage: true
-        }
+          hasImage: true,
+        },
       },
     },
   });
   return worries;
-}
+};
 
-// 카테고리 : 전체 
+// 카테고리 : 전체
 const findWorries = async () => {
   const worries = await prisma.worryWith.findMany({
     include: {
@@ -38,8 +38,8 @@ const findWorries = async () => {
           worryWithId: true,
           title: true,
           image: true,
-          hasImage: true
-        }
+          hasImage: true,
+        },
       },
     },
     orderBy: {
@@ -47,24 +47,24 @@ const findWorries = async () => {
     },
   });
   return worries;
-}
+};
 
 const findById = async (id: number): Promise<worryWith | null> => {
   return prisma.worryWith.findUnique({
     where: {
-      id
-    }
+      id,
+    },
   });
 };
 
 const updateFinalOptionById = async (id: number, optionId: number) => {
   await prisma.worryWith.update({
     where: {
-      id
+      id,
     },
     data: {
-      finalOption: optionId
-    }
+      finalOption: optionId,
+    },
   });
 };
 
@@ -93,11 +93,41 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-      }
+      },
     });
-  }//for 
-
+  } //for
+  
   return worryData;
-}
+};
+const findWithWorries = async () => {
+  const worries = await prisma.worryWith.findMany({
+    select: {
+      id: true,
+      categoryId: true,
+      content: true,
+      createdAt: true,
+      finalOption: true,
+    },
+  });
 
-export default { findById, updateFinalOptionById, findWorryListByCategoryId, findWorries, createWithWorry };
+  return worries;
+};
+
+const findFinalOption = async () => {
+  const optionNumber = await prisma.worryWith.findMany({
+    select: {
+      finalOption: true,
+      createdAt: true,
+    },
+  });
+};
+
+export default {
+  findWorryListByCategoryId,
+  findWorries,
+  findById,
+  updateFinalOptionById,
+  createWithWorry,
+  findWithWorries,
+  findFinalOption,
+};
