@@ -3,3 +3,8 @@ export interface CreateVoteDTO {
     worryWithId: number;
     optionId: number;
 }
+
+export interface findVoteDTO {
+    userId: number;
+    worryWithId: number;
+}
