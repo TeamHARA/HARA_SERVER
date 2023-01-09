@@ -7,6 +7,9 @@ import { getFormattedDate } from '../constants/dateFormat';
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
 import commentRepository from '../repository/commentRepository';
 import { Console } from 'console';
+import userRepository from '../repository/userRepository';
+import { rm } from "../constants";
+
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
@@ -121,7 +124,6 @@ const findWithWorryDetail =async (withWorryId:number) => {
   const findWithWorryData = await worryWithRepository.findWithWorryDetail(withWorryId);
   if(!findWithWorryData){
     throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다.");
-
   }
 
   return findWithWorryData;
@@ -189,6 +191,14 @@ const findCommentByWithWorryId =async (withWorryId:number) => {
   return await commentRepository.findCommentByWithWorryId(withWorryId);
 }
 
+const findUserImageById =async (userId:number) => {
+  const userData = await userRepository.findUserById(userId);
+  if(!userData){
+    return rm.NO_USER;
+  }
+  return userData?.profileImage;
+}
+
 export default {
   findWorryListByCategoryId,
   chooseFinalOption,
@@ -197,4 +207,6 @@ export default {
   readWithWorry,
   findOptionsWithWorryId,
   findCommentByWithWorryId,
+  findUserImageById,
+
 };

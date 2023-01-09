@@ -5,6 +5,8 @@ import { success } from "../constants/response";
 import statusCode from "../constants/statusCode";
 import { worryWithService } from "../service";
 import { rm, sc } from "../constants";
+import { getFormattedDate } from '../constants/dateFormat';
+
 
 const updateFinalOption = async (
   req: Request,
@@ -59,18 +61,29 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
     const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
     const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
-    
-    const result = {
+
+    const commentResult: Array<object> = [];
+    for(var i=0;i<comments.length;++i){
+      commentResult.push ({
+        nickName: comments[i].nickName,
+        content: comments[i].content,
+        image: await worryWithService.findUserImageById(comments[i].id),
+        createdAt: getFormattedDate(comments[i].createdAt),
+      })
+    }
+
+    const worryResult = {
       isAuthor: gotWithWorryDetail.isAuthor,
-      createdAt: gotWithWorryDetail.createdAt,
+      createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
       category: gotWithWorryDetail.content,
       options: options,
-      comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : comments,
+      commentCount: comments.length,
+      comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
     }
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", result));
+    res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", worryResult));
   } catch (error) {
     next(error);
   }
