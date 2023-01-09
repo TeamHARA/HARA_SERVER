@@ -207,6 +207,13 @@ const findCategoryNameById =async (categoryId:number) => {
   return category.name;
 }
 
+const createWithWorryComment =async (commentId: number, ) => {
+  
+  
+}
+
+
+
 export default {
   findWorryListByCategoryId,
   chooseFinalOption,
@@ -217,5 +224,5 @@ export default {
   findCommentByWithWorryId,
   findUserImageById,
   findCategoryNameById,
-  
+  createWithWorryComment,
 };

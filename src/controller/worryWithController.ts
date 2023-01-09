@@ -106,10 +106,24 @@ const getWithWorry = async (
   }
 };
 
+const postWithWorryComment =async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { ifsolved } = req.body;
+    const withWorries = await worryWithService.readWithWorry(ifsolved);
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
+  } catch (error) {
+    next(error);
+  }
+
+}
+
 
 export default {
   updateFinalOption,
   postWithWorry,
   getWithWorry,
   getWithWorryDetail,
+  postWithWorryComment,
 };
