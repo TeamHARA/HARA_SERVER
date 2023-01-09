@@ -4,7 +4,7 @@ import { rm, sc } from "../constants";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { voteService, worryWithService } from "../service";
-import { CreateVoteDTO } from "../worryVoteDTO";
+import { CreateVoteDTO } from "../interfaces/vote/worryVoteDTO";
 
 const findWorryListByCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {

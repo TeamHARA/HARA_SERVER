@@ -1,4 +1,4 @@
-import { CreateVoteDTO, findVoteDTO } from '../worryVoteDTO';
+import { CreateVoteDTO, findVoteDTO } from '../interfaces/vote/worryVoteDTO';
 import { PrismaClient, worryWith } from "@prisma/client";
 import prisma from "./prismaClient";
 

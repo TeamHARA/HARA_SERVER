@@ -3,7 +3,7 @@ import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
-import { getFormattedDate } from '../constants/dateFormat';
+import { getFormattedDate } from '../common/utils/dateFormat';
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
 import commentRepository from '../repository/commentRepository';
 import { Console } from 'console';
