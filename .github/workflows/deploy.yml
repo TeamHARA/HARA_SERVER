@@ -51,8 +51,10 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: Run files
+      - name: Run build
         working-directory: ./
         run: 
-          yarn run build
+          yarn build
           
+      - name: Run tests
+        run : yarn run test
