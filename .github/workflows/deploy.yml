@@ -53,6 +53,6 @@ jobs:
 
       - name: Run files
         working-directory: ./
-        run: |
+        run: 
           yarn run build
           
