@@ -42,5 +42,7 @@ jobs:
       - name: build files
         working-directory: ./
         run: 
+          yarn 
+          yarn install
           yarn run build
           
