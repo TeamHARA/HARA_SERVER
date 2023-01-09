@@ -50,10 +50,12 @@ jobs:
       - name: Install dependencies
         working-directory: ./
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: |
-          yarn
-          yarn run build
-          
+        run: yarn
+        
+      - name: tsc 실행
+        working-directory: ./
+        run: yarn run build
+        
       - name: zip file
         run: zip -r hara.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
 

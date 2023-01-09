@@ -1,5 +1,5 @@
 #!/bin/bash
-REPOSITORY=/home/ubuntu/HARA_SERVER
+REPOSITORY=/home/ubuntu/build
 
 cd $REPOSITORY
 
