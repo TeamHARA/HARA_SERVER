@@ -135,11 +135,11 @@ const findFinalOption = async () => {
 };
 
 
-const createWithWorryComment =async (params:type) => {
+// const createWithWorryComment =async (params:type) => {
 
   
   
-}
+// }
 
 export default {
   findWorryListByCategoryId,
@@ -150,5 +150,5 @@ export default {
   findWithWorries,
   findFinalOption,
   findWithWorryDetail,
-  createWithWorryComment,
+  //createWithWorryComment,
 };
