@@ -22,7 +22,7 @@ jobs:
       - name: Checkout source code.
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
@@ -35,13 +35,41 @@ jobs:
         run: |
           pwd
           touch .env
-          echo PORT=${{ secrets.PORT }} >> .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           cat .env
-
-      - name: build server files
+      
+      # yarn.lock을 hash로 하는 node_modules cache 생성
+      - name: Cache Yarn
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          
+      # cache hit 못하면 패키지 설치
+      - name: Install dependencies
         working-directory: ./
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: |
           yarn
           yarn run build
           
+      - name: zip file
+        run: zip -r hara.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+
+      - name: AWS configure credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./hara.zip s3://hara-build/deploy/
+
+      - name: deploy with AWS codeDeploy
+        run: aws deploy create-deployment
+          --application-name hara-codedeploy
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name GROUP
+          --s3-location bucket=hara-build,bundleType=zip,key=deploy/hara.zip

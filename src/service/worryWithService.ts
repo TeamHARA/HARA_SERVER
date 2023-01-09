@@ -3,7 +3,7 @@ import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
-import { getFormattedDate } from '../constants/dateFormat';
+import { getFormattedDate } from '../common/utils/dateFormat';
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
 import commentRepository from '../repository/commentRepository';
 import { Console } from 'console';
@@ -86,7 +86,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
         content: worryWith.content,
         createdAt: getFormattedDate(worryWith.createdAt),
         category: worryWith.category.name,
-        selectedOptionId: worryWith.finalOption,
+        finalOptionId: worryWith.finalOption,
         isAuthor: (worryWith.userId == userId) ? true : false,
         isVoted: isVoted,
         commentOn: worryWith.commentOn,

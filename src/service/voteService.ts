@@ -1,7 +1,7 @@
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
 import { voteRepository, withOptionRepository, worryWithRepository } from "../repository"
-import { CreateVoteDTO, findVoteDTO } from "../worryVoteDTO";
+import { CreateVoteDTO, findVoteDTO } from "../interfaces/vote/worryVoteDTO";
 
 const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
 

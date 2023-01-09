@@ -6,7 +6,7 @@ import { validationResult } from "express-validator";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import { worryAloneService } from "../service";
 import statusCode from "../constants/statusCode";
-import { getFormattedDate } from '../constants/dateFormat';
+import { getFormattedDate } from '../common/utils/dateFormat';
 import { voteRepository } from "../repository";
 
 const postAloneWorry = async (

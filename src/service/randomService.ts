@@ -2,7 +2,7 @@ import { ClientException } from "../common/error/exceptions/customExceptions";
 import { randomRepository } from "../repository";
 import { randomAnswerDTO } from "../interfaces/random/randomAnswerDTO";
 import userRepository from "../repository/userRepository";
-import { getFormattedDate } from "../constants/dateFormat";
+import { getFormattedDate } from "../common/utils/dateFormat";
 
 const randomAnswerChoice = async () => {
   const randomList = await randomRepository.findAllRandomAnswer();
