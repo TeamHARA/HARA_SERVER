@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - name: Checkout source code.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -40,7 +40,7 @@ jobs:
       
       # yarn.lock을 hash로 하는 node_modules cache 생성
       - name: Cache Yarn
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: yarn-cache
         with:
           path: '**/node_modules'
