@@ -39,9 +39,8 @@ jobs:
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           cat .env
 
-      - name: build server files
+      - name: build files
         working-directory: ./
-        run: |
-          yarn
+        run: 
           yarn run build
           
