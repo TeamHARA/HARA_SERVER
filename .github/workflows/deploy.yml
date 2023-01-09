@@ -71,5 +71,5 @@ jobs:
         run: aws deploy create-deployment
           --application-name hara-codedeploy
           --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name GROUP
+          --deployment-group-name dev
           --s3-location bucket=hara-build,bundleType=zip,key=deploy/hara.zip
