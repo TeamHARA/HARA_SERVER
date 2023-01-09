@@ -57,7 +57,7 @@ jobs:
         run: yarn run build
         
       - name: zip file
-        run: zip -r hara.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: zip -r hara.zip ./dist ./scripts ./appspec.yml ./.env ./package.json ./prisma
 
       - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1
