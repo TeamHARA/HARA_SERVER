@@ -7,10 +7,10 @@ class App {
     let app = express();
     app.use(express.json());
 
-    app.use("/api", router);
-    app.get("/", (req: Request, res: Response, next: NextFunction) => {
+    app.use("/", router);
+    app.get("/health", (req: Request, res: Response, next: NextFunction) => {
       res.status(200).json({
-        status: 200,  
+        status: 200,
         message: "Healthy."
       });
     });
