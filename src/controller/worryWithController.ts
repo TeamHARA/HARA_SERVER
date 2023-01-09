@@ -77,7 +77,7 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
-      category: gotWithWorryDetail.content,
+      category: await worryWithService.findCategoryNameById(gotWithWorryDetail.categoryId),
       options: options,
       commentCount: comments.length,
       comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,

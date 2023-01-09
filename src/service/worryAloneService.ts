@@ -36,7 +36,7 @@ const compareNotFinishedWorryFirst = (
 
 const updateFinalOption = async (aloneWorryId: number, chosenOptionId: number) => {
   await worryAloneRepository.updateFinalOption(aloneWorryId, chosenOptionId);
-  await aloneOptionRepository.updateIsSelectedById(chosenOptionId, true);
+  //await aloneOptionRepository.updateIsSelectedById(chosenOptionId, true);
 }
 
 const chooseFinalOption = async (chooseAloneWorryDTO: ChooseAloneWorryDTO) => {

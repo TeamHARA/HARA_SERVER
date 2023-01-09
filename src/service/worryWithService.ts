@@ -97,7 +97,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
     }),
   );
 
-  const categoryList = await categoryRepository.getCategoryId();
+const categoryList = await categoryRepository.getCategoryId();
 
   if (!categoryList) {
     throw new ClientException("카테고리가 없습니다.");
@@ -199,6 +199,14 @@ const findUserImageById =async (userId:number) => {
   return userData?.profileImage;
 }
 
+const findCategoryNameById =async (categoryId:number) => {
+  const category = await categoryRepository.getCategoryById(categoryId);
+  if(!category){
+    return rm.READ_CATEGORY_FAIL;
+  }
+  return category.name;
+}
+
 export default {
   findWorryListByCategoryId,
   chooseFinalOption,
@@ -208,5 +216,6 @@ export default {
   findOptionsWithWorryId,
   findCommentByWithWorryId,
   findUserImageById,
-
+  findCategoryNameById,
+  
 };
