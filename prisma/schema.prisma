@@ -14,7 +14,7 @@ model aloneOption {
   advantage                                       String?      @db.VarChar(50)
   disadvantage                                    String?      @db.VarChar(200)
   image                                           String?      @db.VarChar(100)
-  isSelected                                      Boolean?     @default(false)
+  hasImage                                        Boolean      @default(false)
   worryAlone_aloneOption_worryAloneIdToworryAlone worryAlone   @relation("aloneOption_worryAloneIdToworryAlone", fields: [worryAloneId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryAloneId")
   worryAlone_worryAlone_finalOptionToaloneOption  worryAlone[] @relation("worryAlone_finalOptionToaloneOption")
 }

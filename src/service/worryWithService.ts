@@ -5,6 +5,11 @@ import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
 import { getFormattedDate } from '../constants/dateFormat';
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
+import commentRepository from '../repository/commentRepository';
+import { Console } from 'console';
+import userRepository from '../repository/userRepository';
+import { rm } from "../constants";
+
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
@@ -92,7 +97,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
     }),
   );
 
-  const categoryList = await categoryRepository.getCategoryId();
+const categoryList = await categoryRepository.getCategoryId();
 
   if (!categoryList) {
     throw new ClientException("카테고리가 없습니다.");
@@ -119,7 +124,6 @@ const findWithWorryDetail =async (withWorryId:number) => {
   const findWithWorryData = await worryWithRepository.findWithWorryDetail(withWorryId);
   if(!findWithWorryData){
     throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다.");
-
   }
 
   return findWithWorryData;
@@ -183,6 +187,26 @@ const readWithWorry = async (choiceEndedFirst: boolean) => {
   return sortedWorries;
 };
 
+const findCommentByWithWorryId =async (withWorryId:number) => {
+  return await commentRepository.findCommentByWithWorryId(withWorryId);
+}
+
+const findUserImageById =async (userId:number) => {
+  const userData = await userRepository.findUserById(userId);
+  if(!userData){
+    return rm.NO_USER;
+  }
+  return userData?.profileImage;
+}
+
+const findCategoryNameById =async (categoryId:number) => {
+  const category = await categoryRepository.getCategoryById(categoryId);
+  if(!category){
+    return rm.READ_CATEGORY_FAIL;
+  }
+  return category.name;
+}
+
 export default {
   findWorryListByCategoryId,
   chooseFinalOption,
@@ -190,4 +214,8 @@ export default {
   findWithWorryDetail,
   readWithWorry,
   findOptionsWithWorryId,
+  findCommentByWithWorryId,
+  findUserImageById,
+  findCategoryNameById,
+  
 };

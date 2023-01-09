@@ -87,6 +87,7 @@ const getAloneWorryDetail =async (req:Request, res: Response, next: NextFunction
     const options = await worryAloneService.findOptionsAloneWorryId(+aloneWorryId);
    
     const result = {
+      finalOption: gotWithWorryDetail.finalOption,
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,

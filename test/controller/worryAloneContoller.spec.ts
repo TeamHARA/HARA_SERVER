@@ -23,14 +23,14 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
         }
       });
 
-      await prisma.aloneOption.updateMany({
-        where: {
-          worryAloneId: 40
-        },
-        data: {
-          isSelected: false
-        }
-      });
+      // await prisma.aloneOption.updateMany({
+      //   where: {
+      //     worryAloneId: 40
+      //   },
+      //   data: {
+      //     isSelected: false
+      //   }
+      // });
     });
 
     it("200 응답을 반환한다.", () => {

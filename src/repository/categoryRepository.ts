@@ -10,4 +10,14 @@ const getCategoryId = async () => {
     return categories;
 };
 
-export default { getCategoryId };
+const getCategoryById =async (categoryId:number) => {
+    return await prisma.category.findUnique({
+        where: {id: categoryId},
+    
+    });
+}
+
+export default { 
+    getCategoryId,
+    getCategoryById,
+};
