@@ -10,7 +10,7 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
     let response: Response;
     beforeAll(async () => {
       response = await request(app)
-        .patch('/api/worry/alone')
+        .patch('/worry/alone')
         .send({ worryAloneId: 40, chosenOptionId: 88 });
     });
     afterAll(async () => {
@@ -56,7 +56,7 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
         }
       });
       response = await request(app)
-        .patch('/api/worry/alone')
+        .patch('/worry/alone')
         .send({ worryAloneId: worryAlone.id, chosenOptionId: 1 });
     });
 
@@ -93,10 +93,10 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
 
     beforeAll(async () => {
       response = await request(app)
-        .patch('/api/worry/alone')
+        .patch('/worry/alone')
         .send({ worryAloneId: -1, chosenOptionId: 1 });
     });
-    
+
     it("400 에러를 반환한다.", () => {
       expect(response.status).toBe(400);
     });
@@ -111,7 +111,7 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
 
     beforeAll(async () => {
       response = await request(app)
-        .patch('/api/worry/alone')
+        .patch('/worry/alone')
         .send({ worryAloneId: 39, chosenOptionId: 86 });
     });
 
@@ -129,10 +129,10 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
 
     beforeAll(async () => {
       response = await request(app)
-        .patch('/api/worry/alone')
+        .patch('/worry/alone')
         .send({ worryAloneId: 40, chosenOptionId: -1 });
     });
-    
+
     it("400 에러를 반환한다.", () => {
       expect(response.status).toBe(400);
     });
