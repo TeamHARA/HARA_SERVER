@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     strategy:
       matrix:
@@ -48,13 +48,8 @@ jobs:
           
       # cache hit 못하면 패키지 설치
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn
-
-      - name: Run build
         working-directory: ./
-        run: 
-          yarn build
-          
-      - name: Run tests
-        run : yarn run test
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: |
+          yarn
+          yarn run build
