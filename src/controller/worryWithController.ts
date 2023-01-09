@@ -65,15 +65,16 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
     const commentResult: Array<object> = [];
     for(var i=0;i<comments.length;++i){
       commentResult.push ({
-        nickName: comments[i].nickName,
+        userNickName: comments[i].nickName,
+        userImage: await worryWithService.findUserImageById(comments[i].id),
         content: comments[i].content,
-        image: await worryWithService.findUserImageById(comments[i].id),
         createdAt: getFormattedDate(comments[i].createdAt),
       })
     }
 
     const worryResult = {
       isAuthor: gotWithWorryDetail.isAuthor,
+      finalOption: gotWithWorryDetail.finalOption,
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
