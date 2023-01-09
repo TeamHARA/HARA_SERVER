@@ -5,6 +5,8 @@ import statusCode from "../constants/statusCode";
 import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
 import { getFormattedDate } from '../constants/dateFormat';
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
+import commentRepository from '../repository/commentRepository';
+import { Console } from 'console';
 
 const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
@@ -183,6 +185,10 @@ const readWithWorry = async (choiceEndedFirst: boolean) => {
   return sortedWorries;
 };
 
+const findCommentByWithWorryId =async (withWorryId:number) => {
+  return await commentRepository.findCommentByWithWorryId(withWorryId);
+}
+
 export default {
   findWorryListByCategoryId,
   chooseFinalOption,
@@ -190,4 +196,5 @@ export default {
   findWithWorryDetail,
   readWithWorry,
   findOptionsWithWorryId,
+  findCommentByWithWorryId,
 };

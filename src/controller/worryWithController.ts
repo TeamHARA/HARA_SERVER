@@ -58,7 +58,7 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
 
     const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
-    
+    const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
     
     const result = {
       isAuthor: gotWithWorryDetail.isAuthor,
@@ -67,6 +67,7 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
       worryContent: gotWithWorryDetail.content,
       category: gotWithWorryDetail.content,
       options: options,
+      comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : comments,
     }
 
     res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", result));
