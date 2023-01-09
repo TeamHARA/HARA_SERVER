@@ -86,7 +86,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
         content: worryWith.content,
         createdAt: getFormattedDate(worryWith.createdAt),
         category: worryWith.category.name,
-        selectedOptionId: worryWith.finalOption,
+        finalOptionId: worryWith.finalOption,
         isAuthor: (worryWith.userId == userId) ? true : false,
         isVoted: isVoted,
         commentOn: worryWith.commentOn,

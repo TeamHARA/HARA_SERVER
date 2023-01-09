@@ -57,8 +57,6 @@ model randomAnswer {
 
 model user {
   id           Int          @id @unique @default(autoincrement())
-  votes        Int[]        @default([])
-  votedWorries Int[]        @default([])
   profileImage String       @db.VarChar(200)
   createdAt    DateTime     @default(now()) @db.Timestamp(6)
   updatedAt    DateTime     @default(now()) @db.Timestamp(6)
