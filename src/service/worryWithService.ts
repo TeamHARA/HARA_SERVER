@@ -208,10 +208,7 @@ const findCategoryNameById =async (categoryId:number) => {
   return category.name;
 }
 
-// const createWithWorryComment =async (: number, ) => {
-  
 
-// }
 
 
 
@@ -225,5 +222,5 @@ export default {
   findCommentByWithWorryId,
   findUserById,
   findCategoryNameById,
-  //createWithWorryComment,
+
 };

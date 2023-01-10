@@ -1,3 +1,4 @@
+import { CreateCommentDTO } from './../interfaces/worryWith/CreateCommentDTO';
 import { calculatePercentage } from './../common/utils/calculatePercentage';
 import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import { NextFunction, Request, Response } from "express";
@@ -8,6 +9,7 @@ import { worryWithService } from "../service";
 import { rm, sc } from "../constants";
 import { getFormattedDate } from '../common/utils/dateFormat';
 import { voteRepository, withOptionRepository } from "../repository";
+import commentService from '../service/commentService';
 
 
 const updateFinalOption = async (
@@ -133,12 +135,13 @@ const getWithWorry = async (
 };
 
 const postWithWorryComment =async (req: Request, res: Response, next: NextFunction) => {
+  const { createCommentDTO } = req.body;
   try {
-    const { ifsolved } = req.body;
-    const withWorries = await worryWithService.readWithWorry(ifsolved);
+    await commentService.createWithWorryComment(createCommentDTO);
+
     res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
+      .send(success(statusCode.OK, rm.CREATE_WITH_WORRY_COMMENT_SUCCESS));
   } catch (error) {
     next(error);
   }
