@@ -5,8 +5,8 @@ import { success } from "../constants/response";
 import statusCode from "../constants/statusCode";
 import { worryWithService } from "../service";
 import { rm, sc } from "../constants";
-import { getFormattedDate } from '../common/utils/dateFormat';
-
+import { getFormattedDate } from "../common/utils/dateFormat";
+import { nextTick } from "process";
 
 const updateFinalOption = async (
   req: Request,
@@ -38,8 +38,8 @@ const postWithWorry = async (
   next: NextFunction
 ) => {
   try {
-    const createWithWorryDTO: CreateWithWorryDTO  = req.body;
-    
+    const createWithWorryDTO: CreateWithWorryDTO = req.body;
+
     await worryWithService.createWithWorry(createWithWorryDTO);
 
     res
@@ -50,26 +50,34 @@ const postWithWorry = async (
   }
 };
 
-const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
+const getWithWorryDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { withWorryId } = req.params;
-    
+
     if (!withWorryId) {
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
-    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
+    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(
+      +withWorryId
+    );
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
-    const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
+    const comments = await worryWithService.findCommentByWithWorryId(
+      +withWorryId
+    );
 
     const commentResult: Array<object> = [];
-    for(var i=0;i<comments.length;++i){
-      commentResult.push ({
+    for (var i = 0; i < comments.length; ++i) {
+      commentResult.push({
         userNickName: comments[i].nickName,
         userImage: await worryWithService.findUserImageById(comments[i].id),
         content: comments[i].content,
         createdAt: getFormattedDate(comments[i].createdAt),
-      })
+      });
     }
 
     const worryResult = {
@@ -78,13 +86,18 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
-      category: await worryWithService.findCategoryNameById(gotWithWorryDetail.categoryId),
+      category: await worryWithService.findCategoryNameById(
+        gotWithWorryDetail.categoryId
+      ),
       options: options,
       commentCount: comments.length,
-      comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
-    }
+      comments:
+        comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
+    };
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", worryResult));
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, "함께고민 상세조회 성공", worryResult));
   } catch (error) {
     next(error);
   }
@@ -105,7 +118,6 @@ const getWithWorry = async (
     next(error);
   }
 };
-
 
 export default {
   updateFinalOption,

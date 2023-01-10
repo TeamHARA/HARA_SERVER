@@ -19,7 +19,7 @@ router.post(
   validation,
   worryWithController.postWithWorry
 );
-router.get("/", auth, worryWithController.getWithWorry);
-router.get("/:withWorryId",auth, worryWithController.getWithWorryDetail);
+router.get("/list/:ifSolved", auth, worryWithController.getWithWorry);
+router.get("/:withWorryId", auth, worryWithController.getWithWorryDetail);
 
 export default router;
