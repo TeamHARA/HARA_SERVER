@@ -53,7 +53,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
       var percentage: number = 0;
       var countAllVote: number = 0;
       //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
-      const findWithOptionByWorryWithId = await withOptionRepository.findByWorryWithId(worryWith.id);
+      const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(worryWith.id);
 
       //!TODO : 유저가 선택지 하나만 투표할 수 있도록
       for (var i = 0; i < worryWith.withOption.length; i++) {
@@ -191,12 +191,13 @@ const findCommentByWithWorryId =async (withWorryId:number) => {
   return await commentRepository.findCommentByWithWorryId(withWorryId);
 }
 
-const findUserImageById =async (userId:number) => {
-  const userData = await userRepository.findUserById(userId);
-  if(!userData){
-    return rm.NO_USER;
+const findUserById =async (userId:number) => {
+  const user = await userRepository.findUserById(userId);
+  if(!user){
+    throw new ClientException(rm.NO_USER);
   }
-  return userData?.profileImage;
+
+  return user;
 }
 
 const findCategoryNameById =async (categoryId:number) => {
@@ -207,6 +208,13 @@ const findCategoryNameById =async (categoryId:number) => {
   return category.name;
 }
 
+// const createWithWorryComment =async (: number, ) => {
+  
+
+// }
+
+
+
 export default {
   findWorryListByCategoryId,
   chooseFinalOption,
@@ -215,7 +223,7 @@ export default {
   readWithWorry,
   findOptionsWithWorryId,
   findCommentByWithWorryId,
-  findUserImageById,
+  findUserById,
   findCategoryNameById,
-  
+  //createWithWorryComment,
 };
