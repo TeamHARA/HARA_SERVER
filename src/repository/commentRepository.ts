@@ -7,7 +7,7 @@ const findCommentByWithWorryId =async (worryWithId:number) => {
       });
 };
 
-const createComment =async (createCommentDTO: CreateCommentDTO) => {
+const createWithWorryComment =async (createCommentDTO: CreateCommentDTO) => {
   
   return await prisma.comment.create({
     data : {
@@ -22,5 +22,5 @@ const createComment =async (createCommentDTO: CreateCommentDTO) => {
 
 export default{ 
   findCommentByWithWorryId,
-  createComment
+  createWithWorryComment
 };
