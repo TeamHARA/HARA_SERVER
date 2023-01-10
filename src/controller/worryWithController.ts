@@ -109,8 +109,8 @@ const getWithWorry = async (
   next: NextFunction
 ) => {
   try {
-    const { ifsolved } = req.body;
-    const withWorries = await worryWithService.readWithWorry(ifsolved);
+    const { ifSolved } = req.params;
+    const withWorries = await worryWithService.readWithWorry(+ifSolved);
     res
       .status(statusCode.OK)
       .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
