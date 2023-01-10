@@ -28,11 +28,13 @@ model category {
 
 model comment {
   id          Int       @id(map: "Comment_pkey") @unique @default(autoincrement())
-  nickName    String    @db.VarChar(200)
   content     String    @db.VarChar(200)
   createdAt   DateTime  @default(now()) @db.Timestamp(6)
-  updateAt    DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime  @default(now()) @db.Timestamp(6)
   worryWithId Int
+  userId      Int
+  isAnonymous Boolean   @default(false)
+  user        user      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userId")
   worryWith   worryWith @relation(fields: [worryWithId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worryWithId")
 }
 
@@ -62,6 +64,8 @@ model user {
   updatedAt    DateTime     @default(now()) @db.Timestamp(6)
   isAlarm      Boolean      @default(false)
   email        String       @db.VarChar(50)
+  nickName     String       @db.VarChar(50)
+  comment      comment[]
   quickWorry   quickWorry[]
   vote         vote[]
   worryAlone   worryAlone[]

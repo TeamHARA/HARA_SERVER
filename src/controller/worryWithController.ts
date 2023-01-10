@@ -1,3 +1,4 @@
+import { calculatePercentage } from './../common/utils/calculatePercentage';
 import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import { NextFunction, Request, Response } from "express";
 import { ClientException } from "../common/error/exceptions/customExceptions";
@@ -6,6 +7,7 @@ import statusCode from "../constants/statusCode";
 import { worryWithService } from "../service";
 import { rm, sc } from "../constants";
 import { getFormattedDate } from '../common/utils/dateFormat';
+import { voteRepository, withOptionRepository } from "../repository";
 
 
 const updateFinalOption = async (
@@ -53,20 +55,44 @@ const postWithWorry = async (
 const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
   try {
     const { withWorryId } = req.params;
+   // const { userId } = req.body;
     
     if (!withWorryId) {
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
+    var countAllVote: number = 0;
+    var percentage: number = 0;
+
+
     const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
     const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
+    
+
+    const percentageArray = await calculatePercentage(options);
+
+
+    const optionResult: Array<object> = [];
+    for (var i =0;i<options.length;++i){
+      optionResult.push({
+        id: options[i].id,
+        worryWithId: options[i].worryWithId,
+        title: options[i].title,
+        image: options[i].image,
+        hasImage: options[i].hasImage,
+        percentage: percentageArray[i],
+      });
+
+    }
+
 
     const commentResult: Array<object> = [];
     for(var i=0;i<comments.length;++i){
+      const commentedUser = await worryWithService.findUserById(comments[i].userId);
       commentResult.push ({
-        userNickName: comments[i].nickName,
-        userImage: await worryWithService.findUserImageById(comments[i].id),
+        userNickName: commentedUser.nickName,
+        userImage: commentedUser.profileImage,
         content: comments[i].content,
         createdAt: getFormattedDate(comments[i].createdAt),
       })
@@ -79,12 +105,12 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
       category: await worryWithService.findCategoryNameById(gotWithWorryDetail.categoryId),
-      options: options,
+      options: optionResult,
       commentCount: comments.length,
       comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
     }
 
-    res.status(statusCode.OK).send(success(statusCode.OK, "함께고민 상세조회 성공", worryResult));
+    res.status(statusCode.OK).send(success(statusCode.OK, rm.READ_WITHWORRYDETAIL_SUCCESS, worryResult));
   } catch (error) {
     next(error);
   }

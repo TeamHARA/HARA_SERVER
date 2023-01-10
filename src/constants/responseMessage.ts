@@ -32,6 +32,8 @@ export default {
   // 고민 조회
   READ_WITHWORRY_SUCCESS: "함께고민 조회 성공",
   READ_ALONEWORRY_SUCCESS: "혼자고민 조회 성공",
+  READ_WITHWORRYDETAIL_SUCCESS: "함께고민 상세조회 성공",
+  READ_ALONEWORRYDETAIL_SUCCESS: "혼자고민 상세조회 성공",
 
   //카테고리
   READ_CATEGORY_FAIL: "카테고리 조회 실패",
