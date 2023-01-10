@@ -7,7 +7,6 @@ import {
   worryWithRepository,
   categoryRepository,
   voteRepository,
-  worrySearchRepository,
 } from "../repository";
 import { getFormattedDate } from "../common/utils/dateFormat";
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
