@@ -1,17 +1,25 @@
-import { withOption } from '@prisma/client';
-import { CreateWithWorryDTO } from '../interfaces/worryWith/CreateWithWorryDTO';
+import { withOption } from "@prisma/client";
+import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import { ClientException } from "../common/error/exceptions/customExceptions";
 import statusCode from "../constants/statusCode";
-import { withOptionRepository, worryWithRepository, categoryRepository, voteRepository } from "../repository"
-import { getFormattedDate } from '../common/utils/dateFormat';
+import {
+  withOptionRepository,
+  worryWithRepository,
+  categoryRepository,
+  voteRepository,
+} from "../repository";
+import { getFormattedDate } from "../common/utils/dateFormat";
 import { WorryWithPreview } from "../interfaces/worryWith/WorryWithPreview";
-import commentRepository from '../repository/commentRepository';
-import { Console } from 'console';
-import userRepository from '../repository/userRepository';
+import commentRepository from "../repository/commentRepository";
+import { Console } from "console";
+import userRepository from "../repository/userRepository";
 import { rm } from "../constants";
 
-
-const chooseFinalOption = async (userId: number, worryWithId: number, optionId: number) => {
+const chooseFinalOption = async (
+  userId: number,
+  worryWithId: number,
+  optionId: number
+) => {
   const worryWith = await worryWithRepository.findById(worryWithId);
 
   if (!worryWith) {
@@ -41,25 +49,35 @@ const chooseFinalOption = async (userId: number, worryWithId: number, optionId: 
 //~ 카테고리 별 목록조회
 const isTotal = (categoryId: number): boolean => categoryId === 0;
 
-const findWorryListByCategoryId = async (categoryId: number, userId: number) => {
-
-  const worryWithList = isTotal(categoryId) ? await worryWithRepository.findWorries() : await worryWithRepository.findWorryListByCategoryId(categoryId);
+const findWorryListByCategoryId = async (
+  categoryId: number,
+  userId: number
+) => {
+  const worryWithList = isTotal(categoryId)
+    ? await worryWithRepository.findWorries()
+    : await worryWithRepository.findWorryListByCategoryId(categoryId);
 
   const worryWithResponse = await Promise.all(
     worryWithList.map(async (worryWith: any) => {
-
       //! isVoted 로직
       var isVoted: boolean = false;
       var percentage: number = 0;
       var countAllVote: number = 0;
       //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
-      const findWithOptionByWorryWithId = await withOptionRepository.findByWorryWithId(worryWith.id);
+      const findWithOptionByWorryWithId =
+        await withOptionRepository.findByWorryWithId(worryWith.id);
 
       //!TODO : 유저가 선택지 하나만 투표할 수 있도록
       for (var i = 0; i < worryWith.withOption.length; i++) {
-        const findVoteListByOptionId = await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
+        const findVoteListByOptionId =
+          await voteRepository.findVoteListByOptionId(
+            findWithOptionByWorryWithId[i].id
+          );
         //! isVoted - 현재 로그인한 유저의 vote 결과를 가져와서 하나 이상이면 true
-        isVoted = (findVoteListByOptionId.filter(v => v.userId == userId).length > 0) ? true : false;
+        isVoted =
+          findVoteListByOptionId.filter((v) => v.userId == userId).length > 0
+            ? true
+            : false;
         //! 해당 게시글의 전체 투표 개수
         countAllVote += findVoteListByOptionId.length;
       }
@@ -68,7 +86,10 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
       const option: Array<object> = [];
       for (var i = 0; i < worryWith.withOption.length; i++) {
         //~ 해당 게시글의 optionId당 vote 결과
-        const findVoteListByOptionId = await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
+        const findVoteListByOptionId =
+          await voteRepository.findVoteListByOptionId(
+            findWithOptionByWorryWithId[i].id
+          );
         percentage = findVoteListByOptionId.length / countAllVote;
         option.push({
           id: worryWith.withOption[i].id,
@@ -76,7 +97,7 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
           title: worryWith.withOption[i].title,
           image: worryWith.withOption[i].image,
           hasImage: worryWith.withOption[i].hasImage,
-          percentage: Math.round(percentage * 100)
+          percentage: Math.round(percentage * 100),
         });
       }
 
@@ -87,17 +108,17 @@ const findWorryListByCategoryId = async (categoryId: number, userId: number) => 
         createdAt: getFormattedDate(worryWith.createdAt),
         category: worryWith.category.name,
         finalOptionId: worryWith.finalOption,
-        isAuthor: (worryWith.userId == userId) ? true : false,
+        isAuthor: worryWith.userId == userId ? true : false,
         isVoted: isVoted,
         commentOn: worryWith.commentOn,
         commentCount: worryWith.commentCount,
-        option: option
+        option: option,
       };
       return data;
-    }),
+    })
   );
 
-const categoryList = await categoryRepository.getCategoryId();
+  const categoryList = await categoryRepository.getCategoryId();
 
   if (!categoryList) {
     throw new ClientException("카테고리가 없습니다.");
@@ -110,36 +131,38 @@ const categoryList = await categoryRepository.getCategoryId();
   return worryWithResponse;
 };
 
-const createWithWorry = async(createWithWorryDTO : CreateWithWorryDTO) => {
-  const createWithWorryData = await worryWithRepository.createWithWorry(createWithWorryDTO);
-  if(!createWithWorryData){
+const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
+  const createWithWorryData = await worryWithRepository.createWithWorry(
+    createWithWorryDTO
+  );
+  if (!createWithWorryData) {
     throw new ClientException("함께고민글 생성 실패");
-
   }
 
   return createWithWorryData;
-}
+};
 
-const findWithWorryDetail =async (withWorryId:number) => {
-  const findWithWorryData = await worryWithRepository.findWithWorryDetail(withWorryId);
-  if(!findWithWorryData){
+const findWithWorryDetail = async (withWorryId: number) => {
+  const findWithWorryData = await worryWithRepository.findWithWorryDetail(
+    withWorryId
+  );
+  if (!findWithWorryData) {
     throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다.");
   }
 
   return findWithWorryData;
+};
 
-}
-
-const findOptionsWithWorryId =async (withWorryId:number) => {
-  const findWithOptionData = await withOptionRepository.findOptionsWithWorryId(withWorryId);
-  if(!findWithOptionData){
+const findOptionsWithWorryId = async (withWorryId: number) => {
+  const findWithOptionData = await withOptionRepository.findOptionsWithWorryId(
+    withWorryId
+  );
+  if (!findWithOptionData) {
     throw new ClientException("해당하는 아이디의 선택지가 존재하지 않습니다.");
-
   }
-  
+
   return findWithOptionData;
-  
-}
+};
 
 const compareNotFinishedWorryFirst = (
   a: WorryWithPreview,
@@ -177,7 +200,7 @@ const compareFinishedWorryFirst = (
   return -1;
 };
 
-const readWithWorry = async (choiceEndedFirst: boolean) => {
+const readWithWorry = async (choiceEndedFirst: number) => {
   const readWorry = await worryWithRepository.findWithWorries();
 
   const compare = choiceEndedFirst
@@ -187,25 +210,25 @@ const readWithWorry = async (choiceEndedFirst: boolean) => {
   return sortedWorries;
 };
 
-const findCommentByWithWorryId =async (withWorryId:number) => {
+const findCommentByWithWorryId = async (withWorryId: number) => {
   return await commentRepository.findCommentByWithWorryId(withWorryId);
-}
+};
 
-const findUserImageById =async (userId:number) => {
+const findUserImageById = async (userId: number) => {
   const userData = await userRepository.findUserById(userId);
-  if(!userData){
+  if (!userData) {
     return rm.NO_USER;
   }
   return userData?.profileImage;
-}
+};
 
-const findCategoryNameById =async (categoryId:number) => {
+const findCategoryNameById = async (categoryId: number) => {
   const category = await categoryRepository.getCategoryById(categoryId);
-  if(!category){
+  if (!category) {
     return rm.READ_CATEGORY_FAIL;
   }
   return category.name;
-}
+};
 
 export default {
   findWorryListByCategoryId,
@@ -217,5 +240,4 @@ export default {
   findCommentByWithWorryId,
   findUserImageById,
   findCategoryNameById,
-  
 };

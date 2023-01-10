@@ -5,13 +5,7 @@ import { body } from "express-validator";
 
 const router: Router = Router();
 
-router.get(
-  "/",
-  auth,
-  [body("ifSolved").notEmpty()],
-  validation,
-  worryAloneController.getAloneWorry
-);
+router.get("/list/:ifSolved", auth, worryAloneController.getAloneWorry);
 //[POST] worry/alone
 router.post(
   "/",
@@ -26,18 +20,18 @@ router.post(
   worryAloneController.postAloneWorry
 );
 
-router.patch("/",
+router.patch(
+  "/",
   auth,
   [
     body("userId").notEmpty(),
     body("worryAloneId").notEmpty(),
-    body("chosenOptionId").notEmpty()
+    body("chosenOptionId").notEmpty(),
   ],
   validation,
-  worryAloneController.patchAloneWorry);
+  worryAloneController.patchAloneWorry
+);
 
-  router.get("/:aloneWorryId",
-  auth,
-  worryAloneController.getAloneWorryDetail);
+router.get("/:aloneWorryId", auth, worryAloneController.getAloneWorryDetail);
 
 export default router;
