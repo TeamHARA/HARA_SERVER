@@ -117,10 +117,31 @@ const findOptionsAloneWorryId = async (aloneWorryId: number) => {
   return findAloneOptionData;
 };
 
+const deleteAloneWorry = async (deleteIdArray: Array<number>, userId: number) => {
+
+  if (!deleteIdArray) {
+    throw new ClientException("삭제할 게시글이 존재하지 않습니다.");
+  }
+
+  for (var i = 0; i < deleteIdArray.length; i++) {
+
+    const worryAloneId = await worryAloneRepository.findById(+deleteIdArray[i]);
+
+    if (!worryAloneId) {
+      throw new ClientException("삭제할 게시글이 존재하지 않습니다.");
+    } else if (worryAloneId.userId != userId) {
+      throw new ClientException("게시글 작성자만 삭제할 수 있습니다.");
+    } else {
+      await worryAloneRepository.deleteAloneWorryById(deleteIdArray[i], userId);
+    }
+  }
+};
+
 export default {
   createAloneWorry,
   chooseFinalOption,
   readAloneWorry,
   findAloneWorryDetail,
   findOptionsAloneWorryId,
+  deleteAloneWorry,
 };
