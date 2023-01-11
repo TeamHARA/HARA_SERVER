@@ -99,6 +99,7 @@ const getAloneWorryDetail = async (
       +aloneWorryId,
       userId
     );
+
     const options = await worryAloneService.findOptionsAloneWorryId(
       +aloneWorryId
     );
@@ -120,9 +121,35 @@ const getAloneWorryDetail = async (
   }
 };
 
+const deleteAloneWorry = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { deleteIdArray } = req.body;
+    const { userId } = req.body;
+
+    if (!deleteIdArray) {
+      throw new ClientException("필요한 배열값이 없습니다.");
+    }
+
+    if (!Array.isArray(deleteIdArray)) {
+      throw new ClientException("요청이 배열값이 아닙니다.");
+    }
+
+    if (!userId) {
+      throw new ClientException("필요한 유저가 없습니다.");
+    }
+
+    await worryAloneService.deleteAloneWorry(deleteIdArray, userId);
+
+    res.status(statusCode.OK).send(success(statusCode.OK, rm.DELETE_WORRY_SUCCESS));
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default {
   postAloneWorry,
   getAloneWorry,
   patchAloneWorry,
   getAloneWorryDetail,
+  deleteAloneWorry,
 };

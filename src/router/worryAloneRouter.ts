@@ -20,6 +20,8 @@ router.post(
   worryAloneController.postAloneWorry
 );
 
+router.put("/", auth, worryAloneController.deleteAloneWorry);
+
 router.patch(
   "/",
   auth,
