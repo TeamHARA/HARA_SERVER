@@ -44,7 +44,6 @@ jobs:
       # cache hit 못하면 패키지 설치
       - name: ✨ 패키지 설치
         working-directory: ./
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
         
       - name: ✨ 빌드 과정을 시작
