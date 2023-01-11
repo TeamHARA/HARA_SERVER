@@ -63,10 +63,10 @@ const findWorryListByCategoryId = async (
       var isVoted: boolean = false;
       var percentage: number = 0;
       var countAllVote: number = 0;
+      var loginUserVoteId: number | undefined = 0;
+
       //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
-
       const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(worryWith.id);
-
 
       //!TODO : 유저가 선택지 하나만 투표할 수 있도록
       for (var i = 0; i < worryWith.withOption.length; i++) {
@@ -79,6 +79,16 @@ const findWorryListByCategoryId = async (
           findVoteListByOptionId.filter((v) => v.userId == userId).length > 0
             ? true
             : false;
+
+        //~ 로그인한 유저가 투표했다면 어떤 선택지를 투표했는지 
+        if (isVoted) {
+          const findVoteByWorryWithId = await voteRepository.findVoteByWorryWithId(
+            findWithOptionByWorryWithId[i].id
+          );
+          if (findVoteByWorryWithId?.userId == userId && findVoteByWorryWithId?.optionId > 0) {
+            loginUserVoteId = (findVoteByWorryWithId?.optionId > 0) ? findVoteByWorryWithId?.optionId : 0;
+          }
+        }
         //! 해당 게시글의 전체 투표 개수
         countAllVote += findVoteListByOptionId.length;
       }
@@ -111,6 +121,7 @@ const findWorryListByCategoryId = async (
         finalOptionId: worryWith.finalOption,
         isAuthor: worryWith.userId == userId ? true : false,
         isVoted: isVoted,
+        loginUserVoteId: loginUserVoteId,
         commentOn: worryWith.commentOn,
         commentCount: worryWith.commentCount,
         option: option,
@@ -216,9 +227,9 @@ const findCommentByWithWorryId = async (withWorryId: number) => {
 };
 
 
-const findUserById =async (userId:number) => {
+const findUserById = async (userId: number) => {
   const user = await userRepository.findUserById(userId);
-  if(!user){
+  if (!user) {
     throw new ClientException(rm.NO_USER);
   }
 
