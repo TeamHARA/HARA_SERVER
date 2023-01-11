@@ -14,7 +14,6 @@ router.post(
   [
     body("title").notEmpty(),
     body("content").notEmpty(),
-    body("commentOn").notEmpty(),
     body("categoryId").notEmpty(),
     body("options").notEmpty(),
   ],
