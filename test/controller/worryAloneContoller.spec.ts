@@ -6,6 +6,7 @@ import { worryAlone, aloneOption } from '@prisma/client'
 const prisma = new PrismaClient();
 
 describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
+
   // describe("올바른 요청일 경우", () => {
   //   let response: Response;
   //   beforeAll(async () => {
@@ -88,15 +89,16 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
   //     expect(response.body.message).toBe("이미 최종 결정된 고민글입니다.");
   //   })
   // })
+
   describe("고민글이 존재하지 않으면", () => {
     let response: Response;
 
     beforeAll(async () => {
       response = await request(app)
-        .patch('/api/worry/alone')
+        .patch('/worry/alone')
         .send({ worryAloneId: -1, chosenOptionId: 1 });
     });
-    
+
     it("400 에러를 반환한다.", () => {
       expect(response.status).toBe(400);
     });
@@ -109,11 +111,13 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
   // describe("작성자가 아닌 경우", () => {
   //   let response: Response;
 
+
   //   beforeAll(async () => {
   //     response = await request(app)
   //       .patch('/api/worry/alone')
   //       .send({ worryAloneId: 39, chosenOptionId: 86 });
   //   });
+
 
   //   it("403 에러를 반환한다.", () => {
   //     expect(response.status).toBe(403);
@@ -126,6 +130,7 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
 
   // describe("선택지 아이디가 올바르지 않은 경우", () => {
   //   let response: Response;
+
 
   //   beforeAll(async () => {
   //     response = await request(app)
@@ -141,4 +146,5 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
   //     expect(response.body.message).toBe('해당 고민글의 선택지 아이디가 아닙니다.');
   //   });
   // });
+
 })

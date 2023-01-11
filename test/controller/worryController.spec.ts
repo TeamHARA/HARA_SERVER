@@ -5,7 +5,7 @@ import app from '../testApp';
 describe("GET /worry/:categoryId", () => {
     it("올바른 응답", async () => {
         const response = await request(app)
-            .get("/api/worry/0")
+            .get("/worry/0")
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toEqual("고민글 조회 성공");
         // expect(response.body).toMatchObject({
@@ -255,7 +255,7 @@ describe("GET /worry/:categoryId", () => {
     })
     it("카테고리 번호가 없는 경우", async () => {
         const response = await request(app)
-            .get("/api/worry/10000")
+            .get("/worry/10000")
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toEqual("없는 카테고리입니다");
     })
@@ -270,6 +270,7 @@ describe("GET /worry/:categoryId", () => {
 //     //     expect(response.body).toMatchObject({ status: 200, success: true, message: "투표 생성 성공" });
 //     // })
 
+
 //     test("고민글 유저와 로그인 유저가 같을때 투표할 경우 403을 반환한다", async () => {
 //         const response = await request(app)
 //             .post("/api/worry")
@@ -282,3 +283,4 @@ describe("GET /worry/:categoryId", () => {
 //         });
 //     });
 //})
+

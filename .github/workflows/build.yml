@@ -1,0 +1,52 @@
+name: build
+
+on:
+  pull_request: 
+    branches: [main]
+  
+jobs:
+  build-check:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [18.11.0]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout source code.
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check Npm -v
+        run: npm -v
+
+      - name: create env file
+        working-directory: ./
+        run: |
+          pwd
+          touch .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          cat .env
+      
+      # yarn.lock을 hash로 하는 node_modules cache 생성
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          
+      # cache hit 못하면 패키지 설치
+      - name: Install dependencies
+        working-directory: ./
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn
+        
+      - name: tsc 실행
+        working-directory: ./
+        run: yarn run build

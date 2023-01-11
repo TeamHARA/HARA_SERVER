@@ -10,6 +10,7 @@ import { rm, sc } from "../constants";
 import { getFormattedDate } from '../common/utils/dateFormat';
 import { voteRepository, withOptionRepository } from "../repository";
 import commentService from '../service/commentService';
+import { nextTick } from "process";
 
 
 const updateFinalOption = async (
@@ -42,8 +43,8 @@ const postWithWorry = async (
   next: NextFunction
 ) => {
   try {
-    const createWithWorryDTO: CreateWithWorryDTO  = req.body;
-    
+    const createWithWorryDTO: CreateWithWorryDTO = req.body;
+
     await worryWithService.createWithWorry(createWithWorryDTO);
 
     res
@@ -54,14 +55,21 @@ const postWithWorry = async (
   }
 };
 
-const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction) => {
+const getWithWorryDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { withWorryId } = req.params;
+
    // const { userId } = req.body;
     
+
     if (!withWorryId) {
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
+
 
     var countAllVote: number = 0;
     var percentage: number = 0;
@@ -97,7 +105,7 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
         userImage: commentedUser.profileImage,
         content: comments[i].content,
         createdAt: getFormattedDate(comments[i].createdAt),
-      })
+      });
     }
 
     const worryResult = {
@@ -110,9 +118,11 @@ const getWithWorryDetail =async (req:Request, res: Response, next: NextFunction)
       options: optionResult,
       commentCount: comments.length,
       comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
-    }
+    };
+
 
     res.status(statusCode.OK).send(success(statusCode.OK, rm.READ_WITHWORRYDETAIL_SUCCESS, worryResult));
+
   } catch (error) {
     next(error);
   }
@@ -124,8 +134,8 @@ const getWithWorry = async (
   next: NextFunction
 ) => {
   try {
-    const { ifsolved } = req.body;
-    const withWorries = await worryWithService.readWithWorry(ifsolved);
+    const { ifSolved } = req.params;
+    const withWorries = await worryWithService.readWithWorry(+ifSolved);
     res
       .status(statusCode.OK)
       .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
@@ -133,6 +143,7 @@ const getWithWorry = async (
     next(error);
   }
 };
+
 
 const postWithWorryComment =async (req: Request, res: Response, next: NextFunction) => {
   const { createCommentDTO } = req.body;
@@ -147,6 +158,7 @@ const postWithWorryComment =async (req: Request, res: Response, next: NextFuncti
   }
 
 }
+
 
 
 

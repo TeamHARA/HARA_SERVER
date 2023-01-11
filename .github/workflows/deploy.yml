@@ -6,31 +6,26 @@ name: deploy
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-20.04
 
     strategy:
       matrix:
-        node-version: [16.19.0]
+        node-version: [18.11.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Checkout source code.
-        uses: actions/checkout@v2
+      - name: ✅ 체크아웃 source code.
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: ⚙️ ${{ matrix.node-version }} 버전의 노드로 세팅합니다.
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Check Npm -v
-        run: npm -v
-
-      - name: create env file
+      - name: ⚙️ 환경변수를 설정합니다.
         working-directory: ./
         run: |
           pwd
@@ -40,21 +35,38 @@ jobs:
       
       # yarn.lock을 hash로 하는 node_modules cache 생성
       - name: Cache Yarn
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: yarn-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           
       # cache hit 못하면 패키지 설치
-      - name: Install dependencies
+      - name: ✨ 패키지 설치
+        working-directory: ./
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
-
-      - name: Run build
+        
+      - name: ✨ 빌드 과정을 시작
         working-directory: ./
-        run: 
-          yarn build
-          
-      - name: Run tests
-        run : yarn run test
+        run: yarn run build
+        
+      - name: 📦 빌드한 코드를 압축
+        run: zip -r hara.zip ./dist ./scripts ./appspec.yml ./.env ./package.json ./prisma
+
+      - name: 🌎 AWS에 접속
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: 🦖 S3에 압축된 서버 코드를 업로드
+        run: aws s3 cp --region ap-northeast-2 ./hara.zip s3://hara-build/deploy/
+
+      - name: 🚀 AWS codeDeploy로 배포를 시작
+        run: aws deploy create-deployment
+          --application-name hara-codedeploy
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name dev
+          --s3-location bucket=hara-build,bundleType=zip,key=deploy/hara.zip
