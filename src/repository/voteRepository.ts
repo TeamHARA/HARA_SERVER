@@ -23,4 +23,15 @@ const findVoteListByOptionId = async (optionId: number) => {
     });
 }
 
-export default { createWorryVote, findVoteListByOptionId };
+const findVoteByWorryWithId = async (optionId: number) => {
+    return await prisma.vote.findFirst({
+        where: {
+            optionId,
+        },
+        orderBy: {
+            id: "asc"
+        }
+    });
+}
+
+export default { createWorryVote, findVoteListByOptionId, findVoteByWorryWithId };
