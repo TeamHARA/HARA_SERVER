@@ -65,7 +65,6 @@ model user {
   isAlarm      Boolean      @default(false)
   email        String?      @db.VarChar(50)
   nickName     String?      @db.VarChar(50)
-  name         String       @db.VarChar(50)
   comment      comment[]
   quickWorry   quickWorry[]
   vote         vote[]
