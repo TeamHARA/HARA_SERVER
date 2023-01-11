@@ -63,28 +63,22 @@ const getWithWorryDetail = async (
   try {
     const { withWorryId } = req.params;
 
-   // const { userId } = req.body;
-    
-
+    // const { userId } = req.body;
     if (!withWorryId) {
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
-
     var countAllVote: number = 0;
     var percentage: number = 0;
-
 
     const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
     const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
-    
 
     const percentageArray = await calculatePercentage(options);
 
-
     const optionResult: Array<object> = [];
-    for (var i =0;i<options.length;++i){
+    for (var i = 0; i < options.length; ++i) {
       optionResult.push({
         id: options[i].id,
         worryWithId: options[i].worryWithId,
@@ -96,11 +90,10 @@ const getWithWorryDetail = async (
 
     }
 
-
     const commentResult: Array<object> = [];
-    for(var i=0;i<comments.length;++i){
+    for (var i = 0; i < comments.length; ++i) {
       const commentedUser = await worryWithService.findUserById(comments[i].userId);
-      commentResult.push ({
+      commentResult.push({
         userNickName: commentedUser.nickName,
         userImage: commentedUser.profileImage,
         content: comments[i].content,
@@ -144,8 +137,7 @@ const getWithWorry = async (
   }
 };
 
-
-const postWithWorryComment =async (req: Request, res: Response, next: NextFunction) => {
+const postWithWorryComment = async (req: Request, res: Response, next: NextFunction) => {
   const { createCommentDTO } = req.body;
   try {
     await commentService.createWithWorryComment(createCommentDTO);
@@ -159,9 +151,30 @@ const postWithWorryComment =async (req: Request, res: Response, next: NextFuncti
 
 }
 
+const deleteWithWorry = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { deleteIdArray } = req.body;
+    const { userId } = req.body;
 
+    if (!deleteIdArray) {
+      throw new ClientException("필요한 배열값이 없습니다.");
+    }
 
+    if (!Array.isArray(deleteIdArray)) {
+      throw new ClientException("요청이 배열값이 아닙니다.");
+    }
 
+    if (!userId) {
+      throw new ClientException("필요한 유저가 없습니다.");
+    }
+
+    await worryWithService.deleteWithWorry(deleteIdArray, userId);
+
+    res.status(statusCode.OK).send(success(statusCode.OK, rm.DELETE_WORRY_SUCCESS));
+  } catch (error) {
+    next(error);
+  }
+}
 
 export default {
   updateFinalOption,
@@ -169,4 +182,5 @@ export default {
   getWithWorry,
   getWithWorryDetail,
   //postWithWorryComment,
+  deleteWithWorry
 };

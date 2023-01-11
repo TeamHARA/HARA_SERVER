@@ -7,6 +7,7 @@ const router = Router();
 
 router.get("/list/:ifSolved", auth, worryWithController.getWithWorry);
 router.patch("/", auth, worryWithController.updateFinalOption);
+router.put("/", auth, worryWithController.deleteWithWorry);
 router.post(
   "/",
   auth,

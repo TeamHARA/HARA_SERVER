@@ -98,14 +98,14 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
       }
     });
   }
-  
+
   return worryData;
-  
+
 }
 
-const findWithWorryDetail = async (withWorryId:number) => {
+const findWithWorryDetail = async (withWorryId: number) => {
   return await prisma.worryWith.findUnique({
-    where:{
+    where: {
       id: withWorryId
     },
   });
@@ -134,7 +134,13 @@ const findFinalOption = async () => {
   });
 };
 
-
+const deleteWithWorryById = async (deleteId: number) => {
+  await prisma.worryWith.delete({
+    where: {
+      id: deleteId
+    }
+  })
+};
 
 export default {
   findWorryListByCategoryId,
@@ -146,4 +152,5 @@ export default {
   findFinalOption,
   findWithWorryDetail,
   //createWithWorryComment,
+  deleteWithWorryById
 };

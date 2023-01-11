@@ -59,7 +59,7 @@ const findById = async (id: number) => {
       id
     }
   });
-}
+};
 
 const updateFinalOption = async (aloneWorryId: number, chosenOptionId: number) => {
   await prisma.worryAlone.update({
@@ -70,7 +70,7 @@ const updateFinalOption = async (aloneWorryId: number, chosenOptionId: number) =
       finalOption: chosenOptionId
     }
   })
-}
+};
 
 const findAloneWorryDetail = async (aloneWorryId: number) => {
   return await prisma.worryAlone.findUnique({
@@ -79,16 +79,15 @@ const findAloneWorryDetail = async (aloneWorryId: number) => {
     },
   });
 
-}
+};
 
-const deleteAloneWorryById = async (deleteId: number, userId: number) => {
+const deleteAloneWorryById = async (deleteId: number) => {
   await prisma.worryAlone.delete({
     where: {
       id: deleteId
     }
   })
-}
-
+};
 
 export default {
   createAloneWorry,

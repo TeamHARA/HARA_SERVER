@@ -226,7 +226,6 @@ const findCommentByWithWorryId = async (withWorryId: number) => {
   return await commentRepository.findCommentByWithWorryId(withWorryId);
 };
 
-
 const findUserById = async (userId: number) => {
   const user = await userRepository.findUserById(userId);
   if (!user) {
@@ -236,7 +235,6 @@ const findUserById = async (userId: number) => {
   return user;
 }
 
-
 const findCategoryNameById = async (categoryId: number) => {
   const category = await categoryRepository.getCategoryById(categoryId);
   if (!category) {
@@ -245,9 +243,24 @@ const findCategoryNameById = async (categoryId: number) => {
   return category.name;
 };
 
+const deleteWithWorry = async (deleteIdArray: Array<number>, userId: number) => {
 
+  if (!deleteIdArray) {
+    throw new ClientException("삭제할 게시글이 존재하지 않습니다.");
+  }
 
+  for (var i = 0; i < deleteIdArray.length; i++) {
+    const worryAloneId = await worryWithRepository.findById(+deleteIdArray[i]);
 
+    if (!worryAloneId) {
+      throw new ClientException("삭제할 게시글이 존재하지 않습니다.");
+    } else if (worryAloneId.userId != userId) {
+      throw new ClientException("게시글 작성자만 삭제할 수 있습니다.");
+    } else {
+      await worryWithRepository.deleteWithWorryById(deleteIdArray[i]);
+    }
+  }
+};
 
 export default {
   findWorryListByCategoryId,
@@ -259,5 +272,5 @@ export default {
   findCommentByWithWorryId,
   findUserById,
   findCategoryNameById,
-
+  deleteWithWorry
 };

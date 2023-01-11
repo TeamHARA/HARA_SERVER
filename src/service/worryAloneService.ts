@@ -132,7 +132,7 @@ const deleteAloneWorry = async (deleteIdArray: Array<number>, userId: number) =>
     } else if (worryAloneId.userId != userId) {
       throw new ClientException("게시글 작성자만 삭제할 수 있습니다.");
     } else {
-      await worryAloneRepository.deleteAloneWorryById(deleteIdArray[i], userId);
+      await worryAloneRepository.deleteAloneWorryById(deleteIdArray[i]);
     }
   }
 };
