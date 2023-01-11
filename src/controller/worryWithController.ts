@@ -168,5 +168,5 @@ export default {
   postWithWorry,
   getWithWorry,
   getWithWorryDetail,
-  postWithWorryComment,
+  //postWithWorryComment,
 };
