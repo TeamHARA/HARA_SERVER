@@ -28,6 +28,7 @@ export default {
   READ_WORRYLIST_FAIL: "고민글 조회 실패",
   READ_WORRY_SUCCESS: "고민글 조회 성공",
   READ_WORRY_FAIL: "고민글 조회 실패",
+  DELETE_WORRY_SUCCESS: "고민글 삭제 성공",
 
   // 고민 조회
   READ_WITHWORRY_SUCCESS: "함께고민 조회 성공",
