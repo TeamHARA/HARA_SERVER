@@ -32,8 +32,7 @@ jobs:
           touch .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           cat .env
-          
-      # cache hit 못하면 패키지 설치
+
       - name: ✨ 패키지 설치
         working-directory: ./
         run: yarn
