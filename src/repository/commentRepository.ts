@@ -1,3 +1,4 @@
+import { CreateCommentDTO } from "../interfaces/worryWith/CreateCommentDTO";
 import prisma from "./prismaClient";
 
 const findCommentByWithWorryId =async (worryWithId:number) => {
@@ -6,4 +7,20 @@ const findCommentByWithWorryId =async (worryWithId:number) => {
       });
 };
 
-export default{ findCommentByWithWorryId };
+const createWithWorryComment =async (createCommentDTO: CreateCommentDTO) => {
+  
+  return await prisma.comment.create({
+    data : {
+      worryWithId: createCommentDTO.withWorryId,
+      content: createCommentDTO.content,
+      userId: createCommentDTO.userId,
+      isAnonymous: createCommentDTO.isAnonymous,
+    }
+
+  })
+}
+
+export default{ 
+  findCommentByWithWorryId,
+  createWithWorryComment
+};

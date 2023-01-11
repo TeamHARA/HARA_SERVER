@@ -1,3 +1,5 @@
+import { CreateCommentDTO } from './../interfaces/worryWith/CreateCommentDTO';
+import { calculatePercentage } from './../common/utils/calculatePercentage';
 import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import { NextFunction, Request, Response } from "express";
 import { ClientException } from "../common/error/exceptions/customExceptions";
@@ -5,8 +7,11 @@ import { success } from "../constants/response";
 import statusCode from "../constants/statusCode";
 import { worryWithService } from "../service";
 import { rm, sc } from "../constants";
-import { getFormattedDate } from "../common/utils/dateFormat";
+import { getFormattedDate } from '../common/utils/dateFormat';
+import { voteRepository, withOptionRepository } from "../repository";
+import commentService from '../service/commentService';
 import { nextTick } from "process";
+
 
 const updateFinalOption = async (
   req: Request,
@@ -58,23 +63,46 @@ const getWithWorryDetail = async (
   try {
     const { withWorryId } = req.params;
 
+   // const { userId } = req.body;
+    
+
     if (!withWorryId) {
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
-    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(
-      +withWorryId
-    );
+
+    var countAllVote: number = 0;
+    var percentage: number = 0;
+
+
+    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
-    const comments = await worryWithService.findCommentByWithWorryId(
-      +withWorryId
-    );
+    const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
+    
+
+    const percentageArray = await calculatePercentage(options);
+
+
+    const optionResult: Array<object> = [];
+    for (var i =0;i<options.length;++i){
+      optionResult.push({
+        id: options[i].id,
+        worryWithId: options[i].worryWithId,
+        title: options[i].title,
+        image: options[i].image,
+        hasImage: options[i].hasImage,
+        percentage: percentageArray[i],
+      });
+
+    }
+
 
     const commentResult: Array<object> = [];
-    for (var i = 0; i < comments.length; ++i) {
-      commentResult.push({
-        userNickName: comments[i].nickName,
-        userImage: await worryWithService.findUserImageById(comments[i].id),
+    for(var i=0;i<comments.length;++i){
+      const commentedUser = await worryWithService.findUserById(comments[i].userId);
+      commentResult.push ({
+        userNickName: commentedUser.nickName,
+        userImage: commentedUser.profileImage,
         content: comments[i].content,
         createdAt: getFormattedDate(comments[i].createdAt),
       });
@@ -86,18 +114,15 @@ const getWithWorryDetail = async (
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
-      category: await worryWithService.findCategoryNameById(
-        gotWithWorryDetail.categoryId
-      ),
-      options: options,
+      category: await worryWithService.findCategoryNameById(gotWithWorryDetail.categoryId),
+      options: optionResult,
       commentCount: comments.length,
-      comments:
-        comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
+      comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
     };
 
-    res
-      .status(statusCode.OK)
-      .send(success(statusCode.OK, "함께고민 상세조회 성공", worryResult));
+
+    res.status(statusCode.OK).send(success(statusCode.OK, rm.READ_WITHWORRYDETAIL_SUCCESS, worryResult));
+
   } catch (error) {
     next(error);
   }
@@ -119,9 +144,29 @@ const getWithWorry = async (
   }
 };
 
+
+const postWithWorryComment =async (req: Request, res: Response, next: NextFunction) => {
+  const { createCommentDTO } = req.body;
+  try {
+    await commentService.createWithWorryComment(createCommentDTO);
+
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, rm.CREATE_WITH_WORRY_COMMENT_SUCCESS));
+  } catch (error) {
+    next(error);
+  }
+
+}
+
+
+
+
+
 export default {
   updateFinalOption,
   postWithWorry,
   getWithWorry,
   getWithWorryDetail,
+  postWithWorryComment,
 };

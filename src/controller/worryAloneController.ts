@@ -112,9 +112,9 @@ const getAloneWorryDetail = async (
       options: options,
     };
 
-    res
-      .status(statusCode.OK)
-      .send(success(statusCode.OK, "혼자고민 상세조회 성공", result));
+
+    res.status(statusCode.OK).send(success(statusCode.OK, rm.READ_ALONEWORRYDETAIL_SUCCESS, result));
+
   } catch (error) {
     next(error);
   }

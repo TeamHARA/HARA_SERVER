@@ -32,6 +32,8 @@ export default {
   // 고민 조회
   READ_WITHWORRY_SUCCESS: "함께고민 조회 성공",
   READ_ALONEWORRY_SUCCESS: "혼자고민 조회 성공",
+  READ_WITHWORRYDETAIL_SUCCESS: "함께고민 상세조회 성공",
+  READ_ALONEWORRYDETAIL_SUCCESS: "혼자고민 상세조회 성공",
 
   //카테고리
   READ_CATEGORY_FAIL: "카테고리 조회 실패",
@@ -61,5 +63,9 @@ export default {
   // 혼자고민
   CREATE_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
   CREATE_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공",
-  CHOOSE_ALONE_OPTION_SUCCESS: "혼자고민 결정하기 성공"
+  CHOOSE_ALONE_OPTION_SUCCESS: "혼자고민 결정하기 성공",
+
+  // 댓글
+  CREATE_WITH_WORRY_COMMENT_ERROR: "함께고민 댓글생성 오류",
+  CREATE_WITH_WORRY_COMMENT_SUCCESS: "함께고민 댓글생성 성공",
 };

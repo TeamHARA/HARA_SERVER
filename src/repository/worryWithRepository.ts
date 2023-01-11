@@ -134,6 +134,8 @@ const findFinalOption = async () => {
   });
 };
 
+
+
 export default {
   findWorryListByCategoryId,
   findWorries,
@@ -143,4 +145,5 @@ export default {
   findWithWorries,
   findFinalOption,
   findWithWorryDetail,
+  //createWithWorryComment,
 };
