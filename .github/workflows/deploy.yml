@@ -49,7 +49,7 @@ jobs:
         
       - name: ✨ 빌드 과정을 시작
         working-directory: ./
-        run: yarn run dev
+        run: yarn run build
         
       - name: 📦 빌드한 코드를 압축
         run: zip -r hara.zip ./dist ./scripts ./appspec.yml ./.env ./package.json ./prisma
