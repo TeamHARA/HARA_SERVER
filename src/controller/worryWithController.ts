@@ -118,7 +118,7 @@ const getWithWorryDetail = async (
       options: optionResult,
       commentCount: comments.length,
       comments:
-        comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
+        comments.length == 0 ? null : commentResult,
     };
 
     res
