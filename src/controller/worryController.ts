@@ -31,9 +31,11 @@ const createWorryVote = async (req: Request, res: Response, next: NextFunction) 
             throw new ClientException("필요한 값이 없습니다.");
         }
 
-        const voteData = await voteService.createWorryVote(createVoteDTO);
+        await voteService.createWorryVote(createVoteDTO);
 
-        return res.status(sc.OK).send(success(statusCode.OK, rm.CREATE_VOTE_SUCCESS, voteData));
+        const withWorryDetail = await voteService.createWorryVote(createVoteDTO);
+
+        return res.status(sc.OK).send(success(statusCode.OK, rm.CREATE_VOTE_SUCCESS, withWorryDetail));
     } catch (error) {
         next(error);
     }

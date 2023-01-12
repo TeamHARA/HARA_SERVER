@@ -48,6 +48,10 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
         const findVoteListByOptionId =
             await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
+        isVoted =
+            findVoteListByOptionId.filter((v) => v.userId != createVoteDTO.userId).length > 0
+                ? true
+                : false;
         countAllVote += findVoteListByOptionId.length;
     }
 
