@@ -12,8 +12,8 @@ const createWithWorryComment =async (createCommentDTO: CreateCommentDTO) => {
   return await prisma.comment.create({
     data : {
       worryWithId: createCommentDTO.withWorryId,
-      content: createCommentDTO.content,
       userId: createCommentDTO.userId,
+      content: createCommentDTO.content,
       isAnonymous: createCommentDTO.isAnonymous,
     }
 

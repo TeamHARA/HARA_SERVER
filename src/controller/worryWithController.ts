@@ -49,7 +49,7 @@ const postWithWorry = async (
 
     res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, "혼자고민 생성 성공"));
+      .send(success(statusCode.OK, rm.CREATE_WITH_WORRY_SUCCESS));
   } catch (error) {
     next(error);
   }
@@ -139,17 +139,30 @@ const getWithWorry = async (
   try {
     const { ifSolved } = req.params;
     const withWorries = await worryWithService.readWithWorry(+ifSolved);
+    const withWorriesResult :Array<object> = [];
+    for(var i=0;i<withWorries.length;++i){
+     {
+      withWorriesResult.push({
+        id: withWorries[i].id,
+        categoryId: withWorries[i].categoryId,
+        title: withWorries[i].title,
+        createdAt: getFormattedDate(withWorries[i].createdAt),
+        finalOption: withWorries[i].finalOption,
+      })
+      
+    }
+  }
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorriesResult));
   } catch (error) {
     next(error);
   }
 };
 
-const postWithWorryComment = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { createCommentDTO } = req.body;
+const postWithWorryComment = async (req: Request, res: Response, next: NextFunction) => {
+  const createCommentDTO: CreateCommentDTO = req.body;
+
   try {
     await commentService.createWithWorryComment(createCommentDTO);
 
@@ -197,6 +210,6 @@ export default {
   postWithWorry,
   getWithWorry,
   getWithWorryDetail,
-  //postWithWorryComment,
-  deleteWithWorry,
+  postWithWorryComment,
+  deleteWithWorry
 };

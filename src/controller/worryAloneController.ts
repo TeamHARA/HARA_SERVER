@@ -30,10 +30,10 @@ const postAloneWorry = async (
     if (!createdAloneWorry) {
       return res
         .status(sc.NOT_FOUND)
-        .send(fail(sc.NOT_FOUND, rm.CREATE_WORRY_ALONE_ERROR));
+        .send(fail(sc.NOT_FOUND, rm.CREATE_ALONE_WORRY_ERROR));
     }
 
-    res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
+    res.status(sc.OK).send(success(sc.OK, rm.CREATE_ALONE_WORRY_SUCCESS));
   } catch (error) {
     next(error);
   }
@@ -47,9 +47,22 @@ const getAloneWorry = async (
   try {
     const { ifSolved } = req.params;
     const aloneWorries = await worryAloneService.readAloneWorry(+ifSolved);
+    const aloneWorriesResult :Array<object> = [];
+    for(var i=0;i<aloneWorries.length;++i){
+      {
+        aloneWorriesResult.push({
+         id: aloneWorries[i].id,
+         categoryId: aloneWorries[i].categoryId,
+         title: aloneWorries[i].title,
+         createdAt: getFormattedDate(aloneWorries[i].createdAt),
+         finalOption: aloneWorries[i].finalOption,
+       })
+       
+     }
+    }
     res
       .status(sc.OK)
-      .send(success(sc.OK, rm.READ_ALONEWORRY_SUCCESS, aloneWorries));
+      .send(success(sc.OK, rm.READ_ALONEWORRY_SUCCESS, aloneWorriesResult));
   } catch (error) {
     next(error);
   }
