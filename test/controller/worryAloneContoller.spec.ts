@@ -37,12 +37,12 @@ describe("PATCH /worry/alone - 혼자 고민 결정하기", () => {
 
     it("400 에러를 반환한다.", () => {
       expect(response.status).toBe(400);
-    })
+    });
 
     it("올바른 메시지를 전달한다.", () => {
       expect(response.body.message).toBe("이미 최종 결정된 고민글입니다.");
-    })
-  })
+    });
+  });
 
   describe("고민글이 존재하지 않으면", () => {
     let response: Response;
@@ -108,9 +108,11 @@ describe("PATCH /worry/alone - 혼자 고민 결정하기", () => {
       expect(response.body.message).toBe('해당 고민글의 선택지 아이디가 아닙니다.');
     });
   });
+});
 
 describe("GET /worry/alone/list/0", () => {
   it("올바른 응답", async () => {
+    prismaMock.worryAlone.findMany.mockResolvedValueOnce([]);
     const response = await request(app).get("/worry/alone/list/0");
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual("혼자고민 조회 성공");
@@ -119,6 +121,7 @@ describe("GET /worry/alone/list/0", () => {
 
 describe("GET /worry/alone/list/1", () => {
   it("올바른 응답", async () => {
+    prismaMock.worryAlone.findMany.mockResolvedValueOnce([]);
     const response = await request(app).get("/worry/alone/list/1");
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toEqual("혼자고민 조회 성공");
