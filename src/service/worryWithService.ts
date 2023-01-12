@@ -49,6 +49,17 @@ const chooseFinalOption = async (
 //~ 카테고리 별 목록조회
 const isTotal = (categoryId: number): boolean => categoryId === 0;
 
+const destructurePlainDataInWorryWith = (worryWith: any) => {
+  return {
+    worryId: worryWith.id,
+    title: worryWith.title,
+    content: worryWith.content,
+    finalOptionId: worryWith.finalOption,
+    commentOn: worryWith.commentOn,
+    commentCount: worryWith.commentCount
+  };
+};
+
 const findWorryListByCategoryId = async (
   categoryId: number,
   userId: number
@@ -101,7 +112,7 @@ const findWorryListByCategoryId = async (
           await voteRepository.findVoteListByOptionId(
             findWithOptionByWorryWithId[i].id
           );
-        percentage = findVoteListByOptionId.length / countAllVote;
+        percentage = (findVoteListByOptionId.length == 0) ? 0 : (findVoteListByOptionId.length / countAllVote);
         option.push({
           id: worryWith.withOption[i].id,
           worryWithId: worryWith.withOption[i].worryWithId,
@@ -113,18 +124,13 @@ const findWorryListByCategoryId = async (
       }
 
       const data = {
-        worryId: worryWith.id,
-        title: worryWith.title,
-        content: worryWith.content,
+        ...destructurePlainDataInWorryWith(worryWith),
         createdAt: getFormattedDate(worryWith.createdAt),
-        category: worryWith.category.name,
-        finalOptionId: worryWith.finalOption,
         isAuthor: worryWith.userId == userId ? true : false,
-        isVoted: isVoted,
-        loginUserVoteId: loginUserVoteId,
-        commentOn: worryWith.commentOn,
-        commentCount: worryWith.commentCount,
-        option: option,
+        category: worryWith.category.name,
+        option,
+        isVoted,
+        loginUserVoteId,
       };
       return data;
     })
@@ -134,10 +140,6 @@ const findWorryListByCategoryId = async (
 
   if (!categoryList) {
     throw new ClientException("카테고리가 없습니다.");
-  }
-
-  if (+categoryId > categoryList.length || +categoryId < 0) {
-    throw new ClientException("없는 카테고리입니다");
   }
 
   return worryWithResponse;

@@ -253,12 +253,12 @@ describe("GET /worry/:categoryId", () => {
         //     ]
         // });
     })
-    it("카테고리 번호가 없는 경우", async () => {
-        const response = await request(app)
-            .get("/worry/10000")
-        expect(response.statusCode).toBe(400);
-        expect(response.body.message).toEqual("없는 카테고리입니다");
-    })
+    // it("카테고리 번호가 없는 경우", async () => {
+    //     const response = await request(app)
+    //         .get("/worry/10000")
+    //     expect(response.statusCode).toBe(400);
+    //     expect(response.body.message).toEqual("없는 카테고리입니다");
+    // })
 })
 
 // describe("POST /worry", () => {

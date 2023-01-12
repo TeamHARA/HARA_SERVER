@@ -9,7 +9,7 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
       categoryId: categoryId,
     },
     orderBy: {
-      id: "asc",
+      id: "desc",
     },
     include: {
       category: true,
@@ -43,7 +43,7 @@ const findWorries = async () => {
       },
     },
     orderBy: {
-      id: "asc",
+      id: "desc",
     },
   });
   return worries;
@@ -92,7 +92,7 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-      },
+      }
     });
   }
 
@@ -138,6 +138,17 @@ const deleteWithWorryById = async (deleteId: number) => {
   });
 };
 
+const findOptionIdsById = async (id: number) => {
+  return await prisma.worryWith.findUnique({
+    select: {
+      withOption: true
+    },
+    where: {
+      id,
+    },
+  });
+};
+
 export default {
   findWorryListByCategoryId,
   findWorries,
@@ -149,4 +160,5 @@ export default {
   findWithWorryDetail,
   //createWithWorryComment,
   deleteWithWorryById,
+  findOptionIdsById
 };

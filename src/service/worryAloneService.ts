@@ -45,6 +45,7 @@ const updateFinalOption = async (
 const chooseFinalOption = async (chooseAloneWorryDTO: ChooseAloneWorryDTO) => {
   const { aloneWorryId, userId, chosenOptionId } = chooseAloneWorryDTO;
   const aloneWorry = await worryAloneRepository.findById(aloneWorryId);
+
   if (!aloneWorry) {
     throw new ClientException("해당하는 아이디의 고민글이 존재하지 않습니다");
   }
