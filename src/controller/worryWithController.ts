@@ -1,5 +1,5 @@
-import { CreateCommentDTO } from './../interfaces/worryWith/CreateCommentDTO';
-import { calculatePercentage } from './../common/utils/calculatePercentage';
+import { CreateCommentDTO } from "./../interfaces/worryWith/CreateCommentDTO";
+import { calculatePercentage } from "./../common/utils/calculatePercentage";
 import { CreateWithWorryDTO } from "../interfaces/worryWith/CreateWithWorryDTO";
 import { NextFunction, Request, Response } from "express";
 import { ClientException } from "../common/error/exceptions/customExceptions";
@@ -7,11 +7,12 @@ import { success } from "../constants/response";
 import statusCode from "../constants/statusCode";
 import { worryWithService } from "../service";
 import { rm, sc } from "../constants";
-import { getFormattedDate } from '../common/utils/dateFormat';
+import { getFormattedDate } from "../common/utils/dateFormat";
 import { voteRepository, withOptionRepository } from "../repository";
-import commentService from '../service/commentService';
+import commentService from "../service/commentService";
 import { nextTick } from "process";
-
+import slackAlarm, { SlackMessageFormat } from "../middlwares/slackAlarm";
+import { error } from "console";
 
 const updateFinalOption = async (
   req: Request,
@@ -71,9 +72,13 @@ const getWithWorryDetail = async (
     var countAllVote: number = 0;
     var percentage: number = 0;
 
-    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(+withWorryId);
+    const gotWithWorryDetail = await worryWithService.findWithWorryDetail(
+      +withWorryId
+    );
     const options = await worryWithService.findOptionsWithWorryId(+withWorryId);
-    const comments = await worryWithService.findCommentByWithWorryId(+withWorryId);
+    const comments = await worryWithService.findCommentByWithWorryId(
+      +withWorryId
+    );
 
     const percentageArray = await calculatePercentage(options);
 
@@ -87,12 +92,13 @@ const getWithWorryDetail = async (
         hasImage: options[i].hasImage,
         percentage: percentageArray[i],
       });
-
     }
 
     const commentResult: Array<object> = [];
     for (var i = 0; i < comments.length; ++i) {
-      const commentedUser = await worryWithService.findUserById(comments[i].userId);
+      const commentedUser = await worryWithService.findUserById(
+        comments[i].userId
+      );
       commentResult.push({
         userNickName: commentedUser.nickName,
         userImage: commentedUser.profileImage,
@@ -107,15 +113,20 @@ const getWithWorryDetail = async (
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
-      category: await worryWithService.findCategoryNameById(gotWithWorryDetail.categoryId),
+      category: await worryWithService.findCategoryNameById(
+        gotWithWorryDetail.categoryId
+      ),
       options: optionResult,
       commentCount: comments.length,
-      comments: comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
+      comments:
+        comments.length == 0 ? "댓글이 존재하지 않습니다" : commentResult,
     };
 
-
-    res.status(statusCode.OK).send(success(statusCode.OK, rm.READ_WITHWORRYDETAIL_SUCCESS, worryResult));
-
+    res
+      .status(statusCode.OK)
+      .send(
+        success(statusCode.OK, rm.READ_WITHWORRYDETAIL_SUCCESS, worryResult)
+      );
   } catch (error) {
     next(error);
   }
@@ -129,15 +140,28 @@ const getWithWorry = async (
   try {
     const { ifSolved } = req.params;
     const withWorries = await worryWithService.readWithWorry(+ifSolved);
-    res
-      .status(statusCode.OK)
-      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
   } catch (error) {
-    next(error);
+    const message: SlackMessageFormat = {
+      color: slackAlarm.colors.danger,
+      title: "해라 서버 에러",
+      text: "실패",
+      fields: [
+        {
+          title: "Error Stack:",
+          value: `\`\`\`${error}\`\`\``, //여기서 ```를 추가해서 마크다운 형태로 보내줍니다.
+        },
+      ],
+    };
+    slackAlarm.sendMessage(message); //슬랙에게 알림 전송
   }
+  next(error);
 };
 
-const postWithWorryComment = async (req: Request, res: Response, next: NextFunction) => {
+const postWithWorryComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { createCommentDTO } = req.body;
   try {
     await commentService.createWithWorryComment(createCommentDTO);
@@ -148,10 +172,13 @@ const postWithWorryComment = async (req: Request, res: Response, next: NextFunct
   } catch (error) {
     next(error);
   }
+};
 
-}
-
-const deleteWithWorry = async (req: Request, res: Response, next: NextFunction) => {
+const deleteWithWorry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { deleteIdArray } = req.body;
     const { userId } = req.body;
@@ -170,11 +197,13 @@ const deleteWithWorry = async (req: Request, res: Response, next: NextFunction) 
 
     await worryWithService.deleteWithWorry(deleteIdArray, userId);
 
-    res.status(statusCode.OK).send(success(statusCode.OK, rm.DELETE_WORRY_SUCCESS));
+    res
+      .status(statusCode.OK)
+      .send(success(statusCode.OK, rm.DELETE_WORRY_SUCCESS));
   } catch (error) {
     next(error);
   }
-}
+};
 
 export default {
   updateFinalOption,
@@ -182,5 +211,5 @@ export default {
   getWithWorry,
   getWithWorryDetail,
   //postWithWorryComment,
-  deleteWithWorry
+  deleteWithWorry,
 };
