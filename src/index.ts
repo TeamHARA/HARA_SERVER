@@ -1,15 +1,12 @@
-import { NextFunction, Request, Response } from "express";
 import * as dotenv from 'dotenv';
 import App from './app';
+import errorSender from './middlwares/errorSender';
 
 dotenv.config();
 
 const app = new App().setup();
 
-// dev
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log(err);
-})
+app.use(errorSender.sendErrorStackToSlack);
 
 const port = 3000; // 사용할 port를 3000번으로 설정
 app.listen(port || 3000, () => {

@@ -34,6 +34,7 @@
   "dependencies": {
     "@prisma/client": "^4.5.0",
     "@types/supertest": "^2.0.12",
+    "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.30.0",

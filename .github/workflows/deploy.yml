@@ -31,6 +31,7 @@ jobs:
           pwd
           touch .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo SLACK_ALARM_URI=${{ secrets.SLACK_ALARM_URI }} >> .env
           cat .env
 
       - name: ✨ 패키지 설치
