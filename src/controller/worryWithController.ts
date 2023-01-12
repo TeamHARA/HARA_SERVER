@@ -11,7 +11,6 @@ import { getFormattedDate } from "../common/utils/dateFormat";
 import { voteRepository, withOptionRepository } from "../repository";
 import commentService from "../service/commentService";
 import { nextTick } from "process";
-import slackAlarm, { SlackMessageFormat } from "../middlwares/slackAlarm";
 import { error } from "console";
 
 const updateFinalOption = async (
@@ -141,20 +140,8 @@ const getWithWorry = async (
     const { ifSolved } = req.params;
     const withWorries = await worryWithService.readWithWorry(+ifSolved);
   } catch (error) {
-    const message: SlackMessageFormat = {
-      color: slackAlarm.colors.danger,
-      title: "해라 서버 에러",
-      text: "실패",
-      fields: [
-        {
-          title: "Error Stack:",
-          value: `\`\`\`${error}\`\`\``, //여기서 ```를 추가해서 마크다운 형태로 보내줍니다.
-        },
-      ],
-    };
-    slackAlarm.sendMessage(message); //슬랙에게 알림 전송
+    next(error);
   }
-  next(error);
 };
 
 const postWithWorryComment = async (
