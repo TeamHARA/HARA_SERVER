@@ -129,9 +129,22 @@ const getWithWorry = async (
   try {
     const { ifSolved } = req.params;
     const withWorries = await worryWithService.readWithWorry(+ifSolved);
+    const withWorriesResult :Array<object> = [];
+    for(var i=0;i<withWorries.length;++i){
+     {
+      withWorriesResult.push({
+        id: withWorries[i].id,
+        categoryId: withWorries[i].categoryId,
+        title: withWorries[i].title,
+        createdAt: getFormattedDate(withWorries[i].createdAt),
+        finalOption: withWorries[i].finalOption,
+      })
+      
+    }
+  }
     res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorries));
+      .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorriesResult));
   } catch (error) {
     next(error);
   }
