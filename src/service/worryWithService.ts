@@ -87,7 +87,7 @@ const findWorryListByCategoryId = async (
           );
         //! isVoted - 현재 로그인한 유저의 vote 결과를 가져와서 하나 이상이면 true
         isVoted =
-          findVoteListByOptionId.filter((v) => v.userId == userId).length > 0
+          findVoteListByOptionId.filter((v) => v.userId != userId).length > 0
             ? true
             : false;
 
