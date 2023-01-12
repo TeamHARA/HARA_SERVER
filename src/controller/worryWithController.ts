@@ -49,7 +49,7 @@ const postWithWorry = async (
 
     res
       .status(statusCode.OK)
-      .send(success(statusCode.OK, "혼자고민 생성 성공"));
+      .send(success(statusCode.OK, rm.CREATE_WITH_WORRY_SUCCESS));
   } catch (error) {
     next(error);
   }

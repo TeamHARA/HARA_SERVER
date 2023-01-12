@@ -62,9 +62,13 @@ export default {
   INTERNAL_SERVER_ERROR: "서버 내 오류",
 
   // 혼자고민
-  CREATE_WORRY_ALONE_ERROR: "혼자고민 업로드 오류",
-  CREATE_WORRY_ALONE_SUCCESS: "혼자고민 업로드 성공",
+  CREATE_ALONE_WORRY_ERROR: "혼자고민 업로드 오류",
+  CREATE_ALONE_WORRY_SUCCESS: "혼자고민 업로드 성공",
   CHOOSE_ALONE_OPTION_SUCCESS: "혼자고민 결정하기 성공",
+
+  // 함께고민
+  CREATE_WITH_WORRY_ERROR: "함께고민 업로드 오류",
+  CREATE_WITH_WORRY_SUCCESS: "함께고민 업로드 성공",
 
   // 댓글
   CREATE_WITH_WORRY_COMMENT_ERROR: "함께고민 댓글생성 오류",

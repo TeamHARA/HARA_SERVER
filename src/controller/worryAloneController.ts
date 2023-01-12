@@ -30,10 +30,10 @@ const postAloneWorry = async (
     if (!createdAloneWorry) {
       return res
         .status(sc.NOT_FOUND)
-        .send(fail(sc.NOT_FOUND, rm.CREATE_WORRY_ALONE_ERROR));
+        .send(fail(sc.NOT_FOUND, rm.CREATE_ALONE_WORRY_ERROR));
     }
 
-    res.status(sc.OK).send(success(sc.OK, rm.CREATE_WORRY_ALONE_SUCCESS));
+    res.status(sc.OK).send(success(sc.OK, rm.CREATE_ALONE_WORRY_SUCCESS));
   } catch (error) {
     next(error);
   }
