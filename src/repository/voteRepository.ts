@@ -16,9 +16,6 @@ const findVoteListByOptionId = async (optionId: number) => {
     return await prisma.vote.findMany({
         where: {
             optionId,
-        },
-        orderBy: {
-            id: "asc"
         }
     });
 }
