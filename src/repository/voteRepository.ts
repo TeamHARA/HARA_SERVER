@@ -26,7 +26,7 @@ const findVoteByWorryWithId = async (optionId: number) => {
             optionId,
         },
         orderBy: {
-            id: "asc"
+            id: "desc"
         }
     });
 }

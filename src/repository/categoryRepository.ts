@@ -10,14 +10,13 @@ const getCategoryId = async () => {
     return categories;
 };
 
-const getCategoryById =async (categoryId:number) => {
+const getCategoryById = async (categoryId: number) => {
     return await prisma.category.findUnique({
-        where: {id: categoryId},
-    
+        where: { id: categoryId },
     });
 }
 
-export default { 
+export default {
     getCategoryId,
     getCategoryById,
 };

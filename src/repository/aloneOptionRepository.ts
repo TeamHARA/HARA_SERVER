@@ -27,14 +27,13 @@ const findByIdAndWorryId = async (id: number, worryId: number) => {
 // }
 
 
-const findOptionsAloneWorryId =async (aloneWorryId:number) => {
+const findOptionsAloneWorryId = async (aloneWorryId: number) => {
   return await prisma.aloneOption.findMany({
-    where:{
+    where: {
       worryAloneId: aloneWorryId
     },
   });
 }
-
 
 export default {
   findById,
