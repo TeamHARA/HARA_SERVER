@@ -1,7 +1,7 @@
 type WorryWithPreview = {
   id: number;
   categoryId: number;
-  content: string;
+  title: string;
   createdAt: Date;
   finalOption: number | null;
 };

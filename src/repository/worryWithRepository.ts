@@ -9,7 +9,7 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
       categoryId: categoryId,
     },
     orderBy: {
-      id: "asc"
+      id: "asc",
     },
     include: {
       category: true,
@@ -43,7 +43,7 @@ const findWorries = async () => {
       },
     },
     orderBy: {
-      id: "asc"
+      id: "asc",
     },
   });
   return worries;
@@ -69,7 +69,6 @@ const updateFinalOptionById = async (id: number, optionId: number) => {
 };
 
 const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
-
   const worryData = await prisma.worryWith.create({
     data: {
       title: createWithWorryDTO.title,
@@ -78,8 +77,8 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
       categoryId: createWithWorryDTO.categoryId,
       userId: createWithWorryDTO.userId,
       commentOn: createWithWorryDTO.commentOn,
-      isAuthor: true, //일단은 true 로 해놨음..      
-    }
+      isAuthor: true, //일단은 true 로 해놨음..
+    },
   });
 
   const options = createWithWorryDTO.options;
@@ -93,20 +92,17 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
         disadvantage: options[i].disadvantage,
         image: options[i].image,
         hasImage: options[i].hasImage,
-
-
-      }
+      },
     });
   }
 
   return worryData;
-
-}
+};
 
 const findWithWorryDetail = async (withWorryId: number) => {
   return await prisma.worryWith.findUnique({
     where: {
-      id: withWorryId
+      id: withWorryId,
     },
   });
 };
@@ -116,7 +112,7 @@ const findWithWorries = async () => {
     select: {
       id: true,
       categoryId: true,
-      content: true,
+      title: true,
       createdAt: true,
       finalOption: true,
     },
@@ -137,9 +133,9 @@ const findFinalOption = async () => {
 const deleteWithWorryById = async (deleteId: number) => {
   await prisma.worryWith.delete({
     where: {
-      id: deleteId
-    }
-  })
+      id: deleteId,
+    },
+  });
 };
 
 export default {
@@ -152,5 +148,5 @@ export default {
   findFinalOption,
   findWithWorryDetail,
   //createWithWorryComment,
-  deleteWithWorryById
+  deleteWithWorryById,
 };
