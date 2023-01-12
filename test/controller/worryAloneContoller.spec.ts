@@ -1,12 +1,11 @@
-import { PrismaClient } from '@prisma/client';
-import request, { Response } from 'supertest';
-import app from '../testApp';
-import { worryAlone, aloneOption } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
+import request, { Response } from "supertest";
+import app from "../testApp";
+import { worryAlone, aloneOption } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
-
   // describe("올바른 요청일 경우", () => {
   //   let response: Response;
   //   beforeAll(async () => {
@@ -95,7 +94,7 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
 
     beforeAll(async () => {
       response = await request(app)
-        .patch('/worry/alone')
+        .patch("/worry/alone")
         .send({ worryAloneId: -1, chosenOptionId: 1 });
     });
 
@@ -104,20 +103,20 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
     });
 
     it("올바른 메시지를 전달한다.", () => {
-      expect(response.body.message).toBe('해당하는 아이디의 고민글이 존재하지 않습니다');
+      expect(response.body.message).toBe(
+        "해당하는 아이디의 고민글이 존재하지 않습니다"
+      );
     });
-  })
+  });
 
   // describe("작성자가 아닌 경우", () => {
   //   let response: Response;
-
 
   //   beforeAll(async () => {
   //     response = await request(app)
   //       .patch('/api/worry/alone')
   //       .send({ worryAloneId: 39, chosenOptionId: 86 });
   //   });
-
 
   //   it("403 에러를 반환한다.", () => {
   //     expect(response.status).toBe(403);
@@ -131,13 +130,12 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
   // describe("선택지 아이디가 올바르지 않은 경우", () => {
   //   let response: Response;
 
-
   //   beforeAll(async () => {
   //     response = await request(app)
   //       .patch('/api/worry/alone')
   //       .send({ worryAloneId: 40, chosenOptionId: -1 });
   //   });
-    
+
   //   it("400 에러를 반환한다.", () => {
   //     expect(response.status).toBe(400);
   //   });
@@ -146,5 +144,20 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
   //     expect(response.body.message).toBe('해당 고민글의 선택지 아이디가 아닙니다.');
   //   });
   // });
+});
 
-})
+describe("GET /worry/alone/list/0", () => {
+  it("올바른 응답", async () => {
+    const response = await request(app).get("/worry/alone/list/0");
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual("혼자고민 조회 성공");
+  });
+});
+
+describe("GET /worry/alone/list/1", () => {
+  it("올바른 응답", async () => {
+    const response = await request(app).get("/worry/alone/list/1");
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual("혼자고민 조회 성공");
+  });
+});
