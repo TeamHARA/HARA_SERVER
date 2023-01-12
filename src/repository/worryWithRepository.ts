@@ -8,9 +8,14 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
     where: {
       categoryId: categoryId,
     },
-    orderBy: {
-      id: "desc",
-    },
+    orderBy: [
+      {
+        id: "desc",
+      },
+      {
+        createdAt: "desc"
+      }
+    ],
     include: {
       category: true,
       withOption: {
@@ -42,9 +47,14 @@ const findWorries = async () => {
         },
       },
     },
-    orderBy: {
-      id: "desc",
-    },
+    orderBy: [
+      {
+        createdAt: "desc"
+      },
+      {
+        id: "desc",
+      }
+    ],
   });
   return worries;
 };

@@ -22,6 +22,8 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
         throw new ClientException("자신의 고민글에는 투표할 수 없습니다", statusCode.FORBIDDEN);
     }
 
+    await voteRepository.createWorryVote(createVoteDTO);
+
     const destructurePlainDataInWorryWith = (worryWith: any) => {
         return {
             worryId: worryWith.id,

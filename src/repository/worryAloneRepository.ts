@@ -39,6 +39,14 @@ const findAloneWorries = async () => {
       createdAt: true,
       finalOption: true,
     },
+    orderBy: [
+      {
+        createdAt: "desc"
+      },
+      {
+        id: "desc",
+      }
+    ],
   });
 
   return worries;
