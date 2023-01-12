@@ -151,7 +151,8 @@ const getWithWorry = async (
 };
 
 const postWithWorryComment = async (req: Request, res: Response, next: NextFunction) => {
-  const { createCommentDTO } = req.body;
+  const createCommentDTO: CreateCommentDTO = req.body;
+
   try {
     await commentService.createWithWorryComment(createCommentDTO);
 
@@ -194,6 +195,6 @@ export default {
   postWithWorry,
   getWithWorry,
   getWithWorryDetail,
-  //postWithWorryComment,
+  postWithWorryComment,
   deleteWithWorry
 };

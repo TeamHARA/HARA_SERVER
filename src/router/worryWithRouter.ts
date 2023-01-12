@@ -21,5 +21,15 @@ router.post(
   worryWithController.postWithWorry
 );
 router.get("/:withWorryId", auth, worryWithController.getWithWorryDetail);
+router.post("/comment",
+auth,
+[
+  body("withWorryId").notEmpty(),
+  body("userId").notEmpty(),
+  body("content").notEmpty(),
+  body("isAnonymous").notEmpty(),
+],
+validation,
+worryWithController.postWithWorryComment);
 
 export default router;
