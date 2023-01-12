@@ -42,17 +42,12 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
     const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(worryWith.id);
 
-    console.log(findWithOptionByWorryWithId);
-    console.log(findWithOptionByWorryWithId[0]);
-
     //!TODO : 유저가 선택지 하나만 투표할 수 있도록
     for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
         const findVoteListByOptionId =
             await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
         countAllVote += findVoteListByOptionId.length;
     }
-
-    console.log(countAllVote);
 
     //! percentage 계산 & option 작업
     const option: Array<object> = [];
@@ -63,7 +58,6 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
                 findWithOptionByWorryWithId[i].id
             );
         percentage = findVoteListByOptionId.length / countAllVote;
-        console.log(findVoteListByOptionId.length);
         option.push({
             id: findWithOptionByWorryWithId[i].id,
             worryWithId: findWithOptionByWorryWithId[i].worryWithId,
