@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from 'express-validator';
+import { ClientException } from "../common/error/exceptions/customExceptions";
 import { sc } from "../constants";
 import { fail } from "../constants/response";
 
@@ -14,7 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         for(const key in errors) {
             notFoundValues.push(errors[key].param);
         }
-        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, `${notFoundValues.join(', ')} 값이 비었습니다.`));
+        next(new ClientException(`${notFoundValues.join(', ')} 값이 비었습니다.`));
     }
 
     next();
