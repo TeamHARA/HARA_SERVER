@@ -68,9 +68,6 @@ const getWithWorryDetail = async (
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
 
-    var countAllVote: number = 0;
-    var percentage: number = 0;
-
     const gotWithWorryDetail = await worryWithService.findWithWorryDetail(
       +withWorryId
     );
@@ -90,6 +87,8 @@ const getWithWorryDetail = async (
         image: options[i].image,
         hasImage: options[i].hasImage,
         percentage: percentageArray[i],
+        advantage: options[i].advantage,
+        disadvantage: options[i].disadvantage,
       });
     }
 
