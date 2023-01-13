@@ -122,7 +122,7 @@ const getAloneWorryDetail = async (
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
-      category: gotWithWorryDetail.content,
+      category: gotWithWorryDetail.categoryId,
       options: options,
     };
 
