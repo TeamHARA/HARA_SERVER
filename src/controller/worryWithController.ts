@@ -118,7 +118,7 @@ const getWithWorryDetail = async (
     }
 
     const worryResult = {
-      isAuthor: gotWithWorryDetail.isAuthor,
+      isAuthor: gotWithWorryDetail.userId == userId ? true : false,
       finalOption: gotWithWorryDetail.finalOption,
       isVoted: isVoted,
       selectedOptionId: selectedOptionId,

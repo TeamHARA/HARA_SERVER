@@ -91,7 +91,6 @@ const createWithWorry = async (createWithWorryDTO: CreateWithWorryDTO) => {
       categoryId: createWithWorryDTO.categoryId,
       userId: createWithWorryDTO.userId,
       commentOn: createWithWorryDTO.commentOn,
-      isAuthor: true, //일단은 true 로 해놨음..
     },
   });
 
