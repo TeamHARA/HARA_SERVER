@@ -1,14 +1,12 @@
 # HARA SERVER 
-![Server Architecture](https://user-images.githubusercontent.com/78431728/212297774-56a057fb-0c16-41bb-a16a-a70a1b2ce1d2.png)
-
-## HARA MARA
+![HARA](https://user-images.githubusercontent.com/78431728/212297774-56a057fb-0c16-41bb-a16a-a70a1b2ce1d2.png)
 
 > <strong>할까? 말까? 고민이 될땐 당신의 선택 도우미 서비스 해라!</strong>
 
 > <strong>31th SOPT APPJAM</strong><br>
 > 프로젝트 기간: 2022.12.11 ~ 2023.01.14
 
-### Developer & 역할분담
+### Developer
 
 <br>
 
@@ -24,7 +22,6 @@
 <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
 <img alt="Prisma" src="https://img.shields.io/badge/Prisma-2D3748.svg?style=for-the-badge&logo=Prisma&logoColor=white"/>
 <img alt="AWS" src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white"/><br>
-<img alt="Jest" src="https://img.shields.io/badge/Jest-C21325.svg?style=for-the-badge&logo=jest&logoColor=white"/>
 </p>
 
 ### ⚙️ Server Architecture
