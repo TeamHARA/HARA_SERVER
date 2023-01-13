@@ -85,21 +85,21 @@ const findWorryListByCategoryId = async (
           await voteRepository.findVoteListByOptionId(
             findWithOptionByWorryWithId[i].id
           );
-        //! isVoted - 현재 로그인한 유저의 vote 결과를 가져와서 하나 이상이면 true
-        isVoted =
-          findVoteListByOptionId.filter((v) => v.userId != userId).length > 0
-            ? true
-            : false;
+        // //! isVoted - 현재 로그인한 유저의 vote 결과를 가져와서 하나 이상이면 true
+        // isVoted =
+        //   findVoteListByOptionId.filter((v) => v.userId != userId).length > 0
+        //     ? true
+        //     : false;
 
-        //~ 로그인한 유저가 투표했다면 어떤 선택지를 투표했는지 
-        if (isVoted) {
-          const findVoteByWorryWithId = await voteRepository.findVoteByOptionId(
-            findWithOptionByWorryWithId[i].id, userId
-          );
-          if (findVoteByWorryWithId?.userId == userId && findVoteByWorryWithId?.optionId > 0) {
-            loginUserVoteId = (findVoteByWorryWithId?.optionId > 0) ? findVoteByWorryWithId?.optionId : 0;
-          }
-        }
+        // //~ 로그인한 유저가 투표했다면 어떤 선택지를 투표했는지 
+        // if (isVoted) {
+        //   const findVoteByWorryWithId = await voteRepository.findVoteByOptionId(
+        //     findWithOptionByWorryWithId[i].id, userId
+        //   );
+        //   if (findVoteByWorryWithId?.userId == userId && findVoteByWorryWithId?.optionId > 0) {
+        //     loginUserVoteId = (findVoteByWorryWithId?.optionId > 0) ? findVoteByWorryWithId?.optionId : 0;
+        //   }
+        // }
         //! 해당 게시글의 전체 투표 개수
         countAllVote += findVoteListByOptionId.length;
       }
@@ -126,14 +126,23 @@ const findWorryListByCategoryId = async (
         });
       }
 
+      for(var i=0;i<worryWith.withOption.length;++i){
+        const optionVoted = await voteRepository.findVoteByOptionId(worryWith.withOption[i].id, userId);
+        if(optionVoted){
+          isVoted = true;
+          loginUserVoteId = optionVoted.optionId;
+          break;
+        }
+      }
+      
       const data = {
         ...destructurePlainDataInWorryWith(worryWith),
         createdAt: getFormattedDate(worryWith.createdAt),
         isAuthor: worryWith.userId == userId ? true : false,
-        category: worryWith.category.name,
-        option,
         isVoted,
         loginUserVoteId,
+        category: worryWith.category.name,
+        option,
       };
       return data;
     })

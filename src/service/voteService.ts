@@ -4,6 +4,7 @@ import statusCode from "../constants/statusCode";
 import { voteRepository, withOptionRepository, worryWithRepository } from "../repository"
 import { CreateVoteDTO, findVoteDTO } from "../interfaces/vote/worryVoteDTO";
 import { getFormattedDate } from "../common/utils/dateFormat";
+import worryWithService from './worryWithService';
 
 const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
 
@@ -30,61 +31,12 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     }
 
     await voteRepository.createWorryVote(createVoteDTO);
-    //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
-    const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(createVoteDTO.worryWithId);
+    
 
-    const destructurePlainDataInWorryWith = (worryWith: any) => {
-        return {
-            worryId: worryWith.id,
-            title: worryWith.title,
-            content: worryWith.content,
-            finalOptionId: worryWith.finalOption,
-            commentOn: worryWith.commentOn,
-            commentCount: worryWith.commentCount
-        };
-    };
+    const afterVoteResult = await worryWithService.findWorryListByCategoryId(worryWith.categoryId,createVoteDTO.userId);
 
-    //! isVoted 로직
-    var isVoted: boolean = true;
-    var percentage: number = 0;
-    var countAllVote: number = 0;
-    var loginUserVoteId: number | undefined = 0;
+    return afterVoteResult;
 
-    //!TODO : 유저가 선택지 하나만 투표할 수 있도록
-    for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
-        const findVoteListByOptionId =
-            await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
-        countAllVote += findVoteListByOptionId.length;
-    }
-
-    //! percentage 계산 & option 작업
-    const option: Array<object> = [];
-    for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
-        //~ 해당 게시글의 optionId당 vote 결과
-        const findVoteListByOptionId =
-            await voteRepository.findVoteListByOptionId(
-                findWithOptionByWorryWithId[i].id
-            );
-        percentage = findVoteListByOptionId.length / countAllVote;
-        option.push({
-            id: findWithOptionByWorryWithId[i].id,
-            worryWithId: findWithOptionByWorryWithId[i].worryWithId,
-            title: findWithOptionByWorryWithId[i].title,
-            image: findWithOptionByWorryWithId[i].image,
-            hasImage: findWithOptionByWorryWithId[i].hasImage,
-            percentage: Math.round(percentage * 100),
-        });
-    }
-
-    const worryWithData = {
-        ...destructurePlainDataInWorryWith(worryWith),
-        createdAt: getFormattedDate(worryWith.createdAt),
-        isAuthor: worryWith.userId == createVoteDTO.userId ? true : false,
-        option,
-        isVoted,
-        loginUserVoteId,
-    };
-    return worryWithData;
 };
 
 const findWorryVoteByUserId = async (findVoteDTO: findVoteDTO) => {
