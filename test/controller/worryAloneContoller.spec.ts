@@ -4,7 +4,7 @@ import app from '../testApp';
 describe("[POST] /worry/alone - 혼자 고민 생성하기", () => {
   let response: Response;
 
-  describe.only("올바른 요청일 경우", () => {
+  describe("올바른 요청일 경우", () => {
     
     beforeAll(async () => {
       response = await request(app)

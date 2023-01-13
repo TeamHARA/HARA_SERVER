@@ -23,14 +23,13 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
         throw new ClientException("자신의 고민글에는 투표할 수 없습니다", statusCode.FORBIDDEN);
     }
 
-    await voteRepository.createWorryVote(createVoteDTO);
-
     const findVoteByOptionId = await voteRepository.findVoteByOptionId(worryOption.id, createVoteDTO.userId);
 
     if (findVoteByOptionId) {
         throw new ClientException("이미 투표한 글에는 재투표가 불가능합니다.", statusCode.FORBIDDEN);
     }
 
+    await voteRepository.createWorryVote(createVoteDTO);
     //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
     const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(createVoteDTO.worryWithId);
 
@@ -46,7 +45,7 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     };
 
     //! isVoted 로직
-    var isVoted: boolean = false;
+    var isVoted: boolean = true;
     var percentage: number = 0;
     var countAllVote: number = 0;
     var loginUserVoteId: number | undefined = 0;
@@ -55,10 +54,6 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     for (var i = 0; i < findWithOptionByWorryWithId.length; i++) {
         const findVoteListByOptionId =
             await voteRepository.findVoteListByOptionId(findWithOptionByWorryWithId[i].id);
-        isVoted =
-            findVoteListByOptionId.filter((v) => v.userId != createVoteDTO.userId).length > 0
-                ? true
-                : false;
         countAllVote += findVoteListByOptionId.length;
     }
 
