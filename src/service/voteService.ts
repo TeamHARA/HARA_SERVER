@@ -29,7 +29,6 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
 
     await voteRepository.createWorryVote(createVoteDTO);
 
-    await voteRepository.createWorryVote(createVoteDTO);
     //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
     const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(createVoteDTO.worryWithId);
 
