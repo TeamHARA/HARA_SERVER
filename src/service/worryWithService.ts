@@ -106,6 +106,7 @@ const findWorryListByCategoryId = async (
 
       //! percentage 계산 & option 작업
       const option: Array<object> = [];
+
       for (var i = 0; i < worryWith.withOption.length; i++) {
         //~ 해당 게시글의 optionId당 vote 결과
         const findVoteListByOptionId =
@@ -120,6 +121,8 @@ const findWorryListByCategoryId = async (
           image: worryWith.withOption[i].image,
           hasImage: worryWith.withOption[i].hasImage,
           percentage: Math.round(percentage * 100),
+          advantage: worryWith.withOption[i].advantage,
+          disadvantage: worryWith.withOption[i].disadvantage,
         });
       }
 

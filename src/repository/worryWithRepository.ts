@@ -25,6 +25,8 @@ const findWorryListByCategoryId = async (categoryId?: number) => {
           title: true,
           image: true,
           hasImage: true,
+          advantage: true,
+          disadvantage: true,
         },
       },
     },
@@ -44,6 +46,8 @@ const findWorries = async () => {
           title: true,
           image: true,
           hasImage: true,
+          advantage: true,
+          disadvantage: true
         },
       },
     },
