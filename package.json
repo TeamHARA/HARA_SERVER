@@ -10,7 +10,8 @@
     "db:push": "npx prisma db push",
     "generate": "npx prisma generate",
     "pretest": "yarn generate",
-    "test": "jest",
+    "test": "dotenv -e .env.test jest",
+    "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init",
     "prepare": "husky install"
   },
   "devDependencies": {

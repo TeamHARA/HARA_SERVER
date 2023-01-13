@@ -148,3 +148,111 @@ describe("[PATCH] /worry/alone - 혼자 고민 결정하기", () => {
   // });
 
 })
+
+
+
+
+describe.only("[POST] /worry/alone - 혼자 고민 생성하기", () => {
+  let response: Response;
+  let createdAloneWorry: worryAlone;
+  let createdAloneOption: aloneOption;
+
+  describe("올바른 요청일 경우", () => {
+    
+    beforeAll(async () => {
+      response = await request(app)
+          .post('/worry/alone')
+          .send({ 
+            "title": "고민제목이다 이자식아",
+            "content": "진로 그거 어떻게 정하는건데..!",
+            "categoryId": 1,
+            "options": [
+              {
+                "title": "선택지 제목",
+                "advantage": "장점의 이유",
+                "disadvantage": "단점의 이유",
+                "image": "",
+                "hasImage": false
+              },
+              {
+                "title": "선택지 제목",
+                "advantage": "장점의 이유",
+                "disadvantage": "단점의 이유",
+                "image": "image",
+                "hasImage": true
+              },
+              {
+                "title": "선택지 제목",
+                "advantage": "장점의 이유",
+                "disadvantage": "단점의 이유",
+                "image": "image",
+                "hasImage": true
+              }
+            ]
+          });
+      });
+
+      afterAll(async () => {
+        await prisma.aloneOption.deleteMany({
+          where: {
+            worryAloneId: 1,
+          },
+        });
+        await prisma.worryAlone.delete({
+          where: {
+            id: 1
+          },
+        });
+      });
+  
+      it("200 응답을 반환한다.", () => {
+        expect(response.status).toBe(200);
+      });
+    });
+
+
+  //에러뜨는 경우
+  describe("제목이 없는 경우", () => {
+    beforeAll(async () => {
+      response = await request(app)
+        .post('/worry/alone')
+        .send({ 
+          
+          "content": "진로 그거 어떻게 정하는건데..!",
+          "categoryId": 1,
+          "options": [
+            {
+              "title": "선택지 제목",
+              "advantage": "장점의 이유",
+              "disadvantage": "단점의 이유",
+              "image": "",
+              "hasImage": false
+            },
+            {
+              "title": "선택지 제목",
+              "advantage": "장점의 이유",
+              "disadvantage": "단점의 이유",
+              "image": "image",
+              "hasImage": true
+            },
+            {
+              "title": "선택지 제목",
+              "advantage": "장점의 이유",
+              "disadvantage": "단점의 이유",
+              "image": "image",
+              "hasImage": true
+            }
+          ]
+        });
+    });
+
+    it("400 에러를 반환한다.", () => {
+      expect(response.status).toBe(400);
+    });
+
+    it("올바른 메시지를 전달한다.", () => {
+      expect(response.body.message).toBe('title 값이 비었습니다.');
+    });
+  });
+
+})
