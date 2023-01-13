@@ -1,13 +1,14 @@
 # HARA SERVER 
+![Server Architecture](https://user-images.githubusercontent.com/78431728/212297774-56a057fb-0c16-41bb-a16a-a70a1b2ce1d2.png)
 
 ## HARA MARA
 
-> <strong>고민 해결 완료~</strong>
+> <strong>할까? 말까? 고민이 될땐 당신의 선택 도우미 서비스 해라!</strong>
 
 > <strong>31th SOPT APPJAM</strong><br>
 > 프로젝트 기간: 2022.12.11 ~ 2023.01.14
 
-### Developer
+### Developer & 역할분담
 
 <br>
 
@@ -17,63 +18,125 @@
 | [kyY00n](https://github.com/kyY00n) | [csb9427](https://github.com/csb9427) | [leGit-y](https://github.com/leGit-y) | [yujindonut](https://github.com/yujindonut) |
 
 ### 🛠 개발 환경
+<br>
+<p>
+<img alt="TypeScript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white"/>
+<img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
+<img alt="Prisma" src="https://img.shields.io/badge/Prisma-2D3748.svg?style=for-the-badge&logo=Prisma&logoColor=white"/>
+<img alt="AWS" src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white"/><br>
+<img alt="Jest" src="https://img.shields.io/badge/Jest-C21325.svg?style=for-the-badge&logo=jest&logoColor=white"/>
+</p>
 
-### ⚙️ Dependencies
+### ⚙️ Server Architecture
 
-### ✉️ HARA Directory Tree
+<img width="1115" alt="스크린샷 2023-01-13 오후 8 03 52" src="https://user-images.githubusercontent.com/78431728/212305537-1d043033-6712-478d-8fac-f52f675f99a3.png">
+
+### ✉️ Dependencies Module
+
+package.json
+
+```
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "db:pull": "npx prisma db pull",
+    "db:push": "npx prisma db push",
+    "generate": "npx prisma generate",
+    "pretest": "yarn generate",
+    "test": "jest",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.14",
+    "@types/express-validator": "^3.0.0",
+    "@types/jest": "^29.2.5",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^18.11.9",
+    "babel-jest": "^29.3.1",
+    "husky": "^8.0.0",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.5.0",
+    "@types/supertest": "^2.0.12",
+    "axios": "^1.2.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.30.0",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jest-mock-extended": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "prisma": "^4.5.0",
+    "supertest": "^6.3.3"
+  },
+```
+
+### 🌴 HARA Directory Tree
 
 ```bash
-HARA
+📁 HARA
+├── .github
 ├── husky
 ├── prisma
+├── scripts
 ├── src
 │   ├── constants
-│       └── index.ts
+│   ├── common
 │   ├── config
 │   ├── controller
-│       └── index.ts
+│       ├── random
+│       ├── vote
+│       ├── worryAlone
+│       └── worryWith
 │   ├── interfaces
 │   ├── middlwares
-│       └── index.ts
 │   ├── modules
-│   ├── router
-│       └── index.ts
+│   ├── repository
+│   ├── router
 │   └── services
-│       └── index.ts
 └── test
 ```
 
 ### 📋 Model Diagram
 
-![image](https://user-images.githubusercontent.com/78431728/211365520-3bef9bb4-f85c-401c-947e-2806ec4198d5.png)
+![image](https://user-images.githubusercontent.com/78431728/212294480-e12f9c1e-1490-429b-9060-857a06439b36.png)
 
 ### 📧API 명세서
 
+baseURL : 3.37.47.67:3000
 https://daffy-lawyer-1b8.notion.site/634f31cafc93476888b5fdb9e5c37184?v=63b654ebfce44823b2209beac83518fd
 
 ### 🙋🏻‍♀️ <strong>HARA APIs</strong>
  
 |   EndPoint   |               detail               | Method | developer | done |
 | :------: | :--------------------------------: | :----: | :-------: | :--: |
-|   Worry  |             고민글 투표하기             |   `POST`    |   승빈    |  - 진행중  |
-|          |             고민글 전체조회             |   `GET`    |   유진    |  - 진행중  |
-|          |             개인 고민글 생성             |   `POST`    |   예린    |  - 진행중  |
-|          |             함께 고민글 생성             |   `POST`    |   예린    |    |
-|          |             함께 고민 목록 조회             |   `GET`    |   승빈    |    |
-|          |             혼자 고민 목록 조회             |   `GET`    |   승빈    |    |
-|          |             혼자 고민 삭제             |   `PUT`    |   유진    |    |
-|          |             함께 고민 삭제             |   `PUT`    |   유진    |    |
-|          |             혼자 고민 최종결정             |   `PATCH`    |   가영    |    |
-|          |             함께 고민 최종결정             |   `PATCH`    |   가영    |    |
-|          |             고민 목록 검색             |   `GET`    |   예린    |    |
-|          |             혼자 고민 상세 조회             |   `GET`    |   예린    |    |
-|          |             함께 고민 상세 조회 - 다른 유저             |   `GET`    |   예린    |    |
-|          |             함께 고민 상세 조회 - 게시자 본인             |   `GET`    |   예린    |    |
+|   Worry  |             고민글 투표하기             |   `POST`    |   유진    |  ✅  |
+|          |             고민글 전체조회             |   `GET`    |   유진    |  ✅  |
+|          |             개인 고민글 생성             |   `POST`    |   예린    |  ✅  |
+|          |             함께 고민글 생성             |   `POST`    |   예린    |  ✅  |
+|          |             함께 고민 목록 조회             |   `GET`    |   승빈    |  ✅  |
+|          |             혼자 고민 목록 조회             |   `GET`    |   승빈    |  ✅  |
+|          |             혼자 고민 삭제             |   `PUT`    |   유진    |  ✅  |
+|          |             함께 고민 삭제             |   `PUT`    |   유진    |  ✅  |
+|          |             혼자 고민 최종결정             |   `PATCH`    |   가영    |  ✅  |
+|          |             함께 고민 최종결정             |   `PATCH`    |   가영    |  ✅  |
+|          |             고민 목록 검색             |   `GET`    |   예린    |  ✅  |
+|          |             혼자 고민 상세 조회             |   `GET`    |   예린    |  ✅  |
+|          |             함께 고민 상세 조회             |   `GET`    |   예린    |  ✅  |
 |          |             고민글에 대한 댓글 조회              |   `GET`    |   예린    |    |
 |          |             고민글에 대한 댓글 생성              |   `POST`    |   승빈    |    |
-|  Random  |             랜덤답변             |   `GET`    |   승빈    |    |
+|  Random  |             랜덤답변             |   `GET`    |   승빈    |  ✅  |
 |          |             간단 질문 입력하기             |   `POST`    |   승빈    |    |
-|          |             과거 고민 목록 조회             |   `GET`    |   유진    |    |
+|          |             과거 고민 목록 조회             |   `GET`    |   유진    |  ✅  |
 |          |             과거 고민 상세 조회             |   `GET`    |   승빈    |    |
 |   User   |             유저 정보 가져오기             |   `GET`    |   가영    |    |
 |          |             유저 정보 수정하기             |   `POST`    |   승빈    |    |
