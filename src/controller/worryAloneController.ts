@@ -4,7 +4,7 @@ import { rm, sc } from "../constants";
 import { fail, success } from "../constants/response";
 import { validationResult } from "express-validator";
 import { ClientException } from "../common/error/exceptions/customExceptions";
-import { worryAloneService } from "../service";
+import { worryAloneService, worryWithService } from "../service";
 import statusCode from "../constants/statusCode";
 import { getFormattedDate } from "../common/utils/dateFormat";
 import { voteRepository } from "../repository";
@@ -46,7 +46,7 @@ const getAloneWorry = async (
 ) => {
   try {
     const { ifSolved } = req.params;
-    const aloneWorries = await worryAloneService.readAloneWorry(+ifSolved);
+    const aloneWorries = await worryAloneService.readAloneWorry(+ifSolved, req.body.userId);
     const aloneWorriesResult :Array<object> = [];
     for(var i=0;i<aloneWorries.length;++i){
       {
@@ -122,7 +122,8 @@ const getAloneWorryDetail = async (
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
-      category: gotWithWorryDetail.categoryId,
+      category: await worryWithService.findCategoryNameById(
+        gotWithWorryDetail.categoryId),
       options: options,
     };
 

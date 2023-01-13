@@ -83,8 +83,8 @@ const compareFinishedWorryFirst = (
   return -1;
 };
 
-const readAloneWorry = async (choiceEndedFirst: number) => {
-  const readWorry = await worryAloneRepository.findAloneWorries();
+const readAloneWorry = async (choiceEndedFirst: number,  userId: number) => {
+  const readWorry = await worryAloneRepository.findAloneWorries(userId);
 
   const compare = choiceEndedFirst
     ? compareFinishedWorryFirst

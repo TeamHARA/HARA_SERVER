@@ -32,7 +32,7 @@ const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
 
   return worryData;
 };
-const findAloneWorries = async () => {
+const findAloneWorries = async (userId: number) => {
   const worries = await prisma.worryAlone.findMany({
     select: {
       id: true,
@@ -40,6 +40,9 @@ const findAloneWorries = async () => {
       title: true,
       createdAt: true,
       finalOption: true,
+    },
+    where:{
+      userId: userId
     },
     orderBy: [
       {
