@@ -20,7 +20,15 @@ const findQuickWorryList = async (userId: number) => {
     },
     where: {
       userId
-    }
+    },
+    orderBy: [
+      {
+        createdAt: "desc"
+      },
+      {
+        id: "desc",
+      }
+    ],
   });
 }
 
