@@ -108,9 +108,9 @@ const getWithWorryDetail = async (
     let isVoted: boolean = false;
     let selectedOptionId: number = 0;
 
-    for(var i=0;i<options.length;++i){
+    for (var i = 0; i < options.length; ++i) {
       const optionVoted = await voteRepository.findVoteByOptionId(options[i].id, userId);
-      if(optionVoted){
+      if (optionVoted) {
         isVoted = true;
         selectedOptionId = optionVoted.optionId;
         break;
@@ -132,7 +132,7 @@ const getWithWorryDetail = async (
       commentCount: comments.length,
       comments:
         comments.length == 0 ? null : commentResult,
-      
+
     };
 
     res
@@ -153,19 +153,19 @@ const getWithWorry = async (
   try {
     const { ifSolved } = req.params;
     const withWorries = await worryWithService.readWithWorry(+ifSolved);
-    const withWorriesResult :Array<object> = [];
-    for(var i=0;i<withWorries.length;++i){
-     {
-      withWorriesResult.push({
-        id: withWorries[i].id,
-        categoryId: withWorries[i].categoryId,
-        title: withWorries[i].title,
-        createdAt: getFormattedDate(withWorries[i].createdAt),
-        finalOption: withWorries[i].finalOption,
-      })
-      
+    const withWorriesResult: Array<object> = [];
+    for (var i = 0; i < withWorries.length; ++i) {
+      {
+        withWorriesResult.push({
+          id: withWorries[i].id,
+          categoryId: withWorries[i].categoryId,
+          title: withWorries[i].title,
+          createdAt: getFormattedDate(withWorries[i].createdAt),
+          finalOption: withWorries[i].finalOption,
+        })
+
+      }
     }
-  }
     res
       .status(statusCode.OK)
       .send(success(statusCode.OK, rm.READ_WITHWORRY_SUCCESS, withWorriesResult));
