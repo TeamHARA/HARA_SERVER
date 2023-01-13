@@ -93,8 +93,8 @@ const findWorryListByCategoryId = async (
 
         //~ 로그인한 유저가 투표했다면 어떤 선택지를 투표했는지 
         if (isVoted) {
-          const findVoteByWorryWithId = await voteRepository.findVoteByWorryWithId(
-            findWithOptionByWorryWithId[i].id
+          const findVoteByWorryWithId = await voteRepository.findVoteByOptionId(
+            findWithOptionByWorryWithId[i].id, userId
           );
           if (findVoteByWorryWithId?.userId == userId && findVoteByWorryWithId?.optionId > 0) {
             loginUserVoteId = (findVoteByWorryWithId?.optionId > 0) ? findVoteByWorryWithId?.optionId : 0;
