@@ -23,13 +23,11 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
         throw new ClientException("자신의 고민글에는 투표할 수 없습니다", statusCode.FORBIDDEN);
     }
 
-    await voteRepository.createWorryVote(createVoteDTO);
-
     const findVoteByOptionId = await voteRepository.findVoteByOptionId(worryOption.id, createVoteDTO.userId);
 
-    if (findVoteByOptionId) {
-        throw new ClientException("이미 투표한 글에는 재투표가 불가능합니다.", statusCode.FORBIDDEN);
-    }
+    //TODO : 투표한 사람은 재투표 못하게
+
+    await voteRepository.createWorryVote(createVoteDTO);
 
     //~ 해당 게시글의 선택지 id(optionId)를 가져온다.
     const findWithOptionByWorryWithId = await withOptionRepository.findOptionsWithWorryId(createVoteDTO.worryWithId);
