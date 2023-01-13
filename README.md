@@ -1,6 +1,6 @@
 # HARA SERVER 
 ![HARA](https://user-images.githubusercontent.com/78431728/212297774-56a057fb-0c16-41bb-a16a-a70a1b2ce1d2.png)
-
+<img width="1371" alt="image" src="https://user-images.githubusercontent.com/78431728/212357242-acc0b3a4-cee5-43b1-8e9e-9fd215740344.png">
 > <strong>할까? 말까? 고민이 될땐 당신의 선택 도우미 서비스 해라!</strong>
 
 > <strong>31th SOPT APPJAM</strong><br>
