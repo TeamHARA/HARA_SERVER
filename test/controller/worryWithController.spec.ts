@@ -77,3 +77,45 @@ describe("GET /worry/with/list/1", () => {
     expect(response.body.message).toEqual("함께고민 조회 성공");
   });
 });
+
+
+describe.only("POST /worry/with", () => {
+  
+  it("올바른 응답", async () => {
+    const response = await request(app)
+      .post("/worry/with")
+      .send({
+        "title":"진로를 결정하고 싶어요 흑흑",
+        "content": "진로 그거 어떻게 정하는건데..!",
+        "commentOn": false,
+        "categoryId": 1,
+        "options": [
+          {
+            "title": "선택지 제목",
+            "advantage": "장점의 이유",
+            "disadvantage": "단점의 이유",
+            "image": "",
+            "hasImage": false
+          },
+          {
+            "title": "선택지 제목",
+            "advantage": "장점의 이유",
+            "disadvantage": "단점의 이유",
+            "image": "image",
+            "hasImage": true
+          },
+          {
+            "title": "선택지 제목",
+            "advantage": "장점의 이유",
+            "disadvantage": "단점의 이유",
+            "image": "image",
+            "hasImage": true
+          }
+        ]
+      });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toMatchObject({ status: 200, success: true, message: "함께고민 업로드 성공" });
+  });
+
+}
+)

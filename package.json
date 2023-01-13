@@ -10,7 +10,8 @@
     "db:push": "npx prisma db push",
     "generate": "npx prisma generate",
     "pretest": "yarn generate",
-    "test": "jest",
+    "test": "dotenv -e .env.test jest",
+    "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -37,10 +38,11 @@
     "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
+    "dotenv-cli": "^6.0.0",
     "eslint": "^8.30.0",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
-    "jest-mock-extended": "2.0.4",
+    "jest-mock-extended": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "prisma": "^4.5.0",
     "supertest": "^6.3.3"

@@ -28,6 +28,8 @@ const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
     });
   } //for
 
+
+
   return worryData;
 };
 const findAloneWorries = async () => {
