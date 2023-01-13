@@ -79,7 +79,7 @@ describe("GET /worry/with/list/1", () => {
 });
 
 
-describe.only("POST /worry/with", () => {
+describe("POST /worry/with", () => {
   
   it("올바른 응답", async () => {
     const response = await request(app)
