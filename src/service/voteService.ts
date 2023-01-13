@@ -31,7 +31,6 @@ const createWorryVote = async (createVoteDTO: CreateVoteDTO) => {
     }
 
     await voteRepository.createWorryVote(createVoteDTO);
-    
 
     const afterVoteResult = await worryWithService.findWorryListByCategoryId(worryWith.categoryId,createVoteDTO.userId);
 
