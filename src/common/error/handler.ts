@@ -9,6 +9,7 @@ const globalExceptionHandler = async (
   next: NextFunction
 ) => {
   const status = err?.statusCode || statusCode.INTERNAL_SERVER_ERROR;
+  console.log(err);
   res
     .status(status)
     .send(fail(status, err?.message || responseMessage.INTERNAL_SERVER_ERROR));

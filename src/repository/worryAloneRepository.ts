@@ -14,6 +14,8 @@ const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
     },
   });
 
+  console.log(JSON.stringify(worryData));
+
   const options = createAloneWorryDTO.options;
 
   for (var i = 0; i < options.length; i++) {
@@ -27,6 +29,8 @@ const createAloneWorry = async (createAloneWorryDTO: CreateAloneWorryDTO) => {
       },
     });
   } //for
+
+
 
   return worryData;
 };
