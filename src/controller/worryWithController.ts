@@ -62,8 +62,8 @@ const getWithWorryDetail = async (
 ) => {
   try {
     const { withWorryId } = req.params;
+    const { userId } = req.body;
 
-    // const { userId } = req.body;
     if (!withWorryId) {
       throw new ClientException("필요한 파라미터 값이 없습니다.");
     }
@@ -105,9 +105,23 @@ const getWithWorryDetail = async (
       });
     }
 
+    let isVoted: boolean = false;
+    let selectedOptionId: number = 0;
+
+    for(var i=0;i<options.length;++i){
+      const optionVoted = await voteRepository.findVoteByOptionId(options[i].id, userId);
+      if(optionVoted){
+        isVoted = true;
+        selectedOptionId = optionVoted.optionId;
+        break;
+      }
+    }
+
     const worryResult = {
       isAuthor: gotWithWorryDetail.isAuthor,
       finalOption: gotWithWorryDetail.finalOption,
+      isVoted: isVoted,
+      selectedOptionId: selectedOptionId,
       createdAt: getFormattedDate(gotWithWorryDetail.createdAt),
       worryTitle: gotWithWorryDetail.title,
       worryContent: gotWithWorryDetail.content,
@@ -118,6 +132,7 @@ const getWithWorryDetail = async (
       commentCount: comments.length,
       comments:
         comments.length == 0 ? null : commentResult,
+      
     };
 
     res
