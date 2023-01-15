@@ -6,44 +6,6 @@ import { worryWith, withOption, vote } from "@prisma/client";
 const prisma = new PrismaClient();
 
 describe("GET /worry/:categoryId", () => {
-    let createdWithWorry: worryWith;
-    let createdOption: withOption;
-    beforeAll(async () => {
-        createdWithWorry = await prisma.worryWith.create({
-            data: {
-                title: "제목",
-                content: "내용",
-                categoryId: 1,
-                userId: 3,
-            },
-        });
-        createdOption = await prisma.withOption.create({
-            data: {
-                worryWithId: createdWithWorry.id,
-                title: "선택지다 이놈앙",
-            },
-        });
-    });
-    afterAll(async () => {
-        await prisma.worryWith.update({
-            where: {
-                id: createdWithWorry.id,
-            },
-            data: {
-                finalOption: null,
-            },
-        });
-        await prisma.withOption.delete({
-            where: {
-                id: createdOption.id,
-            },
-        });
-        await prisma.worryWith.delete({
-            where: {
-                id: createdWithWorry.id,
-            },
-        });
-    });
     it("올바른 응답", async () => {
         const response = await request(app)
             .get("/worry/0")
